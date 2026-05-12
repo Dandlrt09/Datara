@@ -1,0 +1,40 @@
+# Environment
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+*.whl
+
+# Streamlit
+.streamlit/secrets.toml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# App design assets (not used yet)
+Logo_Datara/
+
+# Streamlit logs
+streamlit_*.txt
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
