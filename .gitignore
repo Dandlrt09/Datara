@@ -5,6 +5,8 @@
 # Python
 __pycache__/
 *.py[cod]
+venv/
+.venv/
 *$py.class
 *.so
 *.egg-info/
