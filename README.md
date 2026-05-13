@@ -1,6 +1,6 @@
 # Datara
 
-**Analizá tus datos y construí dashboards sin esfuerzo.** Subí archivos CSV, Excel, JSON o TSV; creá gráficos y KPIs con el constructor visual, o deja que la IA lo haga por vos con lenguaje natural. Todo en un dashboard acumulativo con filtros globales.
+**Analiza tus datos y construye dashboards sin esfuerzo.** Sube archivos CSV, Excel, JSON o TSV; crea gráficos y KPIs con el constructor visual, o deja que la IA lo haga por ti con lenguaje natural. Todo en un dashboard acumulativo con filtros globales.
 
 ---
 
@@ -8,11 +8,11 @@
 
 ### 📁 Carga de datos
 - **Formatos**: CSV (auto-detecta delimitador), Excel (.xlsx con selección de hojas), JSON y TSV
-- **Múltiples archivos**: Cargá varios archivos, la IA los relaciona automáticamente
+- **Múltiples archivos**: Carga varios archivos, la IA los relaciona automáticamente
 - **Manejo de duplicados**: Detecta archivos repetidos y te deja elegir si reemplazar o conservar ambos
 
 ### 📊 Constructor de gráficos manual
-Creá gráficos sin escribir código — seleccioná el tipo y configurá columnas:
+Crea gráficos sin escribir código — selecciona el tipo y configura columnas:
 
 | Tipo | Parámetros |
 |------|-----------|
@@ -30,20 +30,20 @@ Tarjetas con métricas calculadas al instante sobre los datos:
 - Se renderizan como tarjetas tipo "metric card"
 
 ### 🔍 Filtros globales
-Seleccioná columnas para filtrar y **todos** los items del dashboard se actualizan en tiempo real — tanto gráficos como KPIs.
+Selecciona columnas para filtrar y **todos** los items del dashboard se actualizan en tiempo real — tanto gráficos como KPIs.
 
 ### 📐 Dashboard acumulativo
-- Todos los gráficos y KPIs que creás se acumulan en un dashboard
+- Todos los gráficos y KPIs que creas se acumulan en un dashboard
 - Gráficos en grilla de 2 columnas, KPIs en fila de tarjetas
 - Botón para limpiar todo el dashboard
 - Cada gráfico tiene botones individuales de descarga PNG y exportación de datos
 
 ### 💬 Chat con IA (Gemini)
-- **Preguntas en lenguaje natural**: "¿Cuál es el promedio de precios?", "Mostrame un gráfico de ventas por mes"
+- **Preguntas en lenguaje natural**: "¿Cuál es el promedio de precios?", "Muéstrame un gráfico de ventas por mes"
 - **Respuestas inteligentes**: La IA elige si responder con texto, tabla o gráfico según el contexto
-- **Historial de conversación**: Preguntá varias veces, la IA recuerda el contexto
-- **Preguntas encadenadas**: "ordená por precio", "mostrame solo los 3 más caros"
-- **Exportación**: Descargá la conversación como .txt, resultados como CSV, gráficos como PNG
+- **Historial de conversación**: Pregunta varias veces, la IA recuerda el contexto
+- **Preguntas encadenadas**: "ordena por precio", "muestra solo los 3 más caros"
+- **Exportación**: Descarga la conversación como .txt, resultados como CSV, gráficos como PNG
 
 ### 🔒 Ejecución segura de código
 El código generado por la IA se ejecuta en un sandbox que:
@@ -65,14 +65,14 @@ El código generado por la IA se ejecuta en un sandbox que:
 
 ## 🚀 Instalación y uso
 
-### 1. Cloná el repositorio
+### 1. Clona el repositorio
 
 ```bash
 git clone https://github.com/Dandlrt09/Datara.git
 cd Datara
 ```
 
-### 2. Cread el entorno virtual
+### 2. Crea el entorno virtual
 
 ```bash
 python -m venv venv
@@ -82,19 +82,19 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-### 3. Instalá las dependencias
+### 3. Instala las dependencias
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configurá la API key de Gemini
+### 4. Configura la API key de Gemini
 
-**Obtené tu key gratis:**
-1. Andá a [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)
-2. Iniciá sesión con tu cuenta de Google
-3. Click en "Create API Key"
-4. Copiá la key
+**Obtén tu key gratis:**
+1. Ve a [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+2. Inicia sesión con tu cuenta de Google
+3. Haz clic en "Create API Key"
+4. Copia la key
 
 **Dos formas de configurarla:**
 
@@ -105,13 +105,13 @@ GEMINI_API_KEY=AIzaxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 **Opción B — Desde la app:**
-1. Abrí la app (paso 5)
-2. Andá a la sección **Settings**
-3. Pegá tu API key en el campo y hacé click en **Aplicar cambios**
+1. Abre la app (paso 5)
+2. Ve a la sección **Settings**
+3. Pega tu API key en el campo y haz clic en **Aplicar cambios**
 
-> ⚠️ La key queda guardada solo en la sesión del navegador. Al cerrar la app la perdés. Usá el archivo `.env` para no tener que configurarla cada vez.
+> ⚠️ La key se guarda solo en la sesión del navegador. Al cerrar la app la pierdes. Usa el archivo `.env` para no tener que configurarla cada vez.
 
-### 5. Ejecutá la app
+### 5. Ejecuta la app
 
 ```bash
 streamlit run app/main.py
@@ -123,10 +123,10 @@ Se abre en tu navegador en [http://localhost:8501](http://localhost:8501)
 
 ### Flujo básico
 
-1. **Subí datos** → Cargá uno o más archivos CSV, Excel, JSON o TSV
-2. **Chat con IA** → Preguntá en español sobre tus datos, pedí gráficos o análisis
-3. **Constructor de gráficos** → Creá charts y KPIs manualmente abajo del chat
-4. **Dashboard** → Todo se acumula, aplicá filtros globales para explorar
+1. **Sube datos** → Carga uno o más archivos CSV, Excel, JSON o TSV
+2. **Chat con IA** → Pregunta en español sobre tus datos, pide gráficos o análisis
+3. **Constructor de gráficos** → Crea charts y KPIs manualmente debajo del chat
+4. **Dashboard** → Todo se acumula, aplica filtros globales para explorar
 
 ### Ejemplos de preguntas para la IA
 
@@ -134,10 +134,10 @@ Se abre en tu navegador en [http://localhost:8501](http://localhost:8501)
 |------|---------|
 | 🔵 Texto | "¿Cuántas filas tiene el dataset?" |
 | 🔵 Texto | "¿Cuál es la computadora más cara?" |
-| 🟡 Tabla | "Mostrame el precio promedio por marca" |
-| 🟡 Tabla | "Listá los 10 productos más vendidos" |
-| 🔴 Gráfico | "Hacé un gráfico de barras con ventas por categoría" |
-| 🔴 Gráfico | "Mostrame la distribución de precios con un histograma" |
+| 🟡 Tabla | "Muéstrame el precio promedio por marca" |
+| 🟡 Tabla | "Lista los 10 productos más vendidos" |
+| 🔴 Gráfico | "Haz un gráfico de barras con ventas por categoría" |
+| 🔴 Gráfico | "Muéstrame la distribución de precios con un histograma" |
 
 ## 📁 Estructura del proyecto
 
@@ -178,6 +178,7 @@ Datara/
 │   ├── test_validators.py         # Tests de validación
 │   └── test_dashboard.py          # Tests del dashboard
 ├── Dataset/                       # Archivos de ejemplo para probar
+├── LICENSE                        # Licencia MIT
 ├── .env                           # Tu API key (NO se sube a GitHub)
 ├── .env.example                   # Template de configuración
 └── requirements.txt               # Dependencias
@@ -193,4 +194,6 @@ python -m pytest tests/ -v
 
 ## 📄 Licencia
 
-Este proyecto es de uso personal y educativo. Sentite libre de usarlo como inspiración o como parte de tu portfolio.
+Distribuido bajo licencia **MIT**. Consulta el archivo [LICENSE](./LICENSE) para más detalles.
+
+Puedes usar, copiar, modificar y distribuir este software libremente, siempre que mantengas el aviso de copyright original. El software se proporciona "tal cual", sin garantía de ningún tipo.
