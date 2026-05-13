@@ -58,8 +58,8 @@ def show_chat_page():
                 mime="text/plain",
             )
 
-    # ─── Dashboard (accumulated charts) ──────────────────────────
-    render_dashboard()
+    # ─── Dashboard (accumulated charts + KPIs) ───────────────────
+    render_dashboard(file_service)
 
     # ─── Display chat history ───────────────────────────────────
     chat_container = st.container()

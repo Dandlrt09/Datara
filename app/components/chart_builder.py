@@ -1,9 +1,11 @@
 """
-Chart Builder: UI for users to configure and create Plotly charts interactively.
+Chart Builder: UI for users to configure and create charts, KPIs, and dashboard items.
 No LLM involved — deterministic chart generation via Plotly Express.
 
-The user picks a file, chart type, and column mappings from a form,
-and the chart is added directly to the session dashboard.
+Architecture (post-filter-refactor):
+  - The builder stores CONFIG, not rendered figures
+  - At render time the dashboard reconstructs charts/KPIs from config + current data
+  - This allows global filters to affect ALL items on the dashboard
 """
 
 from __future__ import annotations
@@ -13,8 +15,6 @@ from typing import Callable, Optional
 
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
-import plotly.io as pio
 import streamlit as st
 
 from services.file_service import FileService
@@ -46,18 +46,21 @@ CHART_TYPES: dict[str, dict] = {
         "icon": "📦",
         "params": ["x", "y", "color"],
     },
+    "Indicadores (KPIs)": {
+        "icon": "🏷️",
+        "params": [],  # KPIs use a separate UI section
+    },
 }
 
 PARAM_LABELS: dict[str, str] = {
     "x": "Eje X",
     "y": "Eje Y",
-    "color": "Color / Agrupar",
+    "color": "Agrupar por",
     "size": "Tamaño (opcional)",
     "names": "Categorías",
     "values": "Valores",
 }
 
-# Required params per chart type (the rest are optional)
 REQUIRED_PARAMS: dict[str, list[str]] = {
     "Barra": ["x", "y"],
     "Línea": ["x", "y"],
@@ -67,7 +70,6 @@ REQUIRED_PARAMS: dict[str, list[str]] = {
     "Box Plot": ["y"],
 }
 
-# Builders map: chart_type → callable(df, kwargs) → Figure
 CHART_BUILDERS: dict[str, Callable] = {
     "Barra": lambda df, kw: px.bar(df, **kw, barmode="group"),
     "Línea": lambda df, kw: px.line(df, **kw, markers=True),
@@ -77,17 +79,29 @@ CHART_BUILDERS: dict[str, Callable] = {
     "Box Plot": lambda df, kw: px.box(df, **kw),
 }
 
+# ─── KPI definitions ─────────────────────────────────────────
+
+AGGREGATIONS: dict[str, str] = {
+    "Promedio": "mean",
+    "Suma": "sum",
+    "Conteo": "count",
+    "Mínimo": "min",
+    "Máximo": "max",
+}
+
+AGGREGATION_LABELS: dict[str, str] = {v: k for k, v in AGGREGATIONS.items()}
+
+
+# ─── Main entry point ────────────────────────────────────────
+
 
 def render_chart_builder(file_service: FileService) -> None:
     """Render the chart builder UI inside the chat view.
 
     The user selects file, chart type, and column mappings via a form.
-    On submit, the Plotly figure is built and appended to
-    ``st.session_state.dashboard_charts``.
-
-    NOTE: The file and chart-type selectors are deliberately OUTSIDE the form
-    so that changing them triggers an immediate rerun, which updates the
-    dynamic parameter fields (axis mappings) to match the selected chart type.
+    On submit, the item CONFIG is appended to
+    ``st.session_state.dashboard_items`` (the figure is NOT built here;
+    it is reconstructed at render time so global filters can apply).
     """
     filenames = file_service.get_filenames()
     if not filenames:
@@ -108,7 +122,7 @@ def render_chart_builder(file_service: FileService) -> None:
     st.markdown("---")
     st.subheader("📊 Constructor de Gráficos")
 
-    # ── File selector (OUTSIDE form — triggers rerun) ──────────
+    # ── File selector (OUTSIDE form) ──────────────────────────
     selected_file = st.selectbox(
         "📄 Archivo",
         options=list(df_map.keys()),
@@ -117,43 +131,78 @@ def render_chart_builder(file_service: FileService) -> None:
     df = df_map[selected_file]
     all_cols: list[str] = df.columns.tolist()
     num_cols: list[str] = df.select_dtypes(include="number").columns.tolist()
+    cat_cols: list[str] = df.select_dtypes(exclude="number").columns.tolist()
 
-    # ── Chart type (OUTSIDE form — triggers rerun) ────────────
-    chart_type = st.selectbox(
-        "📐 Tipo de gráfico",
+    # ── Chart type (OUTSIDE form — pills instead of selectbox
+    #    to avoid the scroll-issue on long pages) ──────────────
+    chart_type = st.pills(
+        "📐 Tipo",
         options=list(CHART_TYPES.keys()),
         format_func=lambda t: f"{CHART_TYPES[t]['icon']} {t}",
+        selection_mode="single",
+        default="Barra",
         key="cb_type",
     )
 
-    # Know which params we need BEFORE entering the form
-    params: list[str] = CHART_TYPES[chart_type]["params"]
-    required = set(REQUIRED_PARAMS.get(chart_type, []))
+    is_kpi = chart_type == "Indicadores (KPIs)"
 
-    # ── Column mappings (INSIDE form — batch submit) ──────────
+    if not is_kpi:
+        params: list[str] = CHART_TYPES[chart_type]["params"]
+        required = set(REQUIRED_PARAMS.get(chart_type, []))
+    else:
+        params = []
+        required = set()
+
+    # ── Form: column mappings / KPI config ───────────────────
     with st.form("chart_builder_form", clear_on_submit=False):
-        mappings: dict[str, Optional[str]] = {}
+        config: dict = {}
 
-        for idx in range(0, len(params), 2):
-            cols = st.columns(2)
-            p1 = params[idx]
-            with cols[0]:
-                mappings[p1] = _param_selector(
-                    p1, all_cols, num_cols, is_required=(p1 in required),
-                )
-            if idx + 1 < len(params):
-                p2 = params[idx + 1]
-                with cols[1]:
-                    mappings[p2] = _param_selector(
-                        p2, all_cols, num_cols, is_required=(p2 in required),
+        if is_kpi:
+            # ── KPI fields ──────────────────────────────────
+            config["item_type"] = "kpi"
+            config["column"] = st.selectbox(
+                "📏 Columna numérica", options=num_cols, key="cb_kpi_col",
+            )
+            agg_label = st.selectbox(
+                "📐 Agregación",
+                options=list(AGGREGATIONS.keys()),
+                key="cb_kpi_agg",
+            )
+            config["aggregation"] = AGGREGATIONS[agg_label]
+            config["group_by"] = st.selectbox(
+                "🔀 Agrupar por (opcional)",
+                options=[""] + cat_cols,
+                key="cb_kpi_group",
+            )
+            if not config["group_by"]:
+                config["group_by"] = None
+
+        else:
+            # ── Chart param selectors ───────────────────────
+            config["item_type"] = "chart"
+            config["chart_type"] = chart_type
+            mappings: dict[str, Optional[str]] = {}
+
+            for idx in range(0, len(params), 2):
+                cols = st.columns(2)
+                p1 = params[idx]
+                with cols[0]:
+                    mappings[p1] = _param_selector(
+                        p1, all_cols, num_cols, is_required=(p1 in required),
                     )
+                if idx + 1 < len(params):
+                    p2 = params[idx + 1]
+                    with cols[1]:
+                        mappings[p2] = _param_selector(
+                            p2, all_cols, num_cols, is_required=(p2 in required),
+                        )
+
+            config["mappings"] = mappings
 
         # ── Title ────────────────────────────────────────────
-        title = st.text_input("🏷️ Título del gráfico (opcional)", key="cb_title")
+        title = st.text_input("🏷️ Título (opcional)", key="cb_title")
 
-        st.caption(
-            "💡 Los gráficos se agregan al Dashboard y se pierden al cerrar la sesión."
-        )
+        st.caption("💡 Los items se agregan al Dashboard y reaccionan a los filtros globales.")
 
         submitted = st.form_submit_button(
             "➕ Agregar al Dashboard",
@@ -161,9 +210,8 @@ def render_chart_builder(file_service: FileService) -> None:
             width="stretch",
         )
 
-    # ── Handle submission (outside the form context) ────────
     if submitted:
-        _add_chart_to_dashboard(df, chart_type, mappings, title)
+        _add_item_to_dashboard(selected_file, title, config)
 
 
 # ─── Internal helpers ────────────────────────────────────────
@@ -175,90 +223,72 @@ def _param_selector(
     num_cols: list[str],
     is_required: bool = False,
 ) -> Optional[str]:
-    """Render a single parameter selector (selectbox).
-
-    Args:
-        param: Parameter key (x, y, color, size, names, values).
-        all_cols: All column names from the DataFrame.
-        num_cols: Only numeric-column names.
-        is_required: Whether the user MUST pick a column.
-
-    Returns:
-        Selected column name, or ``None`` if left empty.
-    """
+    """Render a single parameter selector (selectbox)."""
     label = PARAM_LABELS.get(param, param)
 
-    # Determine which columns to show
     if param in ("y", "values", "size"):
         options = list(num_cols)
     else:
         options = list(all_cols)
 
-    # Add empty option for non-required params
     if not is_required:
         options.insert(0, "")
 
     if not options or (len(options) == 1 and options[0] == ""):
-        st.caption(f"❌ No hay columnas {'numéricas' if param in ('y', 'values', 'size') else 'disponibles'} para {label.lower()}")
+        st.caption(
+            f"❌ No hay columnas "
+            f"{'numéricas' if param in ('y', 'values', 'size') else 'disponibles'}"
+            f" para {label.lower()}"
+        )
         return None
 
     selected = st.selectbox(label, options=options, key=f"cb_{param}")
 
-    # If empty string was chosen, treat as None
     if not is_required and not selected:
         return None
 
     return selected if selected else None
 
 
-def _add_chart_to_dashboard(
-    df: pd.DataFrame,
-    chart_type: str,
-    mappings: dict[str, Optional[str]],
+def _add_item_to_dashboard(
+    filename: str,
     title: str,
+    config: dict,
 ) -> None:
-    """Build the Plotly figure and append it to the dashboard state.
+    """Validate and append a dashboard item (chart config or KPI config).
 
-    Displays an ``st.error`` message on failure instead of crashing.
+    Stores CONFIG only — the actual figure/metric is built at render time
+    so that global filters can affect every item.
     """
-    # Filter: keep only non-None, non-empty values
-    plotly_kw: dict[str, str] = {
-        k: v for k, v in mappings.items() if v
-    }
+    item_type = config.get("item_type", "chart")
 
-    # Validate required params
-    required = set(REQUIRED_PARAMS.get(chart_type, []))
-    missing = required - set(plotly_kw.keys())
-    if missing:
-        labels = [PARAM_LABELS.get(p, p) for p in missing]
-        st.error(f"Faltan parámetros requeridos: {', '.join(labels)}")
-        return
-
-    try:
-        builder = CHART_BUILDERS.get(chart_type)
-        if builder is None:
-            st.error(f"Tipo de gráfico no soportado: {chart_type}")
+    # ── Validate KPI ──────────────────────────────────────
+    if item_type == "kpi":
+        if not config.get("column"):
+            st.error("Seleccioná una columna numérica para el KPI.")
             return
 
-        fig = builder(df, plotly_kw)
+    # ── Validate chart ────────────────────────────────────
+    else:
+        chart_type = config.get("chart_type", "")
+        mappings = config.get("mappings", {})
+        required = set(REQUIRED_PARAMS.get(chart_type, []))
+        plotly_kw = {k: v for k, v in mappings.items() if v}
+        missing = required - set(plotly_kw.keys())
+        if missing:
+            labels = [PARAM_LABELS.get(p, p) for p in missing]
+            st.error(f"Faltan parámetros requeridos: {', '.join(labels)}")
+            return
 
-        # Improve layout defaults
-        fig.update_layout(
-            template="plotly_white",
-            margin=dict(l=40, r=40, t=40, b=40),
-            title=title if title else None,
-        )
+    now = datetime.now()
 
-        chart_entry = {
-            "id": f"chart_{datetime.now().strftime('%H%M%S_%f')}",
-            "title": title or f"{chart_type} — {datetime.now().strftime('%H:%M')}",
-            "chart_type": chart_type,
-            "figure_json": pio.to_json(fig),
-            "timestamp": datetime.now().isoformat(),
-        }
+    entry: dict = {
+        "id": f"item_{now.strftime('%H%M%S_%f')}",
+        "title": title or f"{config.get('chart_type', 'KPI')} — {now.strftime('%H:%M')}",
+        "file": filename,
+        "config": config,
+        "timestamp": now.isoformat(),
+    }
 
-        st.session_state.setdefault("dashboard_charts", []).append(chart_entry)
-        st.rerun()
-
-    except Exception as e:
-        st.error(f"Error al crear el gráfico: {e}")
+    st.session_state.setdefault("dashboard_items", []).append(entry)
+    st.rerun()
