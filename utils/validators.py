@@ -13,12 +13,14 @@ from pathlib import Path
 # Max file size: 200 MB
 MAX_FILE_SIZE_BYTES = 200 * 1024 * 1024
 
-ALLOWED_EXTENSIONS = {".csv", ".xlsx"}
+ALLOWED_EXTENSIONS = {".csv", ".xlsx", ".json", ".tsv"}
 
-# Common CSV MIME types for display purposes
+# Supported file formats for display purposes
 SUPPORTED_FORMATS = {
     ".csv": "CSV (valores separados por comas)",
     ".xlsx": "Excel (.xlsx)",
+    ".json": "JSON (arreglo de objetos)",
+    ".tsv": "TSV (valores separados por tabulación)",
 }
 
 

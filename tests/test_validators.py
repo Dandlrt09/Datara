@@ -31,8 +31,20 @@ class TestValidateFile:
         result = validate_file("README", 1024)
         assert result.valid is False
 
+    def test_valid_json(self):
+        result = validate_file("datos.json", 1024)
+        assert result.valid is True
+
+    def test_valid_tsv(self):
+        result = validate_file("datos.tsv", 1024)
+        assert result.valid is True
+
     def test_extension_case_insensitive(self):
         result = validate_file("datos.CSV", 1024)
+        assert result.valid is True
+        result = validate_file("datos.JSON", 1024)
+        assert result.valid is True
+        result = validate_file("datos.TSV", 1024)
         assert result.valid is True
 
     def test_extension_xlsx_uppercase(self):

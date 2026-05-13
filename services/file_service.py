@@ -4,6 +4,8 @@ File Service: handles file upload, parsing, validation, and multi-file storage.
 Supports:
   - CSV: auto-detect delimiter, UTF-8 encoding
   - Excel (.xlsx): sheet selection, multi-sheet support
+  - JSON (.json): array of records (orient='records') with fallback
+  - TSV (.tsv): tab-separated values
   - Multiple files in session: add, remove, list, get
 """
 
@@ -97,6 +99,47 @@ class FileService:
             size_bytes=len(content),
         )
 
+    def parse_json(self, filename: str, content: bytes) -> FileData:
+        """
+        Parse a JSON file from bytes.
+
+        Expects a JSON array of records by default (orient='records'),
+        with fallback to pandas' default detection.
+        """
+        try:
+            # Try records-orientation first (most common: [{col: val}, ...])
+            df = pd.read_json(io.BytesIO(content), orient="records")
+        except ValueError:
+            # Fallback to pandas default detection
+            df = pd.read_json(io.BytesIO(content))
+
+        df.columns = [str(col).strip() for col in df.columns]
+
+        return FileData(
+            filename=filename,
+            df=df,
+            size_bytes=len(content),
+        )
+
+    def parse_tsv(self, filename: str, content: bytes) -> FileData:
+        """
+        Parse a TSV (tab-separated) file from bytes.
+        """
+        df = pd.read_csv(
+            io.BytesIO(content),
+            delimiter="\t",
+            encoding="utf-8",
+            engine="python",
+        )
+
+        df.columns = [str(col).strip() for col in df.columns]
+
+        return FileData(
+            filename=filename,
+            df=df,
+            size_bytes=len(content),
+        )
+
     def get_excel_sheets(self, content: bytes) -> list[str]:
         """Return available sheet names from an Excel file."""
         excel_file = pd.ExcelFile(io.BytesIO(content))
@@ -166,6 +209,10 @@ class FileService:
                 filedata = self.parse_csv(filename, content)
             elif ext == ".xlsx":
                 filedata = self.parse_excel(filename, content)
+            elif ext == ".json":
+                filedata = self.parse_json(filename, content)
+            elif ext == ".tsv":
+                filedata = self.parse_tsv(filename, content)
             else:
                 return False, f"Formato no soportado: {ext}"
         except pd.errors.EmptyDataError:

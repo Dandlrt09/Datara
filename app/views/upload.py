@@ -19,7 +19,7 @@ def show_upload_page():
 
     st.markdown(
         """
-        Subí un archivo **CSV** o **Excel (.xlsx)** para empezar.
+        Subí un archivo **CSV**, **Excel (.xlsx)**, **JSON** o **TSV** para empezar.
         Podés cargar múltiples archivos y después preguntarle a la IA sobre ellos.
         """
     )
@@ -40,9 +40,9 @@ def show_upload_page():
     # ─── File uploader ──────────────────────────────────────────
     uploaded_files = st.file_uploader(
         "Seleccioná un archivo",
-        type=["csv", "xlsx"],
+        type=["csv", "xlsx", "json", "tsv"],
         accept_multiple_files=True,
-        help="Formatos soportados: CSV y Excel (.xlsx). Máx 200 MB por archivo.",
+        help="Formatos soportados: CSV, Excel (.xlsx), JSON y TSV. Máx 200 MB por archivo.",
     )
 
     if not uploaded_files:
@@ -101,6 +101,10 @@ def _parse_and_add_file(
             filedata = file_service.parse_csv(filename, content)
         elif ext == ".xlsx":
             filedata = file_service.parse_excel(filename, content, sheet_name=sheet_name)
+        elif ext == ".json":
+            filedata = file_service.parse_json(filename, content)
+        elif ext == ".tsv":
+            filedata = file_service.parse_tsv(filename, content)
         else:
             st.error(f"Formato no soportado: {ext}")
             return

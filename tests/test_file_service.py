@@ -187,6 +187,22 @@ class TestLoadFromBytes:
         assert success is True  # Pandas can handle some malformation
         assert isinstance(result, FileData)
 
+    def test_load_valid_json(self, file_service):
+        data = b'[{"x": 1}, {"x": 2}]'
+        success, result = file_service.load_from_bytes("test.json", data)
+        assert success is True
+        assert isinstance(result, FileData)
+        assert result.rows == 2
+        assert file_service.file_count == 1
+
+    def test_load_valid_tsv(self, file_service):
+        data = b"x\ty\n1\t10\n2\t20\n"
+        success, result = file_service.load_from_bytes("test.tsv", data)
+        assert success is True
+        assert isinstance(result, FileData)
+        assert result.rows == 2
+        assert file_service.file_count == 1
+
     def test_load_excel_unsupported_without_file(self, file_service):
         """Without a real .xlsx file, it should fail gracefully."""
         success, result = file_service.load_from_bytes("test.xlsx", b"not an excel")
@@ -218,6 +234,45 @@ class TestGetContextForLLM:
         assert "a.csv" in context
         assert "b.csv" in context
         assert "---" in context  # separator
+
+
+# ── JSON Parsing ────────────────────────────────────────────────────
+
+
+class TestParseJSON:
+    SAMPLE_JSON_RECORDS = b'[{"nombre": "Alice", "edad": 30}, {"nombre": "Bob", "edad": 25}]'
+    SAMPLE_JSON_EMPTY = b"[]"
+
+    def test_parse_json_records(self, file_service):
+        fd = file_service.parse_json("datos.json", self.SAMPLE_JSON_RECORDS)
+        assert fd.filename == "datos.json"
+        assert fd.rows == 2
+        assert fd.columns == 2
+        assert list(fd.df.columns) == ["nombre", "edad"]
+        assert fd.df.iloc[0]["nombre"] == "Alice"
+
+    def test_parse_json_sets_size_bytes(self, file_service):
+        fd = file_service.parse_json("datos.json", self.SAMPLE_JSON_RECORDS)
+        assert fd.size_bytes == len(self.SAMPLE_JSON_RECORDS)
+
+
+# ── TSV Parsing ────────────────────────────────────────────────────
+
+
+class TestParseTSV:
+    SAMPLE_TSV = b"nombre\tedad\nAlice\t30\nBob\t25\nCarol\t35\n"
+    SAMPLE_TSV_EMPTY = b"nombre\tedad\n"
+
+    def test_parse_tsv(self, file_service):
+        fd = file_service.parse_tsv("datos.tsv", self.SAMPLE_TSV)
+        assert fd.filename == "datos.tsv"
+        assert fd.rows == 3
+        assert fd.columns == 2
+        assert list(fd.df.columns) == ["nombre", "edad"]
+
+    def test_parse_tsv_sets_size_bytes(self, file_service):
+        fd = file_service.parse_tsv("datos.tsv", self.SAMPLE_TSV)
+        assert fd.size_bytes == len(self.SAMPLE_TSV)
 
 
 # ── Excel (without real xlsx) ──────────────────────────────────────
