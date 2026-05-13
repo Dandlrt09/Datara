@@ -1,12 +1,12 @@
 # Datara
 
-**Analizá tus datos con lenguaje natural.** Subí archivos CSV o Excel, hacé preguntas en español, y obtené respuestas, tablas y gráficos al instante — todo potenciado por inteligencia artificial.
+**Analizá tus datos con lenguaje natural.** Subí archivos CSV, Excel, JSON o TSV, hacé preguntas en español, y obtené respuestas, tablas, KPIs y gráficos al instante — todo potenciado por inteligencia artificial.
 
 ---
 
 ## ✨ Funcionalidades
 
-- **Carga de archivos**: CSV (auto-detecta delimitador) y Excel (.xlsx) con selección de hojas
+- **Carga de archivos**: CSV (auto-detecta delimitador), Excel (.xlsx), JSON y TSV
 - **Múltiples archivos**: Cargá varios archivos y la IA los relaciona automáticamente
 - **Preguntas en lenguaje natural**: "¿Cuál es el promedio de precios?", "Mostrame un gráfico de ventas por mes"
 - **Respuestas inteligentes**: La IA decide si responderte con texto, una tabla o un gráfico según lo que preguntes
@@ -88,7 +88,7 @@ Se abre en tu navegador en [http://localhost:8501](http://localhost:8501)
 
 ## 🎯 Cómo usarla
 
-1. **Subí datos**: Cargá uno o más archivos CSV o Excel
+1. **Subí datos**: Cargá uno o más archivos CSV, Excel, JSON o TSV
 2. **Preguntá**: Escribí preguntas en español sobre tus datos
 3. **Explorá**: La IA te responde con texto, tablas o gráficos
 4. **Iterá**: Hacé preguntas de seguimiento para profundizar
@@ -122,7 +122,7 @@ Datara/
 │   ├── sandbox.py             # Entorno seguro para ejecutar código Python
 │   ├── prompts.py             # Templates de prompts para la IA
 │   ├── validators.py          # Validación de archivos
-├── tests/                     # Tests automatizados (145 tests)
+├── tests/                     # Tests automatizados (190 tests)
 │   ├── test_sandbox.py        # Tests del sandbox de ejecución
 │   ├── test_file_service.py   # Tests del servicio de archivos
 │   ├── test_export_service.py # Tests de exportación
@@ -150,7 +150,7 @@ El código generado por la IA se ejecuta en un **sandbox** que:
 python -m pytest tests/ -v
 ```
 
-145 tests que cubren todos los servicios de la aplicación.
+190 tests que cubren todos los servicios de la aplicación.
 
 ## 📄 Licencia
 
