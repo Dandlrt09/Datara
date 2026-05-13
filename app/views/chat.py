@@ -16,6 +16,8 @@ from models import ChatMessage, AnalysisResult
 from services.code_executor import CodeExecutor
 from services.export_service import ExportService
 from app.components.chart_download import render_chart_with_download
+from app.components.dashboard import render_dashboard
+from app.components.chart_builder import render_chart_builder
 
 
 def show_chat_page():
@@ -56,6 +58,9 @@ def show_chat_page():
                 mime="text/plain",
             )
 
+    # ─── Dashboard (accumulated charts) ──────────────────────────
+    render_dashboard()
+
     # ─── Display chat history ───────────────────────────────────
     chat_container = st.container()
     with chat_container:
@@ -92,6 +97,10 @@ def show_chat_page():
                         mime="text/plain",
                         key=f"export_msg_{i}",
                     )
+
+    # ─── Chart Builder (collapsible) ─────────────────────────────
+    with st.expander("📊 Constructor de Gráficos", expanded=False):
+        render_chart_builder(file_service)
 
     # ─── Chat input ────────────────────────────────────────────
     question = st.chat_input("Escribí tu pregunta sobre los datos...")

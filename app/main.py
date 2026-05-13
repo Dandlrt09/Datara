@@ -56,6 +56,8 @@ def init_session_state():
         )
     if "chat_messages" not in st.session_state:
         st.session_state.chat_messages = []
+    if "dashboard_charts" not in st.session_state:
+        st.session_state.dashboard_charts = []
     if "page" not in st.session_state:
         st.session_state.page = "Upload"
 
