@@ -7,6 +7,7 @@ code paths as production, with isolated in-memory state.
 
 from __future__ import annotations
 
+import os
 from contextlib import asynccontextmanager
 from typing import Generator
 
@@ -18,6 +19,10 @@ from api.routers import api_router
 from api.session_data import SessionData
 from api.session_store import SessionStore
 from services.archive_service import ArchiveService
+
+# Disable chat mock mode by default so tests exercise real code paths
+# (individual tests can override this with monkeypatch if needed).
+os.environ.setdefault("CHAT_MOCK_MODE", "false")
 
 
 @pytest.fixture

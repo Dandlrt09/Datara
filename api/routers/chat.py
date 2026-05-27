@@ -29,7 +29,11 @@ router = APIRouter(
 )
 
 # ── Mock mode — bypass LLM for UI testing ─────────────────────────────
-CHAT_MOCK_MODE = os.getenv("CHAT_MOCK_MODE", "true").lower() in ("1", "true", "yes")
+
+
+def _is_mock_mode() -> bool:
+    """Lazy check so tests can override via environ / monkeypatch."""
+    return os.getenv("CHAT_MOCK_MODE", "true").lower() in ("1", "true", "yes")
 
 
 @router.post("/message", response_model=MessageResponse)
@@ -53,7 +57,7 @@ async def send_message(
     session.chat_messages.append(user_msg)
 
     # ── Mock mode — canned response for UI testing ──────────────
-    if CHAT_MOCK_MODE:
+    if _is_mock_mode():
         logger.info("MOCK MODE: respondiendo a '%s'", message[:50])
         content = ("¡Hola! ¿Cómo estás? Soy Datara, tu asistente de análisis de datos. "
                    "Estoy en modo de pruebas — decime qué te gustaría probar.")
