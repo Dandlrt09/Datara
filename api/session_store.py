@@ -217,6 +217,12 @@ class SessionStore:
                     try:
                         content = file_path.read_bytes()
                         data.file_service.load_from_bytes(ds.filename, content)
+                        # Re-persist to the new session's upload directory so
+                        # subsequent archives of this session can find the file
+                        # on disk using stored_session_id (= new_sid).
+                        new_path = Path(uploads_dir) / new_sid / ds.filename
+                        new_path.parent.mkdir(parents=True, exist_ok=True)
+                        new_path.write_bytes(content)
                     except Exception:
                         logger.exception("Failed to restore file %s", ds.filename)
 
