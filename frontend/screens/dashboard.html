@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-dim": "#d73357",
+                    "tertiary-fixed-dim": "#ef88d5",
+                    "secondary-fixed": "#d0cdff",
+                    "surface-container-low": "#0f141a",
+                    "primary-container": "#879aff",
+                    "on-secondary-fixed-variant": "#4842aa",
+                    "tertiary-dim": "#ef88d5",
+                    "primary-fixed-dim": "#748aff",
+                    "inverse-primary": "#2d4ee1",
+                    "on-tertiary": "#711963",
+                    "primary-fixed": "#879aff",
+                    "surface-container": "#151a21",
+                    "secondary-dim": "#9691fe",
+                    "tertiary-container": "#ff95e4",
+                    "secondary-fixed-dim": "#c1bdff",
+                    "inverse-surface": "#f8f9ff",
+                    "background": "#0a0e14",
+                    "error-container": "#a70138",
+                    "on-tertiary-fixed-variant": "#701962",
+                    "on-secondary": "#140075",
+                    "on-error": "#490013",
+                    "on-surface-variant": "#a8abb3",
+                    "tertiary-fixed": "#ff95e4",
+                    "tertiary": "#fface7",
+                    "secondary-container": "rgba(26, 63, 212, 0.1)",
+                    "surface-variant": "#20262f",
+                    "surface-container-lowest": "#000000",
+                    "surface-container-high": "#1b2028",
+                    "surface-container-highest": "#20262f",
+                    "surface": "#0a0e14",
+                    "on-primary": "#001f89",
+                    "inverse-on-surface": "#51555c",
+                    "secondary": "#9691fe",
+                    "on-primary-container": "#00166c",
+                    "error": "#ff6e84",
+                    "primary": "#99a8ff",
+                    "outline": "#72757d",
+                    "on-secondary-container": "#bac3ff",
+                    "outline-variant": "#44484f",
+                    "on-error-container": "#ffb2b9",
+                    "on-tertiary-container": "#650c59",
+                    "on-surface": "#f1f3fc",
+                    "on-secondary-fixed": "#2a208d",
+                    "surface-tint": "#99a8ff",
+                    "primary-dim": "#4866f7",
+                    "on-background": "#f1f3fc",
+                    "surface-bright": "#262c36",
+                    "on-tertiary-fixed": "#42003a",
+                    "on-primary-fixed": "#000000"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "lg": "24px",
+                    "margin": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "base": "8px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Geist"],
+                    "body-md": ["Geist"],
+                    "label-md": ["Geist"],
+                    "headline-md": ["Geist"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .chart-gradient {
+            background: linear-gradient(180deg, rgba(26, 63, 212, 0.15) 0%, rgba(26, 63, 212, 0) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased overflow-x-hidden">
+<!-- Sidebar -->
+<div id="sidebar-container"></div>
+<!-- Top App Bar -->
+<header class="fixed top-0 left-72 z-40 flex items-center justify-between px-lg h-16 w-[calc(100%-18rem)] border-b border-outline-variant bg-surface">
+<div class="flex items-center gap-md flex-1">
+<div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-primary rounded-lg">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-variant border-none rounded-lg pl-10 pr-4 py-2 text-label-md focus:ring-0 placeholder:text-on-surface-variant" placeholder="Search reports or datasets..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<button id="notif-btn" class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button id="help-btn" class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div id="profile-btn" class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden cursor-pointer relative">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfZFqJIyt-4_hTGiXb565z3ib7lVRHQ_44sxvHKDu9KQ6amdHsi1UJMOy6KrierrvzcpEeRf8tvlBKYqHa0PR57k0utha-yxRMqi12PRpP9gygKRZKEr4YcY2ufW4-UkSY0sLDdx6jB5myWQa9Yi9UjY8YYHTYVIV0loP_DcEnxMr7IcTmnQ3f88FoDqRgwNBWw_JUQyPXTPyLcwOzHn19nJUs9aVpHYqm9n5z2YDt-gM0GMc987vczmGQJobnyfpiXojUX7XaiC72"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-72 pt-16 min-h-screen p-lg">
+<!-- Header Section -->
+<section class="mb-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard</h2>
+<p class="text-on-surface-variant font-body-md text-body-md">Visualiza y analiza tus datos en tiempo real.</p>
+</section>
+<!-- KPI Row -->
+<div class="grid grid-cols-4 gap-gutter mb-lg">
+<!-- Card 1 -->
+<div class="bg-surface-container-high p-lg rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">database</span>
+</div>
+<span class="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded-full">+12%</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">Total de Registros</p>
+<h3 class="text-3xl font-bold text-on-surface mt-1">1.2B</h3>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-high p-lg rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary/10 rounded-lg text-secondary">
+<span class="material-symbols-outlined">query_stats</span>
+</div>
+<span class="text-xs font-bold text-secondary bg-secondary/10 px-2 py-1 rounded-full">+5%</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">Consultas Ejecutadas</p>
+<h3 class="text-3xl font-bold text-on-surface mt-1">842k</h3>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-high p-lg rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-tertiary/10 rounded-lg text-tertiary">
+<span class="material-symbols-outlined">settings_input_component</span>
+</div>
+<span class="flex items-center gap-1 text-xs font-bold text-tertiary bg-tertiary/10 px-2 py-1 rounded-full">
+<span class="w-2 h-2 bg-tertiary rounded-full animate-pulse"></span> Live
+                    </span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">Fuentes Activas</p>
+<h3 class="text-3xl font-bold text-on-surface mt-1">24</h3>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-high p-lg rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-success/10 rounded-lg text-emerald-400">
+<span class="material-symbols-outlined">speed</span>
+</div>
+<span class="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-full">Stable</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">Tiempo de Actividad</p>
+<h3 class="text-3xl font-bold text-on-surface mt-1">99.98%</h3>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-lg flex items-center justify-between gap-4">
+<div class="flex items-center gap-3 flex-1">
+<div class="relative min-w-[200px]">
+<select class="w-full bg-surface-variant border border-outline-variant rounded-lg px-4 py-2 text-sm text-on-surface focus:ring-1 focus:ring-primary appearance-none cursor-pointer">
+<option>Seleccionar Columna</option>
+<option>Fecha de Registro</option>
+<option>ID de Transacción</option>
+<option>Ubicación</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+<div class="flex-1 relative">
+<div class="absolute inset-y-0 left-3 flex items-center gap-2 z-10">
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase">Region: EU</span>
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase">Status: OK</span>
+</div>
+<input class="w-full bg-surface-variant border border-outline-variant rounded-lg pl-52 pr-4 py-2 text-sm text-on-surface focus:ring-1 focus:ring-primary" placeholder="Agregar filtro..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-lg bg-surface-variant border border-outline-variant hover:bg-surface-container-highest transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+<button class="flex items-center gap-2 bg-primary hover:bg-primary-dim text-on-primary-fixed px-6 py-2 rounded-lg font-bold transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                    Descargar Reporte
+                </button>
+</div>
+</div>
+<!-- Chart Grid -->
+<div class="grid grid-cols-2 gap-gutter">
+<!-- Card 1: Distribución de Ventas -->
+<div class="bg-surface-container p-lg rounded-xl border border-outline-variant">
+<div class="flex justify-between items-center mb-8">
+<h4 class="font-headline-md text-headline-md text-on-surface">Distribución de Ventas</h4>
+<div class="flex gap-2">
+<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<!-- Mock Bar Chart -->
+<div class="h-64 flex items-end justify-between gap-4 px-4">
+<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 40%;">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-surface-bright p-1 rounded text-xs text-on-surface transition-opacity">$120k</div>
+</div>
+<div class="flex-1 bg-primary rounded-t-md hover:opacity-80 transition-opacity cursor-pointer relative" style="height: 75%;">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-bright p-1 rounded text-xs text-on-surface">$340k</div>
+</div>
+<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 55%;">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-surface-bright p-1 rounded text-xs text-on-surface transition-opacity">$195k</div>
+</div>
+<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 90%;">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-surface-bright p-1 rounded text-xs text-on-surface transition-opacity">$410k</div>
+</div>
+<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 35%;"></div>
+<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 65%;"></div>
+<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 50%;"></div>
+<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 80%;"></div>
+</div>
+<div class="flex justify-between mt-4 px-4 text-[11px] text-on-surface-variant font-medium">
+<span>ENE</span><span>FEB</span><span>MAR</span><span>ABR</span><span>MAY</span><span>JUN</span><span>JUL</span><span>AGO</span>
+</div>
+</div>
+<!-- Card 2: Tendencia Mensual -->
+<div class="bg-surface-container p-lg rounded-xl border border-outline-variant relative overflow-hidden">
+<div class="flex justify-between items-center mb-8">
+<h4 class="font-headline-md text-headline-md text-on-surface">Tendencia Mensual</h4>
+<div class="flex gap-2">
+<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<!-- Line Chart SVG -->
+<div class="relative h-64 w-full">
+<svg class="w-full h-full preserve-3d" viewbox="0 0 1000 300">
+<defs>
+<lineargradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="var(--tw-primary)" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="var(--tw-primary)" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,250 Q150,220 300,100 T600,150 T1000,50 V300 H0 Z" fill="url(#areaGradient)"></path>
+<path d="M0,250 Q150,220 300,100 T600,150 T1000,50" fill="none" stroke="#99a8ff" stroke-linecap="round" stroke-width="4"></path>
+<circle class="animate-pulse" cx="300" cy="100" fill="#99a8ff" r="6"></circle>
+<circle cx="600" cy="150" fill="#99a8ff" r="6"></circle>
+<circle cx="1000" cy="50" fill="#99a8ff" r="6"></circle>
+</svg>
+<!-- Floating Data Tooltip -->
+<div class="absolute top-[80px] left-[310px] bg-surface-bright border border-outline-variant p-2 rounded shadow-2xl z-10">
+<p class="text-[10px] text-on-surface-variant font-bold">MARZO 24</p>
+<p class="text-sm font-bold text-primary">$2,450.00</p>
+</div>
+</div>
+</div>
+<!-- Card 3: Rendimiento Global de Ingesta (Span 2) -->
+<div class="col-span-2 bg-surface-container rounded-xl border border-outline-variant overflow-hidden">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center bg-surface-container-low/50">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Rendimiento Global de Ingesta</h4>
+<p class="text-xs text-on-surface-variant">Monitoreo de flujo de datos por región y latencia.</p>
+</div>
+<div class="flex gap-4 items-center">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-variant rounded-lg text-xs font-bold text-on-surface">
+<span class="w-2 h-2 bg-emerald-400 rounded-full"></span> Healthy
+                        </div>
+<div class="flex gap-2">
+<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-high/30">
+<tr>
+<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">ID de Fuente</th>
+<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Region</th>
+<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Latency</th>
+<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Volume (24h)</th>
+<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Progress</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="px-lg py-4 font-mono text-sm text-primary">DS-AWS-001</td>
+<td class="px-lg py-4 text-sm text-on-surface">América del Norte (Virginia)</td>
+<td class="px-lg py-4">
+<span class="bg-emerald-400/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded">ONLINE</span>
+</td>
+<td class="px-lg py-4 text-sm text-on-surface">24ms</td>
+<td class="px-lg py-4 text-sm text-on-surface">420.5 GB</td>
+<td class="px-lg py-4">
+<div class="w-32 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-full h-full bg-primary"></div>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="px-lg py-4 font-mono text-sm text-primary">DS-GCP-082</td>
+<td class="px-lg py-4 text-sm text-on-surface">Europe (Frankfurt)</td>
+<td class="px-lg py-4">
+<span class="bg-emerald-400/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded">ONLINE</span>
+</td>
+<td class="px-lg py-4 text-sm text-on-surface">31ms</td>
+<td class="px-lg py-4 text-sm text-on-surface">89.2 GB</td>
+<td class="px-lg py-4">
+<div class="w-32 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-primary"></div>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="px-lg py-4 font-mono text-sm text-primary">DS-AZ-441</td>
+<td class="px-lg py-4 text-sm text-on-surface">Asia Pacífico (Singapur)</td>
+<td class="px-lg py-4">
+<span class="bg-amber-400/10 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded">DEGRADED</span>
+</td>
+<td class="px-lg py-4 text-sm text-on-surface">158ms</td>
+<td class="px-lg py-4 text-sm text-on-surface">12.1 GB</td>
+<td class="px-lg py-4">
+<div class="w-32 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-1/4 h-full bg-amber-400"></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple hover effect for KPI cards
+        const kpiCards = document.querySelectorAll('.group');
+        kpiCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0px)';
+            });
+        });
+
+        // Search Bar Focus Effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.02]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.02]');
+        });
+    </script>
+<!-- Notification Panel -->
+<div id="notif-overlay" class="fixed inset-0 bg-black/50 z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="notif-panel" class="fixed top-0 right-0 h-full w-96 bg-surface border-l border-outline-variant z-[70] translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col">
+  <div class="flex items-center justify-between p-6 border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary">notifications</span>
+      <h2 class="font-headline-md text-headline-md text-on-surface">notifications</h2>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="mark-read-btn" class="text-xs text-primary hover:text-primary-dim font-medium transition-colors">Marcar todo como leído</button>
+      <button id="notif-close" class="text-on-surface-variant hover:text-on-surface transition-colors p-1">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  </div>
+  <div class="flex-1 overflow-y-auto divide-y divide-outline-variant/30">
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Pipeline completado</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Análisis de ventas Q3 terminado</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 2 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Nuevo dataset disponible</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">user_export_2024.xlsx listo para análisis</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 15 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer opacity-60">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-transparent mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Actualización del sistema instalada</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Datara Engine actualizado a v2.4.0</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 2 horas</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer opacity-60">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-transparent mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Reporte semanal generado</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Resumen analítico semanal listo</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 1 día</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-4 border-t border-outline-variant shrink-0 text-center">
+    <button class="text-xs text-primary hover:text-primary-dim font-medium transition-colors">Ver todas las notificaciones</button>
+  </div>
+</div>
+<!-- Help Modal -->
+<div id="help-overlay" class="fixed inset-0 bg-black/50 z-[80] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="help-modal" class="fixed inset-0 z-[90] hidden items-center justify-center p-4">
+  <div class="bg-surface border border-outline-variant rounded-xl shadow-2xl w-full max-w-lg max-h-[80vh] overflow-y-auto">
+    <div class="flex items-center justify-between p-6 border-b border-outline-variant">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary">help_outline</span>
+        <h2 class="font-headline-md text-headline-md text-on-surface">Ayuda y Atajos</h2>
+      </div>
+      <button id="help-close" class="text-on-surface-variant hover:text-on-surface transition-colors p-1">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="p-6 space-y-6">
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">Atajos de Teclado</h3>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Subir archivos</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">U</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Abrir chat</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">K</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Ir al Dashboard</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">D</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Buscar datasets</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">F</kbd></span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">Guía Rápida</h3>
+        <div class="space-y-3">
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">upload</span>
+            <div><p class="text-sm text-on-surface font-medium">Subir datasets</p><p class="text-xs text-on-surface-variant mt-0.5">Archivos CSV, Excel, JSON o TSV hasta 256MB</p></div>
+          </div>
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">chat</span>
+            <div><p class="text-sm text-on-surface font-medium">Chatea con tus datos</p><p class="text-xs text-on-surface-variant mt-0.5">Haz preguntas en lenguaje natural, obtén respuestas al instante</p></div>
+          </div>
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">Dashboard</span>
+            <div><p class="text-sm text-on-surface font-medium">Visualiza resultados</p><p class="text-xs text-on-surface-variant mt-0.5">Gráficos interactivos, tablas y reportes exportables</p></div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">¿Necesitas ayuda?</h3>
+        <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg items-center">
+          <span class="material-symbols-outlined text-primary">mail</span>
+          <div><p class="text-sm text-on-surface font-medium">Contactar soporte</p><p class="text-xs text-on-surface-variant">support@datara.io &middot; Respuesta en menos de 2 horas</p></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<script>
+  (function(){
+    var helpBtn = document.getElementById('help-btn');
+    var helpModal = document.getElementById('help-modal');
+    var helpOverlay = document.getElementById('help-overlay');
+    var helpClose = document.getElementById('help-close');
+    if (!helpBtn || !helpModal || !helpOverlay) return;
+    function openH(){ helpModal.classList.remove('hidden'); helpModal.classList.add('flex'); helpOverlay.classList.remove('hidden'); requestAnimationFrame(function(){ helpOverlay.classList.remove('opacity-0'); helpOverlay.classList.add('opacity-100'); }); }
+    function closeH(){ helpOverlay.classList.remove('opacity-100'); helpOverlay.classList.add('opacity-0'); helpModal.classList.remove('flex'); helpModal.classList.add('hidden'); setTimeout(function(){ helpOverlay.classList.add('hidden'); },300); }
+    helpBtn.addEventListener('click', openH);
+    if (helpClose) helpClose.addEventListener('click', closeH);
+    helpOverlay.addEventListener('click', closeH);
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { closeH(); } });
+  })();
+</script>
+<!-- Profile Dropdown -->
+<div id="profile-dropdown" class="fixed right-6 top-16 z-[100] hidden w-56 bg-surface border border-outline-variant rounded-xl shadow-2xl overflow-hidden">
+  <div class="p-4 border-b border-outline-variant">
+    <p class="text-sm text-on-surface font-medium">Alex Rivera</p>
+    <p class="text-xs text-on-surface-variant">alex@datara.io</p>
+  </div>
+  <div class="p-2">
+    <a href="settings.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant text-sm">settings</span> Configuración
+    </a>
+    <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant text-sm">logout</span> Cerrar sesión
+    </button>
+  </div>
+</div>
+<script>
+  (function(){
+    var pBtn=document.getElementById('profile-btn'),pDd=document.getElementById('profile-dropdown');
+    if(!pBtn||!pDd)return;
+    pBtn.addEventListener('click',function(e){e.stopPropagation();pDd.classList.toggle('hidden');});
+    document.addEventListener('click',function(e){if(!pDd.classList.contains('hidden')&&!pBtn.contains(e.target))pDd.classList.add('hidden');});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')pDd.classList.add('hidden');});
+  })();
+</script>
+<script>
+  (function(){
+    var btn = document.getElementById('notif-btn');
+    var panel = document.getElementById('notif-panel');
+    var overlay = document.getElementById('notif-overlay');
+    var closeBtn = document.getElementById('notif-close');
+    var markBtn = document.getElementById('mark-read-btn');
+    if (!btn || !panel || !overlay) return;
+    function openN(){ overlay.classList.remove('hidden'); requestAnimationFrame(function(){ overlay.classList.remove('opacity-0'); overlay.classList.add('opacity-100'); panel.classList.remove('translate-x-full'); }); }
+    function closeN(){ overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0'); panel.classList.add('translate-x-full'); setTimeout(function(){ overlay.classList.add('hidden'); },300); }
+    btn.addEventListener('click', openN);
+    if (closeBtn) closeBtn.addEventListener('click', closeN);
+    overlay.addEventListener('click', closeN);
+    if (markBtn) markBtn.addEventListener('click', function(){
+      var items = panel.querySelectorAll('.divide-y > div');
+      for (var i=0;i<items.length;i++){
+        var dot = items[i].querySelector('.rounded-full');
+        if (dot && !dot.classList.contains('bg-transparent')){ dot.classList.remove('bg-primary'); dot.classList.add('bg-transparent'); items[i].classList.add('opacity-60'); }
+      }
+      markBtn.textContent = 'Todo leído \u2713';
+      markBtn.classList.add('text-green-400');
+      setTimeout(function(){ markBtn.textContent = 'Marcar todo como leído'; markBtn.classList.remove('text-green-400'); },2000);
+    });
+  })();
+</script>
+<script src="/static/api.js?v=3"></script>
+<script>
+(function(){
+  var t = Date.now();
+  fetch('/static/screens/sidebar.inc.html?t=' + t).then(function(r){return r.text()}).then(function(h){
+    var c = document.getElementById('sidebar-container');
+    if (!c) return;
+    c.innerHTML = h;
+    var p = window.location.pathname;
+    var a = c.querySelectorAll('nav a');
+    for (var i = 0; i < a.length; i++) {
+      if (a[i].getAttribute('href') === p) {
+        a[i].className = 'bg-secondary-container text-on-secondary-container font-bold rounded-lg px-4 py-2.5 flex items-center gap-3 transition-all duration-200 active:scale-95 active-nav-border group';
+      }
+    }
+    if (window.DataraAPI) { DataraAPI.loadActiveFiles(); DataraAPI.loadSidebarArchives(); DataraAPI.loadMessageCount(); }
+  }).catch(function(err) {
+    console.error('Error al cargar sidebar.inc.html:', err);
+    var retry = Date.now();
+    fetch('/static/screens/sidebar.inc.html?t=' + retry).then(function(r){return r.text()}).then(function(h2){
+      var c2 = document.getElementById('sidebar-container');
+      if (!c2) return;
+      c2.innerHTML = h2;
+      if (window.DataraAPI) { DataraAPI.loadActiveFiles(); DataraAPI.loadSidebarArchives(); DataraAPI.loadMessageCount(); }
+    }).catch(function(err2) {
+      console.error('Sidebar.inc falló en reintento también:', err2);
+    });
+  });
+})();
+</script>
+</body></html>

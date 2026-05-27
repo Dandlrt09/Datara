@@ -56,9 +56,10 @@ El código generado por la IA se ejecuta en un sandbox que:
 
 | Capa | Tecnología |
 |------|-----------|
-| Frontend & Backend | [Streamlit](https://streamlit.io/) |
+| Backend | [FastAPI](https://fastapi.tiangolo.com/) + [Uvicorn](https://www.uvicorn.org/) |
+| Frontend | HTML + CSS + JavaScript (vanilla) |
+| Gráficos | [Plotly.js](https://plotly.com/javascript/) |
 | Procesamiento | [Pandas](https://pandas.pydata.org/) + [OpenPyXL](https://openpyxl.readthedocs.io/) |
-| Gráficos | [Plotly](https://plotly.com/python/) |
 | IA | [Gemini 2.5 Flash](https://ai.google.dev/) |
 | Tests | [pytest](https://docs.pytest.org/) |
 | Entorno | Python 3.10+ |
@@ -67,6 +68,8 @@ El código generado por la IA se ejecuta en un sandbox que:
 
 ### 1. Clona el repositorio
 
+Abre una terminal (PowerShell en Windows, Terminal en Mac/Linux) y escribe:
+
 ```bash
 git clone https://github.com/Dandlrt09/Datara.git
 cd Datara
@@ -74,13 +77,20 @@ cd Datara
 
 ### 2. Crea el entorno virtual
 
+Esto crea una "burbuja" con Python limpio para la app:
+
 ```bash
 python -m venv venv
-# Windows:
-venv\Scripts\activate
-# Mac / Linux:
-source venv/bin/activate
 ```
+
+**Actívalo:**
+
+| Sistema | Comando |
+|---------|---------|
+| **Windows** | `venv\Scripts\activate` |
+| **Mac / Linux** | `source venv/bin/activate` |
+
+Vas a saber que funcionó porque aparecerá `(venv)` al inicio de la línea en tu terminal.
 
 ### 3. Instala las dependencias
 
@@ -88,36 +98,46 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Esperá unos segundos mientras se instala todo. Si ves errores rojos, asegurate de tener Python 3.10 o superior.
+
 ### 4. Configura la API key de Gemini
 
-**Obtén tu key gratis:**
-1. Ve a [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)
-2. Inicia sesión con tu cuenta de Google
-3. Haz clic en "Create API Key"
-4. Copia la key
+La app necesita una clave de Gemini para funcionar. **Es gratis y la sacás en 2 minutos:**
 
-**Dos formas de configurarla:**
+1. Andá a [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+2. Iniciá sesión con tu cuenta de Google
+3. Hacé clic en **"Create API Key"**
+4. Copiá la clave (algo como `AIza...`)
+
+**Dos formas de usarla:**
 
 **Opción A — Archivo `.env` (recomendado):**
-```bash
-# Crea un archivo .env en la raíz del proyecto con:
-GEMINI_API_KEY=AIzaxxxxxxxxxxxxxxxxxxxxxxx
+Creá un archivo llamado `.env` en la carpeta del proyecto y poné adentro:
+
+```
+GEMINI_API_KEY=AIzaPEGATUKEYACA
 ```
 
-**Opción B — Desde la app:**
-1. Abre la app (paso 5)
-2. Ve a la sección **Settings**
-3. Pega tu API key en el campo y haz clic en **Aplicar cambios**
-
-> ⚠️ La key se guarda solo en la sesión del navegador. Al cerrar la app la pierdes. Usa el archivo `.env` para no tener que configurarla cada vez.
+**Opción B — Desde la app (más fácil para probar):**
+1. Abrí la app (paso 5)
+2. Andá a **Settings** (engranaje)
+3. Pegá tu API key y hacé clic en **Aplicar cambios**
 
 ### 5. Ejecuta la app
 
 ```bash
-streamlit run app/main.py
+python run.py
 ```
 
-Se abre en tu navegador en [http://localhost:8501](http://localhost:8501)
+Si todo funciona, vas a ver algo como:
+
+```
+INFO:     Uvicorn running on http://0.0.0.0:8000
+```
+
+**Abrí tu navegador** en [http://localhost:8000](http://localhost:8000) y listo. Ya podés usar Datara.
+
+> Para cerrar la app apretá **Ctrl+C** en la terminal.
 
 ## 🎯 Cómo usarla
 
@@ -143,45 +163,63 @@ Se abre en tu navegador en [http://localhost:8501](http://localhost:8501)
 
 ```
 Datara/
-├── app/
-│   ├── main.py                    # Punto de entrada + init de sesión
-│   ├── views/
-│   │   ├── upload.py              # Carga de archivos (CSV, XLSX, JSON, TSV)
-│   │   ├── chat.py                # Chat con IA + constructor + dashboard
-│   │   └── settings.py            # Configuración de API key
-│   └── components/
-│       ├── chart_builder.py       # Constructor manual de gráficos y KPIs
-│       ├── chart_download.py      # Botón de descarga para cada chart
-│       ├── chat_message.py        # Renderizado de mensajes del chat
-│       ├── dashboard.py           # Dashboard con filtros globales
-│       ├── data_preview.py        # Vista previa del DataFrame
-│       └── file_list.py           # Lista de archivos cargados
-├── models/
-│   ├── file_data.py               # Representación de un archivo subido
-│   ├── chat_message.py            # Mensaje del chat (rol, contenido)
-│   └── analysis_result.py         # Resultado de ejecución de código IA
-├── services/
-│   ├── file_service.py            # Gestión y parseo de archivos
+├── run.py                         # 🚀 Arranca la app (python run.py)
+├── api/                           # Backend (FastAPI)
+│   ├── main.py                    # App factory, CORS, lifespan, static files
+│   ├── dependencies.py            # Inyección de sesión y servicios
+│   ├── session_store.py           # Memoria de sesiones con TTL (1h)
+│   ├── session_data.py            # Datos de una sesión (archivos, chat, etc.)
+│   ├── models/                    # Modelos Pydantic (request/response)
+│   └── routers/                   # Endpoints REST
+│       ├── files.py               # Subir, listar, previsualizar, eliminar
+│       ├── chat.py                # Chat con IA, historial, limpiar
+│       ├── dashboard.py           # Dashboard items (gráficos + KPIs)
+│       ├── settings.py            # Configuración de API key y modelo
+│       ├── session.py             # Estado de sesión, reset
+│       ├── archive.py             # Archivar y restaurar sesiones
+│       └── export.py              # Exportar datos, gráficos, conversación
+├── frontend/                      # 🎨 Frontend (vanilla JS)
+│   ├── index.html                 # Página principal
+│   ├── api.js                     # Cliente HTTP con X-Session-Id
+│   ├── common.js                  # Utilidades compartidas
+│   ├── styles.css                 # Estilos globales
+│   └── screens/                   # Pantallas
+│       ├── sidebar.html           # Barra lateral con navegación
+│       ├── upload.html            # Subida de archivos
+│       ├── chat.html              # Chat con IA y constructor de gráficos
+│       ├── dashboard.html         # Dashboard con filtros globales
+│       └── settings.html          # Configuración
+├── services/                      # 🧠 Lógica de negocio
 │   ├── llm_service.py             # Comunicación con Gemini API
 │   ├── code_executor.py           # Orquestación LLM + sandbox
-│   └── export_service.py          # Exportación de resultados
-├── utils/
-│   ├── sandbox.py                 # Entorno seguro para ejecutar código
-│   ├── prompts.py                 # Templates de prompts para la IA
+│   ├── file_service.py            # Gestión y parseo de archivos
+│   ├── export_service.py          # Exportación de resultados
+│   └── archive_service.py         # Archivar/restaurar sesiones en JSON
+├── models/                        # 📦 Modelos de datos (sin Pydantic)
+│   ├── file_data.py               # Archivo subido
+│   ├── chat_message.py            # Mensaje del chat
+│   ├── analysis_result.py         # Resultado de ejecución de código
+│   └── session_archive.py         # Archivo de sesión (para persistencia)
+├── utils/                         # 🔧 Utilidades
+│   ├── sandbox.py                 # Entorno seguro para ejecutar código IA
+│   ├── prompts.py                 # Templates de prompts
 │   └── validators.py              # Validación de archivos
-├── tests/                         # Tests automatizados (190 tests)
-│   ├── test_sandbox.py            # Tests del sandbox
-│   ├── test_file_service.py       # Tests de carga y parseo
-│   ├── test_export_service.py     # Tests de exportación
-│   ├── test_code_executor.py      # Tests del orquestador LLM
-│   ├── test_models.py             # Tests de modelos de datos
-│   ├── test_validators.py         # Tests de validación
-│   └── test_dashboard.py          # Tests del dashboard
-├── Dataset/                       # Archivos de ejemplo para probar
-├── LICENSE                        # Licencia MIT
-├── .env                           # Tu API key (NO se sube a GitHub)
+├── tests/                         # ✅ Tests automatizados
+│   ├── conftest.py                # Fixtures compartidos
+│   ├── test_session_store.py      # Sesiones con TTL y aislamiento
+│   ├── test_api_models.py         # Modelos Pydantic
+│   ├── test_api_routers.py        # Endpoints REST
+│   ├── test_archive_service.py    # Archivo/restauración
+│   ├── test_file_service.py       # Carga y parseo
+│   ├── test_llm_service.py        # Conexión con Gemini
+│   └── ... (y más)
+├── Dataset/                       # 📊 Archivos de ejemplo para probar
+├── uploads/                       # Archivos subidos (no se sube a Git)
+├── archives/                      # Sesiones archivadas (no se sube a Git)
+├── .env                           # 🔑 Tu API key (NO se sube a GitHub)
 ├── .env.example                   # Template de configuración
-└── requirements.txt               # Dependencias
+├── requirements.txt               # Dependencias
+└── LICENSE                        # Licencia MIT
 ```
 
 ## 🧪 Tests
@@ -190,7 +228,7 @@ Datara/
 python -m pytest tests/ -v
 ```
 
-190 tests que cubren servicios, modelos, validación, dashboard y ejecución de código.
+396 tests que cubren sesiones, API endpoints, servicios, modelos, validación, dashboard, archive y ejecución de código.
 
 ## 📄 Licencia
 

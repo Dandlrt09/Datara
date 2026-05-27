@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Datara - Subir Archivos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1A3FD4",
+                        "on-primary": "#FFFFFF",
+                        "primary-container": "#bac3ff",
+                        "secondary-container": "rgba(26, 63, 212, 0.1)",
+                        "on-secondary-container": "#bac3ff",
+                        surface: "#0D1117",
+                        "surface-container-low": "#0D1117",
+                        "surface-container": "#0D1117",
+                        "surface-container-high": "#0D1117",
+                        "surface-container-highest": "#161B22",
+                        background: "#0D1117",
+                        "on-surface": "#E6EDF3",
+                        "on-surface-variant": "#8B949E",
+                        outline: "#30363D",
+                        "outline-variant": "#21262D",
+                        "brand-blue": "#1A3FD4",
+                        "brand-blue-light": "#bac3ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "gutter": "16px",
+                        "base": "8px",
+                        "margin": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Geist"],
+                        "body-md": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "headline-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-dashed {
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23747480' stroke-width='2' stroke-dasharray='8%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+            border-radius: 16px;
+        }
+        .custom-dashed:hover {
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23bec4ee' stroke-width='2' stroke-dasharray='8%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+        }
+        .loading-spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- Sidebar -->
+<div id="sidebar-container"></div>
+<!-- Top Navigation Placeholder (Aligned with SideNav 288px constraint) -->
+<header class="fixed top-0 right-0 left-0 h-16 flex items-center justify-end px-lg z-10 pl-[288px] bg-background/80 backdrop-blur-md">
+<div class="flex items-center gap-md">
+<button id="notif-btn" class="p-xs text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button id="help-btn" class="p-xs text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div id="profile-btn" class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden cursor-pointer relative">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up professional headshot of a person with a neutral, calm expression against a soft-focus studio background. The lighting is sophisticated and directional, highlighting facial features with a cinematic quality. The overall color grading is cool and muted, fitting a dark-themed corporate UI with subtle slate and mauve tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbfvTaIAo5hz9Mb7ouToE_YpIdEaG_cbEbJ55TtBaL64GZh-ZAxHKW5WMHVC0nmH6fRX-kGxovkY8yO60kwTASF4_Y5L6KKuXOEpqvtVpQM7oOelg8rRUNrwCKdBQaECdeg4jSV-yZASa26zLJdo-yITyzcc86EvI57KZ1np_igiZ-pqgYrY2XDfgm-T095HeCokJ0i0Y5cwlV6sv8o5VY7uQ9ibofL_fCY8cAREQVyRXC_nSW49Iw_WUiRs3WtCuu1S9rkY-1Z12Q"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pl-[288px] pt-24 min-h-screen pb-xl">
+<div class="max-w-6xl mx-auto px-lg">
+<!-- Header Section -->
+<div class="mb-xl">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Subir Archivos</h1>
+<p class="text-on-surface-variant font-body-md">Carga tus datasets para comenzar el análisis</p>
+</div>
+<!-- Drop Zone Area -->
+<section class="mb-xl">
+<div class="group relative custom-dashed min-h-[320px] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 bg-surface-container-low/30 hover:bg-surface-container-high/50 p-xl text-center" id="drop-zone">
+<div class="mb-md p-lg rounded-full bg-brand-blue/10 text-brand-blue-light group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined !text-[48px]" style="font-variation-settings: 'FILL' 1;">cloud_upload</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Arrastra tu archivo aquí o haz clic para seleccionar</h3>
+<p class="text-on-surface-variant font-label-md">Soporta CSV, Excel, JSON, TSV</p>
+<input class="absolute inset-0 opacity-0 cursor-pointer" multiple="" type="file"/>
+</div>
+</section>
+<!-- File Table Section -->
+<section class="bg-surface-container-low rounded-xl border border-outline-variant/30 overflow-hidden">
+<div class="px-lg py-md border-b border-outline-variant/30 flex justify-between items-center">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Archivos Recientes</h2>
+<span id="file-counter" class="text-xs text-on-surface-variant">0 archivos cargados</span>
+</div>
+<div class="overflow-x-auto">
+<table id="file-table" class="w-full text-left border-collapse">
+<thead class="bg-surface-container text-on-surface-variant font-label-md">
+<tr>
+<th class="px-lg py-md font-medium">Archivo</th>
+<th class="px-lg py-md font-medium">Tamaño</th>
+<th class="px-lg py-md font-medium">Filas</th>
+<th class="px-lg py-md font-medium">Hoja</th>
+<th class="px-lg py-md font-medium">Estado</th>
+<th class="px-lg py-md font-medium text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20"></tbody>
+</table>
+</div>
+</section>
+<!-- Hidden Empty State -->
+<section class="flex flex-col items-center justify-center py-xl bg-surface-container-low rounded-xl border border-dashed border-outline-variant/30" id="empty-state" style="display: none;">
+<div class="mb-md text-outline">
+<span class="material-symbols-outlined !text-[64px]">folder</span>
+</div>
+<p class="text-on-surface-variant font-headline-md">No hay archivos cargados</p>
+<button class="mt-md px-lg py-sm bg-primary text-on-primary rounded-full font-label-md hover:scale-[1.02] transition-transform">
+                    Subir mi primer archivo
+                </button>
+</section>
+</div>
+</main>
+
+<script>
+(function(){
+  var dropZone = document.getElementById('drop-zone');
+  var fileInput = dropZone.querySelector('input[type=file]');
+  var tbody = document.querySelector('#file-table tbody');
+  var counter = document.getElementById('file-counter');
+  var emptyState = document.getElementById('empty-state');
+  /* ── Format helpers ──────────────────────────── */
+  function fmtBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(1) + ' MB';
+  }
+  function fmtRows(n) { return n.toLocaleString() + ' rows'; }
+
+  /* ── Load & render files ─────────────────────── */
+  function loadFiles() {
+    DataraAPI.listFiles().then(function(files) {
+      var hasFiles = files && files.length > 0;
+      document.getElementById('file-table').style.display = hasFiles ? '' : 'none';
+      emptyState.style.display = hasFiles ? 'none' : 'flex';
+      if (counter) counter.textContent = (files ? files.length : 0) + ' archivos cargados';
+
+      tbody.innerHTML = '';
+      if (!files) return;
+      files.forEach(function(f) {
+        var tr = document.createElement('tr');
+        tr.className = 'hover:bg-surface-container-highest/40 transition-colors';
+        tr.innerHTML =
+          '<td class="px-lg py-md"><div class="flex items-center gap-md"><span class="material-symbols-outlined text-primary">description</span><span class="font-body-md text-on-surface">' +
+          '<a href="#" class="preview-link hover:text-primary transition-colors" data-filename="' + escHtml(f.filename) + '">' + escHtml(f.display_name || f.filename) + '</a></span></div></td>' +
+          '<td class="px-lg py-md text-on-surface-variant font-label-md">' + fmtBytes(f.size_bytes) + '</td>' +
+          '<td class="px-lg py-md text-on-surface-variant font-label-md">' + fmtRows(f.rows) + '</td>' +
+          '<td class="px-lg py-md text-on-surface-variant font-label-md">' + (f.sheet_name || '—') + '</td>' +
+          '<td class="px-lg py-md"><span class="inline-flex items-center px-sm py-xs rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-2"></span>Listo</span></td>' +
+          '<td class="px-lg py-md text-right"><button class="delete-btn p-xs text-on-surface-variant hover:text-error transition-colors rounded-full hover:bg-error/10" data-filename="' +
+          escHtml(f.filename) + '"><span class="material-symbols-outlined">delete</span></button></td>';
+        tbody.appendChild(tr);
+      });
+
+      // Bind delete buttons
+      tbody.querySelectorAll('.delete-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var name = btn.getAttribute('data-filename');
+          DataraAPI.deleteFile(name).then(function() { loadFiles(); if (window.DataraAPI) DataraAPI.loadActiveFiles(); }).catch(function(e) {
+            DataraAPI.showToast('Error al eliminar: ' + e.message, 'error');
+          });
+        });
+      });
+
+      // Bind preview links
+      tbody.querySelectorAll('.preview-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var name = link.getAttribute('data-filename');
+          openPreview(name);
+        });
+      });
+    }).catch(function(e) {
+      if (counter) counter.textContent = 'Error al cargar archivos';
+    });
+  }
+
+  function escHtml(s) {
+    if (!s) return '';
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ── Upload handler ──────────────────────────── */
+  function handleFile(file) {
+    if (!file) return;
+    DataraAPI.uploadFile(file).then(function() {
+      DataraAPI.showToast('Archivo subido: ' + file.name, 'success');
+      loadFiles();
+      if (window.DataraAPI) DataraAPI.loadActiveFiles();
+    }).catch(function(e) {
+      DataraAPI.showToast('Error al subir: ' + e.message, 'error');
+    });
+  }
+
+  /* ── Preview modal ──────────────────────────── */
+  function openPreview(filename) {
+    var overlay = document.getElementById('preview-overlay');
+    var modal = document.getElementById('preview-modal');
+    var body = document.getElementById('preview-body');
+    var title = document.getElementById('preview-title');
+
+    title.textContent = filename;
+    body.innerHTML = '<div class="flex items-center justify-center py-xl"><span class="material-symbols-outlined text-on-surface-variant animate-spin">progress_activity</span><span class="ml-3 text-on-surface-variant">Cargando vista previa...</span></div>';
+    overlay.classList.remove('hidden'); modal.classList.remove('hidden'); modal.classList.add('flex');
+    requestAnimationFrame(function(){ overlay.classList.remove('opacity-0'); overlay.classList.add('opacity-100'); });
+
+    DataraAPI.getFilePreview(filename, 20).then(function(data) {
+      if (!data || !data.columns || !data.preview) {
+        body.innerHTML = '<p class="text-on-surface-variant text-center py-xl">Sin datos para previsualizar</p>';
+        return;
+      }
+      var cols = data.columns;
+      var rows = data.preview;
+      var html = '<div class="overflow-x-auto max-h-[50vh] overflow-y-auto"><table class="w-full text-left border-collapse text-sm">';
+      html += '<thead class="bg-surface-container text-on-surface-variant font-label-md sticky top-0"><tr>';
+      cols.forEach(function(c) { html += '<th class="px-4 py-2 font-medium whitespace-nowrap border-b border-outline-variant/30">' + escHtml(c) + '</th>'; });
+      html += '</tr></thead><tbody class="divide-y divide-outline-variant/20">';
+      rows.forEach(function(row) {
+        html += '<tr class="hover:bg-surface-container-highest/40 transition-colors">';
+        cols.forEach(function(c) {
+          var val = row[c];
+          var display = val === null || val === undefined ? '—' : String(val);
+          html += '<td class="px-4 py-2 text-on-surface whitespace-nowrap max-w-[250px] truncate">' + escHtml(display) + '</td>';
+        });
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+      html += '<div class="p-4 border-t border-outline-variant/30 text-center text-xs text-on-surface-variant">Mostrando ' + rows.length + ' de ' + data.total_rows + ' filas</div>';
+      body.innerHTML = html;
+    }).catch(function(e) {
+      body.innerHTML = '<p class="text-error text-center py-xl">Error al cargar preview: ' + escHtml(e.message) + '</p>';
+    });
+  }
+
+  /* ── Init ────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function() {
+    DataraAPI.initSession().then(function() { loadFiles(); DataraAPI.loadActiveFiles(); });
+
+    // File input change
+    fileInput.addEventListener('change', function() {
+      for (var i = 0; i < fileInput.files.length; i++) handleFile(fileInput.files[i]);
+      fileInput.value = '';
+    });
+
+    // Drag & drop
+    dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('bg-surface-container-high'); });
+    dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('bg-surface-container-high'); });
+    dropZone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      dropZone.classList.remove('bg-surface-container-high');
+      for (var i = 0; i < e.dataTransfer.files.length; i++) handleFile(e.dataTransfer.files[i]);
+    });
+
+    // Empty state button
+    emptyState.querySelector('button').addEventListener('click', function() { fileInput.click(); });
+
+
+  });
+})();
+</script>
+<!-- Preview Modal -->
+<div id="preview-overlay" class="fixed inset-0 bg-black/50 z-[65] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="preview-modal" class="fixed inset-0 z-[75] hidden items-center justify-center p-4">
+  <div class="bg-surface border border-outline-variant rounded-xl shadow-2xl w-full max-w-5xl max-h-[85vh] flex flex-col">
+    <div class="flex items-center justify-between p-4 border-b border-outline-variant shrink-0">
+      <div class="flex items-center gap-3 min-w-0">
+        <span class="material-symbols-outlined text-primary shrink-0">table</span>
+        <h2 id="preview-title" class="font-headline-md text-headline-md text-on-surface truncate"></h2>
+      </div>
+      <button id="preview-close" class="text-on-surface-variant hover:text-on-surface transition-colors p-1 shrink-0 ml-4">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div id="preview-body" class="flex-1 overflow-hidden p-4"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var overlay = document.getElementById('preview-overlay');
+  var modal = document.getElementById('preview-modal');
+  var closeBtn = document.getElementById('preview-close');
+  function closePreview() {
+    overlay.classList.remove('opacity-100');
+    overlay.classList.add('opacity-0');
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+    setTimeout(function(){ overlay.classList.add('hidden'); }, 300);
+  }
+  if (overlay) overlay.addEventListener('click', closePreview);
+  if (closeBtn) closeBtn.addEventListener('click', closePreview);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closePreview(); });
+  // Expose close for the openPreview function
+  window._closePreview = closePreview;
+})();
+</script>
+<!-- Notification Panel -->
+<div id="notif-overlay" class="fixed inset-0 bg-black/50 z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="notif-panel" class="fixed top-0 right-0 h-full w-96 bg-surface border-l border-outline-variant z-[70] translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col">
+  <div class="flex items-center justify-between p-6 border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary">notifications</span>
+      <h2 class="font-headline-md text-headline-md text-on-surface">notifications</h2>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="mark-read-btn" class="text-xs text-primary hover:text-primary-dim font-medium transition-colors">Marcar todo como leído</button>
+      <button id="notif-close" class="text-on-surface-variant hover:text-on-surface transition-colors p-1">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  </div>
+  <div class="flex-1 overflow-y-auto divide-y divide-outline-variant/30">
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Pipeline completado</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Análisis de ventas Q3 terminado</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 2 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Nuevo dataset disponible</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">user_export_2024.xlsx listo para análisis</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 15 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer opacity-60">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-transparent mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Actualización del sistema instalada</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Datara Engine actualizado a v2.4.0</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 2 horas</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer opacity-60">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-transparent mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Reporte semanal generado</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Resumen analítico semanal listo</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 1 día</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-4 border-t border-outline-variant shrink-0 text-center">
+    <button class="text-xs text-primary hover:text-primary-dim font-medium transition-colors">Ver todas las notificaciones</button>
+  </div>
+</div>
+<!-- Help Modal -->
+<div id="help-overlay" class="fixed inset-0 bg-black/50 z-[80] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="help-modal" class="fixed inset-0 z-[90] hidden items-center justify-center p-4">
+  <div class="bg-surface border border-outline-variant rounded-xl shadow-2xl w-full max-w-lg max-h-[80vh] overflow-y-auto">
+    <div class="flex items-center justify-between p-6 border-b border-outline-variant">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary">help_outline</span>
+        <h2 class="font-headline-md text-headline-md text-on-surface">Ayuda y Atajos</h2>
+      </div>
+      <button id="help-close" class="text-on-surface-variant hover:text-on-surface transition-colors p-1">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="p-6 space-y-6">
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">Atajos de Teclado</h3>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Subir archivos</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">U</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Abrir chat</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">K</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Ir al Dashboard</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">D</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Buscar datasets</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">F</kbd></span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">Guía Rápida</h3>
+        <div class="space-y-3">
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">upload</span>
+            <div><p class="text-sm text-on-surface font-medium">Subir datasets</p><p class="text-xs text-on-surface-variant mt-0.5">Archivos CSV, Excel, JSON o TSV hasta 256MB</p></div>
+          </div>
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">chat</span>
+            <div><p class="text-sm text-on-surface font-medium">Chatea con tus datos</p><p class="text-xs text-on-surface-variant mt-0.5">Haz preguntas en lenguaje natural, obtén respuestas al instante</p></div>
+          </div>
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">dashboard</span>
+            <div><p class="text-sm text-on-surface font-medium">Visualiza resultados</p><p class="text-xs text-on-surface-variant mt-0.5">Gráficos interactivos, tablas y reportes exportables</p></div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">¿Necesitas ayuda?</h3>
+        <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg items-center">
+          <span class="material-symbols-outlined text-primary">mail</span>
+          <div><p class="text-sm text-on-surface font-medium">Contactar soporte</p><p class="text-xs text-on-surface-variant">support@datara.io &middot; Respuesta en menos de 2 horas</p></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<script>
+  (function(){
+    var helpBtn = document.getElementById('help-btn');
+    var helpModal = document.getElementById('help-modal');
+    var helpOverlay = document.getElementById('help-overlay');
+    var helpClose = document.getElementById('help-close');
+    if (!helpBtn || !helpModal || !helpOverlay) return;
+    function openH(){ helpModal.classList.remove('hidden'); helpModal.classList.add('flex'); helpOverlay.classList.remove('hidden'); requestAnimationFrame(function(){ helpOverlay.classList.remove('opacity-0'); helpOverlay.classList.add('opacity-100'); }); }
+    function closeH(){ helpOverlay.classList.remove('opacity-100'); helpOverlay.classList.add('opacity-0'); helpModal.classList.remove('flex'); helpModal.classList.add('hidden'); setTimeout(function(){ helpOverlay.classList.add('hidden'); },300); }
+    helpBtn.addEventListener('click', openH);
+    if (helpClose) helpClose.addEventListener('click', closeH);
+    helpOverlay.addEventListener('click', closeH);
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { closeH(); } });
+  })();
+</script>
+<!-- Profile Dropdown -->
+<div id="profile-dropdown" class="fixed right-6 top-16 z-[100] hidden w-56 bg-surface border border-outline-variant rounded-xl shadow-2xl overflow-hidden">
+  <div class="p-4 border-b border-outline-variant">
+    <p class="text-sm text-on-surface font-medium">Alex Rivera</p>
+    <p class="text-xs text-on-surface-variant">alex@datara.io</p>
+  </div>
+  <div class="p-2">
+    <a href="settings.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant text-sm">settings</span> Configuración
+    </a>
+    <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant text-sm">logout</span> Cerrar sesión
+    </button>
+  </div>
+</div>
+<script>
+  (function(){
+    var pBtn=document.getElementById('profile-btn'),pDd=document.getElementById('profile-dropdown');
+    if(!pBtn||!pDd)return;
+    pBtn.addEventListener('click',function(e){e.stopPropagation();pDd.classList.toggle('hidden');});
+    document.addEventListener('click',function(e){if(!pDd.classList.contains('hidden')&&!pBtn.contains(e.target))pDd.classList.add('hidden');});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')pDd.classList.add('hidden');});
+  })();
+</script>
+<script>
+  (function(){
+    var btn = document.getElementById('notif-btn');
+    var panel = document.getElementById('notif-panel');
+    var overlay = document.getElementById('notif-overlay');
+    var closeBtn = document.getElementById('notif-close');
+    var markBtn = document.getElementById('mark-read-btn');
+    if (!btn || !panel || !overlay) return;
+    function openN(){ overlay.classList.remove('hidden'); requestAnimationFrame(function(){ overlay.classList.remove('opacity-0'); overlay.classList.add('opacity-100'); panel.classList.remove('translate-x-full'); }); }
+    function closeN(){ overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0'); panel.classList.add('translate-x-full'); setTimeout(function(){ overlay.classList.add('hidden'); },300); }
+    btn.addEventListener('click', openN);
+    if (closeBtn) closeBtn.addEventListener('click', closeN);
+    overlay.addEventListener('click', closeN);
+    if (markBtn) markBtn.addEventListener('click', function(){
+      var items = panel.querySelectorAll('.divide-y > div');
+      for (var i=0;i<items.length;i++){
+        var dot = items[i].querySelector('.rounded-full');
+        if (dot && !dot.classList.contains('bg-transparent')){ dot.classList.remove('bg-primary'); dot.classList.add('bg-transparent'); items[i].classList.add('opacity-60'); }
+      }
+      markBtn.textContent = 'Todo leído \u2713';
+      markBtn.classList.add('text-green-400');
+      setTimeout(function(){ markBtn.textContent = 'Marcar todo como leído'; markBtn.classList.remove('text-green-400'); },2000);
+    });
+  })();
+</script>
+<script src="/static/api.js?v=3"></script>
+<script>
+(function(){
+  var t = Date.now();
+  fetch('/static/screens/sidebar.inc.html?t=' + t).then(function(r){return r.text()}).then(function(h){
+    var c = document.getElementById('sidebar-container');
+    if (!c) return;
+    c.innerHTML = h;
+    var p = window.location.pathname;
+    var a = c.querySelectorAll('nav a');
+    for (var i = 0; i < a.length; i++) {
+      if (a[i].getAttribute('href') === p) {
+        a[i].className = 'bg-secondary-container text-on-secondary-container font-bold rounded-lg px-4 py-2.5 flex items-center gap-3 transition-all duration-200 active:scale-95 active-nav-border group';
+      }
+    }
+    if (window.DataraAPI) { DataraAPI.loadActiveFiles(); DataraAPI.loadSidebarArchives(); DataraAPI.loadMessageCount(); }
+  }).catch(function(err) {
+    console.error('Error al cargar sidebar.inc.html:', err);
+    var retry = Date.now();
+    fetch('/static/screens/sidebar.inc.html?t=' + retry).then(function(r){return r.text()}).then(function(h2){
+      var c2 = document.getElementById('sidebar-container');
+      if (!c2) return;
+      c2.innerHTML = h2;
+      if (window.DataraAPI) { DataraAPI.loadActiveFiles(); DataraAPI.loadSidebarArchives(); DataraAPI.loadMessageCount(); }
+    }).catch(function(err2) {
+      console.error('Sidebar.inc falló en reintento también:', err2);
+    });
+  });
+})();
+</script>
+</body></html>

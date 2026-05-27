@@ -1,0 +1,1214 @@
+[
+  {
+    "name": "sidebar",
+    "id": "e6382a8c738545e286541e2866329ba1",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2QyZWMzMGY2NDg5NTQxNDRhZjNiOGI4MjUzZjZlZjg1EgsSBxDAguWNgBkYAZIBIwoKcHJvamVjdF9pZBIVQhM4MzAyMDk2NTQyMDA2NTk1NTUz&filename=&opi=96797242",
+    "imageUrl": "https://lh3.googleusercontent.com/aida/ADBb0ugk1yuevV061NpAScdWtP7RByKUlVUYP2JhVDBfx6s-HXmRglR1PyHu00suEF2DGYO7bDly8lfdYNT-sQf2ZVLwlGas4_ZlkWFnCUtt7YQgkhnV1ef34FKU48Ujt6kZ-HV1ea_ByNL97UGVSWmcgyNIFhfJv6EFAHL3R_zxlYf17jSF0JlVqqeBbGykoRwwKMWO-ecL5vsRpWbXy8Mo0WBi9YkF_0p6quT9Qv4h_Py0Qo6aeiBVrrT97g",
+    "data": {
+      "designSystem": {
+        "designSystem": {
+          "displayName": "Technical Precision",
+          "styleGuidelines": "## Brand & Style\nThe design system is engineered for high-performance data environments where legibility, speed, and technical authority are paramount. The aesthetic is rooted in **Technical Minimalism**, prioritizing a \"data-first\" hierarchy. \n\nThe UI recedes into a deep obsidian backdrop, allowing neon-accented insights and pure white typography to command the user's attention. It evokes a sense of being inside a high-end terminal or command center—precise, cold, and immensely powerful. Visual noise is eliminated to reduce cognitive load during complex analytical tasks.\n\n## Layout & Spacing\nThe layout follows a strict **8px grid system** (with 4px sub-increments) to ensure mathematical alignment.\n- **Density:** High density is preferred. Use 16px margins for cards and 8px gaps between related functional elements.\n- **Grid:** A 12-column fluid grid for desktop dashboards, collapsing to a single column on mobile. \n- **Sidebars:** Use fixed-width sidebars (240px) to maximize the fluid space for data visualization and tables.\n\n## Elevation & Depth\nIn this high-contrast dark system, traditional shadows are avoided to prevent \"muddiness.\" Instead, hierarchy is achieved through:\n- **Tonal Layering:** Objects closer to the user are lighter in hex value (e.g., Background #08090B -> Card #16191E -> Popover #22262D).\n- **Stroke Definition:** Use thin (1px) borders in a subtle grey-blue (#2D333B) to define element boundaries.\n- **Accent Borders:** Use the primary Neon Blue as a 2px \"top-border\" or \"left-border\" to indicate active or selected states.\n\n## Components\n- **Buttons:** Primary buttons use a solid Neon Blue fill with black text for maximum contrast. Secondary buttons use a transparent background with a Neon Blue border.\n- **Inputs:** Dark backgrounds (#0F1115) with a 1px border. On focus, the border glows Neon Blue with a subtle 2px outer stroke.\n- **Data Tables:** High-density rows with 1px horizontal separators. No vertical borders. Header rows use `label-sm` monospaced typography in a muted gray.\n- **Chips:** Small, rectangular shapes with 2px radius. Use for data categories or filter tags.\n- **Charts:** Use the primary Neon Blue and secondary Purple for data series. Background grid lines in charts should be extremely faint (#1F242B).\n- **Status Indicators:** Small 8px circles with a \"pulse\" animation for real-time data connectivity status.",
+          "theme": {
+            "bodyFont": "INTER",
+            "bodyFontFamily": "Inter",
+            "colorMode": "DARK",
+            "colorVariant": "FIDELITY",
+            "customColor": "#00f2ff",
+            "designMd": "---\nname: Technical Precision\ncolors:\n  surface: '#111317'\n  surface-dim: '#111317'\n  surface-bright: '#37393e'\n  surface-container-lowest: '#0c0e12'\n  surface-container-low: '#1a1c20'\n  surface-container: '#1e2024'\n  surface-container-high: '#282a2e'\n  surface-container-highest: '#333539'\n  on-surface: '#e2e2e8'\n  on-surface-variant: '#b9cacb'\n  inverse-surface: '#e2e2e8'\n  inverse-on-surface: '#2f3035'\n  outline: '#849495'\n  outline-variant: '#3a494b'\n  surface-tint: '#00dbe7'\n  primary: '#e1fdff'\n  on-primary: '#00363a'\n  primary-container: '#00f2ff'\n  on-primary-container: '#006a71'\n  inverse-primary: '#00696f'\n  secondary: '#d1bcff'\n  on-secondary: '#3c0090'\n  secondary-container: '#7000ff'\n  on-secondary-container: '#ddcdff'\n  tertiary: '#fff6e4'\n  on-tertiary: '#3b2f00'\n  tertiary-container: '#fed83a'\n  on-tertiary-container: '#725e00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#74f5ff'\n  primary-fixed-dim: '#00dbe7'\n  on-primary-fixed: '#002022'\n  on-primary-fixed-variant: '#004f54'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#d1bcff'\n  on-secondary-fixed: '#23005b'\n  on-secondary-fixed-variant: '#5700c9'\n  tertiary-fixed: '#ffe173'\n  tertiary-fixed-dim: '#e8c423'\n  on-tertiary-fixed: '#221b00'\n  on-tertiary-fixed-variant: '#554500'\n  background: '#111317'\n  on-background: '#e2e2e8'\n  surface-variant: '#333539'\ntypography:\n  display-lg:\n    fontFamily: Inter\n    fontSize: 48px\n    fontWeight: '700'\n    lineHeight: 56px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Inter\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: 40px\n    letterSpacing: -0.01em\n  headline-lg-mobile:\n    fontFamily: Inter\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n  headline-md:\n    fontFamily: Inter\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.05em\n  label-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 10px\n    fontWeight: '500'\n    lineHeight: 14px\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  unit: 4px\n  container-padding: 24px\n  gutter: 16px\n  component-gap: 8px\n---\n\n## Brand & Style\nThe design system is engineered for high-performance data environments where legibility, speed, and technical authority are paramount. The aesthetic is rooted in **Technical Minimalism**, prioritizing a \"data-first\" hierarchy. \n\nThe UI recedes into a deep obsidian backdrop, allowing neon-accented insights and pure white typography to command the user's attention. It evokes a sense of being inside a high-end terminal or command center—precise, cold, and immensely powerful. Visual noise is eliminated to reduce cognitive load during complex analytical tasks.\n\n## Colors\nThis design system utilizes a high-contrast dark palette to maximize focus. \n- **Primary (Neon Blue):** Reserved strictly for interactive states, primary actions, and critical data highlights. It should \"glow\" against the dark background.\n- **Surface (Obsidian):** The background is near-black (#08090B), with UI containers using a slightly lighter \"Obsidian\" (#16191E) to create subtle depth.\n- **Typography:** Pure white (#FFFFFF) is used for headlines to ensure maximum punch, while a muted slate (#94A3B8) is used for secondary metadata to prevent visual fatigue.\n- **Semantic Colors:** Use sharp, high-saturation red for errors and emerald for success, maintaining the neon-on-dark aesthetic.\n\n## Typography\nThe typography system relies on **Inter** for its neutral, highly legible characteristics in digital interfaces. \n- **Hierarchy:** Use bold weights for headers to maintain the high-contrast theme. \n- **Technical Accents:** **JetBrains Mono** (or similar monospaced font) is introduced for labels, data points, and code snippets to reinforce the analytical, tool-based nature of the application.\n- **Scaling:** Keep body text at 14px for data density, ensuring a tight line height that allows more information to be visible on screen at once.\n\n## Layout & Spacing\nThe layout follows a strict **8px grid system** (with 4px sub-increments) to ensure mathematical alignment.\n- **Density:** High density is preferred. Use 16px margins for cards and 8px gaps between related functional elements.\n- **Grid:** A 12-column fluid grid for desktop dashboards, collapsing to a single column on mobile. \n- **Sidebars:** Use fixed-width sidebars (240px) to maximize the fluid space for data visualization and tables.\n\n## Elevation & Depth\nIn this high-contrast dark system, traditional shadows are avoided to prevent \"muddiness.\" Instead, hierarchy is achieved through:\n- **Tonal Layering:** Objects closer to the user are lighter in hex value (e.g., Background #08090B -> Card #16191E -> Popover #22262D).\n- **Stroke Definition:** Use thin (1px) borders in a subtle grey-blue (#2D333B) to define element boundaries.\n- **Accent Borders:** Use the primary Neon Blue as a 2px \"top-border\" or \"left-border\" to indicate active or selected states.\n\n## Shapes\nThe shape language is **Soft-Sharp**. A base radius of 4px (`rounded-sm`) is applied to buttons and inputs, providing a precise, industrial feel without being aggressive. \n- **Cards/Containers:** Use 8px (`rounded-lg`) to slightly soften the layout.\n- **Icons:** Use geometric, line-based icons with a 2px stroke weight to match the sharp edges of the UI.\n\n## Components\n- **Buttons:** Primary buttons use a solid Neon Blue fill with black text for maximum contrast. Secondary buttons use a transparent background with a Neon Blue border.\n- **Inputs:** Dark backgrounds (#0F1115) with a 1px border. On focus, the border glows Neon Blue with a subtle 2px outer stroke.\n- **Data Tables:** High-density rows with 1px horizontal separators. No vertical borders. Header rows use `label-sm` monospaced typography in a muted gray.\n- **Chips:** Small, rectangular shapes with 2px radius. Use for data categories or filter tags.\n- **Charts:** Use the primary Neon Blue and secondary Purple for data series. Background grid lines in charts should be extremely faint (#1F242B).\n- **Status Indicators:** Small 8px circles with a \"pulse\" animation for real-time data connectivity status.",
+            "font": "INTER",
+            "headlineFont": "INTER",
+            "headlineFontFamily": "Inter",
+            "labelFont": "JETBRAINS_MONO",
+            "labelFontFamily": "Jetbrains Mono",
+            "namedColors": {
+              "background": "#111317",
+              "error": "#ffb4ab",
+              "error_container": "#93000a",
+              "inverse_on_surface": "#2f3035",
+              "inverse_primary": "#00696f",
+              "inverse_surface": "#e2e2e8",
+              "on_background": "#e2e2e8",
+              "on_error": "#690005",
+              "on_error_container": "#ffdad6",
+              "on_primary": "#00363a",
+              "on_primary_container": "#006a71",
+              "on_primary_fixed": "#002022",
+              "on_primary_fixed_variant": "#004f54",
+              "on_secondary": "#3c0090",
+              "on_secondary_container": "#ddcdff",
+              "on_secondary_fixed": "#23005b",
+              "on_secondary_fixed_variant": "#5700c9",
+              "on_surface": "#e2e2e8",
+              "on_surface_variant": "#b9cacb",
+              "on_tertiary": "#3b2f00",
+              "on_tertiary_container": "#725e00",
+              "on_tertiary_fixed": "#221b00",
+              "on_tertiary_fixed_variant": "#554500",
+              "outline": "#849495",
+              "outline_variant": "#3a494b",
+              "primary": "#e1fdff",
+              "primary_container": "#00f2ff",
+              "primary_fixed": "#74f5ff",
+              "primary_fixed_dim": "#00dbe7",
+              "secondary": "#d1bcff",
+              "secondary_container": "#7000ff",
+              "secondary_fixed": "#e9ddff",
+              "secondary_fixed_dim": "#d1bcff",
+              "surface": "#111317",
+              "surface_bright": "#37393e",
+              "surface_container": "#1e2024",
+              "surface_container_high": "#282a2e",
+              "surface_container_highest": "#333539",
+              "surface_container_low": "#1a1c20",
+              "surface_container_lowest": "#0c0e12",
+              "surface_dim": "#111317",
+              "surface_tint": "#00dbe7",
+              "surface_variant": "#333539",
+              "tertiary": "#fff6e4",
+              "tertiary_container": "#fed83a",
+              "tertiary_fixed": "#ffe173",
+              "tertiary_fixed_dim": "#e8c423"
+            },
+            "overrideNeutralColor": "#0f1115",
+            "overridePrimaryColor": "#00f2ff",
+            "overrideSecondaryColor": "#7000ff",
+            "roundness": "ROUND_FOUR",
+            "spacing": {
+              "component-gap": "8px",
+              "container-padding": "24px",
+              "gutter": "16px",
+              "unit": "4px"
+            },
+            "spacingScale": 2,
+            "typography": {
+              "body-lg": {
+                "fontFamily": "Inter",
+                "fontSize": "16px",
+                "fontWeight": "400",
+                "lineHeight": "24px"
+              },
+              "body-md": {
+                "fontFamily": "Inter",
+                "fontSize": "14px",
+                "fontWeight": "400",
+                "lineHeight": "20px"
+              },
+              "display-lg": {
+                "fontFamily": "Inter",
+                "fontSize": "48px",
+                "fontWeight": "700",
+                "letterSpacing": "-0.02em",
+                "lineHeight": "56px"
+              },
+              "headline-lg": {
+                "fontFamily": "Inter",
+                "fontSize": "32px",
+                "fontWeight": "600",
+                "letterSpacing": "-0.01em",
+                "lineHeight": "40px"
+              },
+              "headline-lg-mobile": {
+                "fontFamily": "Inter",
+                "fontSize": "24px",
+                "fontWeight": "600",
+                "lineHeight": "32px"
+              },
+              "headline-md": {
+                "fontFamily": "Inter",
+                "fontSize": "24px",
+                "fontWeight": "600",
+                "lineHeight": "32px"
+              },
+              "label-md": {
+                "fontFamily": "JetBrains Mono",
+                "fontSize": "12px",
+                "fontWeight": "500",
+                "letterSpacing": "0.05em",
+                "lineHeight": "16px"
+              },
+              "label-sm": {
+                "fontFamily": "JetBrains Mono",
+                "fontSize": "10px",
+                "fontWeight": "500",
+                "lineHeight": "14px"
+              }
+            }
+          }
+        },
+        "name": "assets/37a778b78a7444138e7c8669d05a7856",
+        "version": "1"
+      },
+      "deviceType": "DESKTOP",
+      "generatedBy": "figaro_agent",
+      "height": "2048",
+      "htmlCode": {
+        "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2QyZWMzMGY2NDg5NTQxNDRhZjNiOGI4MjUzZjZlZjg1EgsSBxDAguWNgBkYAZIBIwoKcHJvamVjdF9pZBIVQhM4MzAyMDk2NTQyMDA2NTk1NTUz&filename=&opi=96797242",
+        "mimeType": "text/html",
+        "name": "projects/8302096542006595553/files/053df7c3a90e47c7bc63e3876c4813b3"
+      },
+      "id": "e6382a8c738545e286541e2866329ba1",
+      "name": "projects/8302096542006595553/screens/e6382a8c738545e286541e2866329ba1",
+      "prompt": "Create a professional desktop sidebar for 'Datara'. \nTheme: High-contrast dark mode with neon blue accents.\nLayout: Fixed left-side vertical navigation panel.\nContent:\n1. Top: Logo 'DATARA' in neon blue.\n2. Nav Items: Upload (cloud_upload icon), Chat (chat_bubble icon), Dashboard (grid_view icon), Settings (settings icon).\n3. Status Section: 'Archivos: 3' (folder icon) and 'Mensajes: 12' (forum icon) with neon blue highlights.\n4. Active Files List: Show a few sample file names like 'analysis_q4.csv', 'user_trends.json', 'market_data.xlsx'.\n5. Bottom: A prominent 'Nueva Sesión' button using the neon blue accent.\nVisual Style: Clean, technical, professional data tool aesthetic. Sharp lines, high contrast text.",
+      "screenMetadata": {
+        "agentType": "PRO_AGENT",
+        "status": "COMPLETE"
+      },
+      "screenType": "DESIGN",
+      "screenshot": {
+        "downloadUrl": "https://lh3.googleusercontent.com/aida/ADBb0ugk1yuevV061NpAScdWtP7RByKUlVUYP2JhVDBfx6s-HXmRglR1PyHu00suEF2DGYO7bDly8lfdYNT-sQf2ZVLwlGas4_ZlkWFnCUtt7YQgkhnV1ef34FKU48Ujt6kZ-HV1ea_ByNL97UGVSWmcgyNIFhfJv6EFAHL3R_zxlYf17jSF0JlVqqeBbGykoRwwKMWO-ecL5vsRpWbXy8Mo0WBi9YkF_0p6quT9Qv4h_Py0Qo6aeiBVrrT97g",
+        "name": "projects/8302096542006595553/files/8e48cf13c57e4ecda7b67acfb528909b"
+      },
+      "theme": {
+        "bodyFont": "INTER",
+        "bodyFontFamily": "Inter",
+        "colorMode": "DARK",
+        "colorVariant": "FIDELITY",
+        "customColor": "#00f2ff",
+        "designMd": "---\nname: Technical Precision\ncolors:\n  surface: '#111317'\n  surface-dim: '#111317'\n  surface-bright: '#37393e'\n  surface-container-lowest: '#0c0e12'\n  surface-container-low: '#1a1c20'\n  surface-container: '#1e2024'\n  surface-container-high: '#282a2e'\n  surface-container-highest: '#333539'\n  on-surface: '#e2e2e8'\n  on-surface-variant: '#b9cacb'\n  inverse-surface: '#e2e2e8'\n  inverse-on-surface: '#2f3035'\n  outline: '#849495'\n  outline-variant: '#3a494b'\n  surface-tint: '#00dbe7'\n  primary: '#e1fdff'\n  on-primary: '#00363a'\n  primary-container: '#00f2ff'\n  on-primary-container: '#006a71'\n  inverse-primary: '#00696f'\n  secondary: '#d1bcff'\n  on-secondary: '#3c0090'\n  secondary-container: '#7000ff'\n  on-secondary-container: '#ddcdff'\n  tertiary: '#fff6e4'\n  on-tertiary: '#3b2f00'\n  tertiary-container: '#fed83a'\n  on-tertiary-container: '#725e00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#74f5ff'\n  primary-fixed-dim: '#00dbe7'\n  on-primary-fixed: '#002022'\n  on-primary-fixed-variant: '#004f54'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#d1bcff'\n  on-secondary-fixed: '#23005b'\n  on-secondary-fixed-variant: '#5700c9'\n  tertiary-fixed: '#ffe173'\n  tertiary-fixed-dim: '#e8c423'\n  on-tertiary-fixed: '#221b00'\n  on-tertiary-fixed-variant: '#554500'\n  background: '#111317'\n  on-background: '#e2e2e8'\n  surface-variant: '#333539'\ntypography:\n  display-lg:\n    fontFamily: Inter\n    fontSize: 48px\n    fontWeight: '700'\n    lineHeight: 56px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Inter\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: 40px\n    letterSpacing: -0.01em\n  headline-lg-mobile:\n    fontFamily: Inter\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n  headline-md:\n    fontFamily: Inter\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.05em\n  label-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 10px\n    fontWeight: '500'\n    lineHeight: 14px\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  unit: 4px\n  container-padding: 24px\n  gutter: 16px\n  component-gap: 8px\n---\n\n## Brand & Style\nThe design system is engineered for high-performance data environments where legibility, speed, and technical authority are paramount. The aesthetic is rooted in **Technical Minimalism**, prioritizing a \"data-first\" hierarchy. \n\nThe UI recedes into a deep obsidian backdrop, allowing neon-accented insights and pure white typography to command the user's attention. It evokes a sense of being inside a high-end terminal or command center—precise, cold, and immensely powerful. Visual noise is eliminated to reduce cognitive load during complex analytical tasks.\n\n## Colors\nThis design system utilizes a high-contrast dark palette to maximize focus. \n- **Primary (Neon Blue):** Reserved strictly for interactive states, primary actions, and critical data highlights. It should \"glow\" against the dark background.\n- **Surface (Obsidian):** The background is near-black (#08090B), with UI containers using a slightly lighter \"Obsidian\" (#16191E) to create subtle depth.\n- **Typography:** Pure white (#FFFFFF) is used for headlines to ensure maximum punch, while a muted slate (#94A3B8) is used for secondary metadata to prevent visual fatigue.\n- **Semantic Colors:** Use sharp, high-saturation red for errors and emerald for success, maintaining the neon-on-dark aesthetic.\n\n## Typography\nThe typography system relies on **Inter** for its neutral, highly legible characteristics in digital interfaces. \n- **Hierarchy:** Use bold weights for headers to maintain the high-contrast theme. \n- **Technical Accents:** **JetBrains Mono** (or similar monospaced font) is introduced for labels, data points, and code snippets to reinforce the analytical, tool-based nature of the application.\n- **Scaling:** Keep body text at 14px for data density, ensuring a tight line height that allows more information to be visible on screen at once.\n\n## Layout & Spacing\nThe layout follows a strict **8px grid system** (with 4px sub-increments) to ensure mathematical alignment.\n- **Density:** High density is preferred. Use 16px margins for cards and 8px gaps between related functional elements.\n- **Grid:** A 12-column fluid grid for desktop dashboards, collapsing to a single column on mobile. \n- **Sidebars:** Use fixed-width sidebars (240px) to maximize the fluid space for data visualization and tables.\n\n## Elevation & Depth\nIn this high-contrast dark system, traditional shadows are avoided to prevent \"muddiness.\" Instead, hierarchy is achieved through:\n- **Tonal Layering:** Objects closer to the user are lighter in hex value (e.g., Background #08090B -> Card #16191E -> Popover #22262D).\n- **Stroke Definition:** Use thin (1px) borders in a subtle grey-blue (#2D333B) to define element boundaries.\n- **Accent Borders:** Use the primary Neon Blue as a 2px \"top-border\" or \"left-border\" to indicate active or selected states.\n\n## Shapes\nThe shape language is **Soft-Sharp**. A base radius of 4px (`rounded-sm`) is applied to buttons and inputs, providing a precise, industrial feel without being aggressive. \n- **Cards/Containers:** Use 8px (`rounded-lg`) to slightly soften the layout.\n- **Icons:** Use geometric, line-based icons with a 2px stroke weight to match the sharp edges of the UI.\n\n## Components\n- **Buttons:** Primary buttons use a solid Neon Blue fill with black text for maximum contrast. Secondary buttons use a transparent background with a Neon Blue border.\n- **Inputs:** Dark backgrounds (#0F1115) with a 1px border. On focus, the border glows Neon Blue with a subtle 2px outer stroke.\n- **Data Tables:** High-density rows with 1px horizontal separators. No vertical borders. Header rows use `label-sm` monospaced typography in a muted gray.\n- **Chips:** Small, rectangular shapes with 2px radius. Use for data categories or filter tags.\n- **Charts:** Use the primary Neon Blue and secondary Purple for data series. Background grid lines in charts should be extremely faint (#1F242B).\n- **Status Indicators:** Small 8px circles with a \"pulse\" animation for real-time data connectivity status.",
+        "font": "INTER",
+        "headlineFont": "INTER",
+        "headlineFontFamily": "Inter",
+        "labelFont": "JETBRAINS_MONO",
+        "labelFontFamily": "Jetbrains Mono",
+        "namedColors": {
+          "background": "#111317",
+          "error": "#ffb4ab",
+          "error_container": "#93000a",
+          "inverse_on_surface": "#2f3035",
+          "inverse_primary": "#00696f",
+          "inverse_surface": "#e2e2e8",
+          "on_background": "#e2e2e8",
+          "on_error": "#690005",
+          "on_error_container": "#ffdad6",
+          "on_primary": "#00363a",
+          "on_primary_container": "#006a71",
+          "on_primary_fixed": "#002022",
+          "on_primary_fixed_variant": "#004f54",
+          "on_secondary": "#3c0090",
+          "on_secondary_container": "#ddcdff",
+          "on_secondary_fixed": "#23005b",
+          "on_secondary_fixed_variant": "#5700c9",
+          "on_surface": "#e2e2e8",
+          "on_surface_variant": "#b9cacb",
+          "on_tertiary": "#3b2f00",
+          "on_tertiary_container": "#725e00",
+          "on_tertiary_fixed": "#221b00",
+          "on_tertiary_fixed_variant": "#554500",
+          "outline": "#849495",
+          "outline_variant": "#3a494b",
+          "primary": "#e1fdff",
+          "primary_container": "#00f2ff",
+          "primary_fixed": "#74f5ff",
+          "primary_fixed_dim": "#00dbe7",
+          "secondary": "#d1bcff",
+          "secondary_container": "#7000ff",
+          "secondary_fixed": "#e9ddff",
+          "secondary_fixed_dim": "#d1bcff",
+          "surface": "#111317",
+          "surface_bright": "#37393e",
+          "surface_container": "#1e2024",
+          "surface_container_high": "#282a2e",
+          "surface_container_highest": "#333539",
+          "surface_container_low": "#1a1c20",
+          "surface_container_lowest": "#0c0e12",
+          "surface_dim": "#111317",
+          "surface_tint": "#00dbe7",
+          "surface_variant": "#333539",
+          "tertiary": "#fff6e4",
+          "tertiary_container": "#fed83a",
+          "tertiary_fixed": "#ffe173",
+          "tertiary_fixed_dim": "#e8c423"
+        },
+        "overrideNeutralColor": "#0f1115",
+        "overridePrimaryColor": "#00f2ff",
+        "overrideSecondaryColor": "#7000ff",
+        "roundness": "ROUND_FOUR",
+        "spacing": {
+          "component-gap": "8px",
+          "container-padding": "24px",
+          "gutter": "16px",
+          "unit": "4px"
+        },
+        "spacingScale": 2,
+        "typography": {
+          "body-lg": {
+            "fontFamily": "Inter",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "24px"
+          },
+          "body-md": {
+            "fontFamily": "Inter",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "20px"
+          },
+          "display-lg": {
+            "fontFamily": "Inter",
+            "fontSize": "48px",
+            "fontWeight": "700",
+            "letterSpacing": "-0.02em",
+            "lineHeight": "56px"
+          },
+          "headline-lg": {
+            "fontFamily": "Inter",
+            "fontSize": "32px",
+            "fontWeight": "600",
+            "letterSpacing": "-0.01em",
+            "lineHeight": "40px"
+          },
+          "headline-lg-mobile": {
+            "fontFamily": "Inter",
+            "fontSize": "24px",
+            "fontWeight": "600",
+            "lineHeight": "32px"
+          },
+          "headline-md": {
+            "fontFamily": "Inter",
+            "fontSize": "24px",
+            "fontWeight": "600",
+            "lineHeight": "32px"
+          },
+          "label-md": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "12px",
+            "fontWeight": "500",
+            "letterSpacing": "0.05em",
+            "lineHeight": "16px"
+          },
+          "label-sm": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "10px",
+            "fontWeight": "500",
+            "lineHeight": "14px"
+          }
+        }
+      },
+      "title": "Datara Desktop Sidebar Navigation",
+      "width": "2560",
+      "projectId": "8302096542006595553"
+    },
+    "localPath": "frontend\\screens\\sidebar.html",
+    "htmlSize": 14308
+  },
+  {
+    "name": "upload",
+    "id": "6eb59067aa564168a29e02a48c1b1178",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2E4MmM1NDY3ZDBlMzQ1YTBiNmVjNGFhODM0ZGI1NzgwEgsSBxDAguWNgBkYAZIBIwoKcHJvamVjdF9pZBIVQhM4MzAyMDk2NTQyMDA2NTk1NTUz&filename=&opi=96797242",
+    "imageUrl": "https://lh3.googleusercontent.com/aida/ADBb0uh2TQY3ud3FZZGh1ymzgAjf8nE9q--PAqYO1mFw8jarbat7cm9ojZdZ40VhNdVh6HplKMG_wt5fh9wnbJtHBMvvrMBQZ-Svn2oA_im0kUVmYQ_kXpj3fvlAAsKka2Vh7mpHrDJeJW12jYhFbSRZa32vprL1v8aV5wQAn_iSBQ1cVnxy_DJLlYPq_N9uT2WH2TPt_jkVe6RZZbOlPKw60PGhAc5Wqf2gnmHaPh-XduEMAk0i-AqdHEpsQLg",
+    "data": {
+      "generatedBy": "interactive_ui_controller",
+      "height": "512",
+      "htmlCode": {
+        "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2E4MmM1NDY3ZDBlMzQ1YTBiNmVjNGFhODM0ZGI1NzgwEgsSBxDAguWNgBkYAZIBIwoKcHJvamVjdF9pZBIVQhM4MzAyMDk2NTQyMDA2NTk1NTUz&filename=&opi=96797242",
+        "mimeType": "image/svg+xml",
+        "name": "projects/8302096542006595553/files/6c6adc8695914e9c988afc76df57fe4b"
+      },
+      "id": "6eb59067aa564168a29e02a48c1b1178",
+      "name": "projects/8302096542006595553/screens/6eb59067aa564168a29e02a48c1b1178",
+      "prompt": "Brand logo. - Primary color: #00f2ff\n- Font: inter\n- Mode: dark\n- Roundness: rounded-sm\n",
+      "screenMetadata": {
+        "agentType": "PRO_AGENT",
+        "displayMode": "SVG",
+        "status": "COMPLETE"
+      },
+      "screenType": "IMAGE",
+      "screenshot": {
+        "downloadUrl": "https://lh3.googleusercontent.com/aida/ADBb0uh2TQY3ud3FZZGh1ymzgAjf8nE9q--PAqYO1mFw8jarbat7cm9ojZdZ40VhNdVh6HplKMG_wt5fh9wnbJtHBMvvrMBQZ-Svn2oA_im0kUVmYQ_kXpj3fvlAAsKka2Vh7mpHrDJeJW12jYhFbSRZa32vprL1v8aV5wQAn_iSBQ1cVnxy_DJLlYPq_N9uT2WH2TPt_jkVe6RZZbOlPKw60PGhAc5Wqf2gnmHaPh-XduEMAk0i-AqdHEpsQLg",
+        "name": "projects/8302096542006595553/files/4c4799b184804d5d9f056b25307e69b1"
+      },
+      "theme": {},
+      "title": "Datara Logo",
+      "width": "512",
+      "projectId": "8302096542006595553"
+    },
+    "localPath": "frontend\\screens\\upload.html",
+    "htmlSize": 306
+  },
+  {
+    "name": "chat",
+    "id": "b8857ef4e4da4c89af59f4f11b8edf9c",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzczNjRiYWMwMjNhMjQ4YmM5ZDU0MjkwYzFkNTc4ZGRkEgsSBxDAguWNgBkYAZIBIwoKcHJvamVjdF9pZBIVQhM4MzAyMDk2NTQyMDA2NTk1NTUz&filename=&opi=96797242",
+    "imageUrl": "https://lh3.googleusercontent.com/aida/ADBb0uhfSGf7Q_OInSXiCz7blQG89xsAODFyqLqOccxb8gYejMaWxdsKySFxl-qlB6wUY-8AC8uI45mhPb4bS4iYEC3Bg8nUEwsDTdEAm5ddlmrNwFrJYMc_XS9NeQ99_jpuZDu-rSKqZaibsfUkWDxSXK7Wvh54aFI4sjlmGkeFOInm0VDaTCdoHuCJ5VARptnC8pyXwF7hMLRYEe0s6dpT6FQ5SMsnAnURP6wXi8yXY0wd5_wdqua_Ae8wLQ",
+    "data": {
+      "designSystem": {
+        "designSystem": {
+          "displayName": "Datara Precise Analytics",
+          "styleGuidelines": "## Brand & Style\n\nThe brand identity is rooted in precision, technical excellence, and high-performance data processing. It targets data scientists, analysts, and engineers who require a focused, low-distraction environment for deep work. \n\nThe design style is **High-Contrast Tech-Minimalism**. It utilizes a dark, atmospheric backdrop to make data points and visualizations vibrate with clarity. The aesthetic draws from modern developer tools and aerospace interfaces: it is disciplined, structured, and intentionally lean. Visual flourish is reserved strictly for functional feedback and data highlighting, ensuring the \"signal\" is never lost in the \"noise.\"\n\n## Layout & Spacing\n\nThe layout follows a **Fixed-Fluid Hybrid** grid. \n- Sidebars and Inspector panels are fixed-width (e.g., 260px or 320px) to maintain consistent control densities.\n- The central \"Stage\" or \"Dashboard\" area is fluid, expanding to show as much data as possible.\n- A **4px base unit** governs all spacing. Gutters between data cards are strictly 16px. \n- For mobile, the layout reflows into a single column with a bottom-tab navigation, and margins reduce to 16px.\n- Use dense spacing for data tables and utility bars, while increasing spacing for \"Analysis Reports\" to improve focus.\n\n## Elevation & Depth\n\nIn this dark-themed system, elevation is conveyed through **Tonal Layering** and **Subtle Outlines** rather than heavy shadows.\n\n- **Level 0 (Base):** `#0c0e12` (Application background).\n- **Level 1 (Panels):** `#161920` with a 1px solid border of `#2d323d`.\n- **Level 2 (Popovers/Modals):** `#1e232d` with a slightly brighter border and a very subtle, sharp 4px shadow to lift it off the surface.\n- **Active State:** Elements like active inputs or selected cards should use a 1px `#00f2ff` (Neon Blue) border to indicate focus.\n- **Depth via Blur:** When a modal is active, the background data layers are blurred (8px) to maintain context without causing distraction.\n\n## Components\n\n- **Buttons:** Primary buttons are solid `#00f2ff` with black text for maximum contrast. Secondary buttons are outlined with `#2d323d` and white text. Ghost buttons use `JetBrains Mono` for a \"code-like\" interaction feel.\n- **Data Cards:** Containers for charts should have no padding on the chart itself, only on the header. Use a subtle top-border (2px) of the accent color to categorize different data types.\n- **Inputs:** Darker than the surface (`#0c0e12`). On focus, the border turns Neon Blue with a subtle outer glow.\n- **Chips/Status:** Small, rectangular tags with 2px rounding. Use a \"dot\" indicator for status (e.g., a neon green dot for \"Live Data\").\n- **Data Tables:** Zebra-striping is forbidden. Use 1px horizontal dividers only. On hover, a row should highlight with a faint `#ffffff08` (5% white) overlay.\n- **Scrollbars:** Custom-styled to be thin (4px) and dark grey, only turning light grey on hover to minimize visual clutter in data-heavy views.",
+          "theme": {
+            "bodyFont": "INTER",
+            "bodyFontFamily": "Inter",
+            "colorMode": "DARK",
+            "colorVariant": "FIDELITY",
+            "customColor": "#00f2ff",
+            "designMd": "---\nname: Datara Precise Analytics\ncolors:\n  surface: '#111317'\n  surface-dim: '#111317'\n  surface-bright: '#37393e'\n  surface-container-lowest: '#0c0e12'\n  surface-container-low: '#1a1c20'\n  surface-container: '#1e2024'\n  surface-container-high: '#282a2e'\n  surface-container-highest: '#333539'\n  on-surface: '#e2e2e8'\n  on-surface-variant: '#b9cacb'\n  inverse-surface: '#e2e2e8'\n  inverse-on-surface: '#2f3035'\n  outline: '#849495'\n  outline-variant: '#3a494b'\n  surface-tint: '#00dbe7'\n  primary: '#e1fdff'\n  on-primary: '#00363a'\n  primary-container: '#00f2ff'\n  on-primary-container: '#006a71'\n  inverse-primary: '#00696f'\n  secondary: '#d1bcff'\n  on-secondary: '#3c0090'\n  secondary-container: '#7000ff'\n  on-secondary-container: '#ddcdff'\n  tertiary: '#fff6e4'\n  on-tertiary: '#3b2f00'\n  tertiary-container: '#fed83a'\n  on-tertiary-container: '#725e00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#74f5ff'\n  primary-fixed-dim: '#00dbe7'\n  on-primary-fixed: '#002022'\n  on-primary-fixed-variant: '#004f54'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#d1bcff'\n  on-secondary-fixed: '#23005b'\n  on-secondary-fixed-variant: '#5700c9'\n  tertiary-fixed: '#ffe173'\n  tertiary-fixed-dim: '#e8c423'\n  on-tertiary-fixed: '#221b00'\n  on-tertiary-fixed-variant: '#554500'\n  background: '#111317'\n  on-background: '#e2e2e8'\n  surface-variant: '#333539'\ntypography:\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: '1.2'\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: '1.2'\n  headline-sm:\n    fontFamily: Geist\n    fontSize: 18px\n    fontWeight: '600'\n    lineHeight: '1.4'\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: '1.6'\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: '1.5'\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  label-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 10px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  headline-lg-mobile:\n    fontFamily: Geist\n    fontSize: 26px\n    fontWeight: '600'\n    lineHeight: '1.2'\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  unit: 4px\n  gutter: 16px\n  margin-page: 24px\n  panel-padding: 12px\n  stack-gap: 8px\n---\n\n## Brand & Style\n\nThe brand identity is rooted in precision, technical excellence, and high-performance data processing. It targets data scientists, analysts, and engineers who require a focused, low-distraction environment for deep work. \n\nThe design style is **High-Contrast Tech-Minimalism**. It utilizes a dark, atmospheric backdrop to make data points and visualizations vibrate with clarity. The aesthetic draws from modern developer tools and aerospace interfaces: it is disciplined, structured, and intentionally lean. Visual flourish is reserved strictly for functional feedback and data highlighting, ensuring the \"signal\" is never lost in the \"noise.\"\n\n## Colors\n\nThe palette is optimized for long-duration cognitive tasks in low-light environments. \n\n- **Primary (#00f2ff):** An electric \"Neon Blue\" used exclusively for primary actions, active states, and critical data trends.\n- **Secondary (#7000ff):** A deep violet used for secondary data sets to provide distinct visual separation from the primary accent.\n- **Neutral/Background (#0c0e12):** A deep charcoal \"True Dark\" that reduces eye strain and provides infinite depth.\n- **Surface (#161920):** A slightly lighter grey for containers and panels to establish hierarchy.\n- **Success/Warning/Error:** Use high-chroma Green (#00ff9d), Amber (#ffb800), and Red (#ff4b4b) to maintain the \"Neon\" technical aesthetic.\n\n## Typography\n\nThis design system employs a tri-font strategy to maximize legibility and technical feel:\n\n1.  **Geist (Headlines):** Used for structural headings. Its geometric, slightly condensed nature feels modern and efficient.\n2.  **Inter (Body):** The workhorse for all UI text, descriptions, and inputs. It provides maximum readability at small sizes.\n3.  **JetBrains Mono (Data & Labels):** Used for all numerical data, table headers, and status labels. The monospaced nature ensures that columns of numbers align perfectly for quick scanning.\n\nAll typography should favor high contrast (White or Light Grey) against the dark background.\n\n## Layout & Spacing\n\nThe layout follows a **Fixed-Fluid Hybrid** grid. \n- Sidebars and Inspector panels are fixed-width (e.g., 260px or 320px) to maintain consistent control densities.\n- The central \"Stage\" or \"Dashboard\" area is fluid, expanding to show as much data as possible.\n- A **4px base unit** governs all spacing. Gutters between data cards are strictly 16px. \n- For mobile, the layout reflows into a single column with a bottom-tab navigation, and margins reduce to 16px.\n- Use dense spacing for data tables and utility bars, while increasing spacing for \"Analysis Reports\" to improve focus.\n\n## Elevation & Depth\n\nIn this dark-themed system, elevation is conveyed through **Tonal Layering** and **Subtle Outlines** rather than heavy shadows.\n\n- **Level 0 (Base):** `#0c0e12` (Application background).\n- **Level 1 (Panels):** `#161920` with a 1px solid border of `#2d323d`.\n- **Level 2 (Popovers/Modals):** `#1e232d` with a slightly brighter border and a very subtle, sharp 4px shadow to lift it off the surface.\n- **Active State:** Elements like active inputs or selected cards should use a 1px `#00f2ff` (Neon Blue) border to indicate focus.\n- **Depth via Blur:** When a modal is active, the background data layers are blurred (8px) to maintain context without causing distraction.\n\n## Shapes\n\nThe shape language is **Precision-Sharp**. \n- Standard components (Buttons, Inputs, Cards) use a **4px corner radius**. \n- Icons must be stroke-based (1.5px or 2px weight) with sharp terminals to match the typography.\n- Avoid large rounded corners or \"pill\" shapes, as they detract from the technical, grid-aligned aesthetic of the data. \n- Interactive elements utilize \"inner-glow\" borders on hover to simulate a digital backlit effect.\n\n## Components\n\n- **Buttons:** Primary buttons are solid `#00f2ff` with black text for maximum contrast. Secondary buttons are outlined with `#2d323d` and white text. Ghost buttons use `JetBrains Mono` for a \"code-like\" interaction feel.\n- **Data Cards:** Containers for charts should have no padding on the chart itself, only on the header. Use a subtle top-border (2px) of the accent color to categorize different data types.\n- **Inputs:** Darker than the surface (`#0c0e12`). On focus, the border turns Neon Blue with a subtle outer glow.\n- **Chips/Status:** Small, rectangular tags with 2px rounding. Use a \"dot\" indicator for status (e.g., a neon green dot for \"Live Data\").\n- **Data Tables:** Zebra-striping is forbidden. Use 1px horizontal dividers only. On hover, a row should highlight with a faint `#ffffff08` (5% white) overlay.\n- **Scrollbars:** Custom-styled to be thin (4px) and dark grey, only turning light grey on hover to minimize visual clutter in data-heavy views.",
+            "font": "GEIST",
+            "headlineFont": "GEIST",
+            "headlineFontFamily": "Geist",
+            "labelFont": "JETBRAINS_MONO",
+            "labelFontFamily": "Jetbrains Mono",
+            "namedColors": {
+              "background": "#111317",
+              "error": "#ffb4ab",
+              "error_container": "#93000a",
+              "inverse_on_surface": "#2f3035",
+              "inverse_primary": "#00696f",
+              "inverse_surface": "#e2e2e8",
+              "on_background": "#e2e2e8",
+              "on_error": "#690005",
+              "on_error_container": "#ffdad6",
+              "on_primary": "#00363a",
+              "on_primary_container": "#006a71",
+              "on_primary_fixed": "#002022",
+              "on_primary_fixed_variant": "#004f54",
+              "on_secondary": "#3c0090",
+              "on_secondary_container": "#ddcdff",
+              "on_secondary_fixed": "#23005b",
+              "on_secondary_fixed_variant": "#5700c9",
+              "on_surface": "#e2e2e8",
+              "on_surface_variant": "#b9cacb",
+              "on_tertiary": "#3b2f00",
+              "on_tertiary_container": "#725e00",
+              "on_tertiary_fixed": "#221b00",
+              "on_tertiary_fixed_variant": "#554500",
+              "outline": "#849495",
+              "outline_variant": "#3a494b",
+              "primary": "#e1fdff",
+              "primary_container": "#00f2ff",
+              "primary_fixed": "#74f5ff",
+              "primary_fixed_dim": "#00dbe7",
+              "secondary": "#d1bcff",
+              "secondary_container": "#7000ff",
+              "secondary_fixed": "#e9ddff",
+              "secondary_fixed_dim": "#d1bcff",
+              "surface": "#111317",
+              "surface_bright": "#37393e",
+              "surface_container": "#1e2024",
+              "surface_container_high": "#282a2e",
+              "surface_container_highest": "#333539",
+              "surface_container_low": "#1a1c20",
+              "surface_container_lowest": "#0c0e12",
+              "surface_dim": "#111317",
+              "surface_tint": "#00dbe7",
+              "surface_variant": "#333539",
+              "tertiary": "#fff6e4",
+              "tertiary_container": "#fed83a",
+              "tertiary_fixed": "#ffe173",
+              "tertiary_fixed_dim": "#e8c423"
+            },
+            "overrideNeutralColor": "#0c0e12",
+            "overridePrimaryColor": "#00f2ff",
+            "overrideSecondaryColor": "#7000ff",
+            "roundness": "ROUND_FOUR",
+            "spacing": {
+              "gutter": "16px",
+              "margin-page": "24px",
+              "panel-padding": "12px",
+              "stack-gap": "8px",
+              "unit": "4px"
+            },
+            "spacingScale": 2,
+            "typography": {
+              "body-lg": {
+                "fontFamily": "Inter",
+                "fontSize": "16px",
+                "fontWeight": "400",
+                "lineHeight": "1.6"
+              },
+              "body-md": {
+                "fontFamily": "Inter",
+                "fontSize": "14px",
+                "fontWeight": "400",
+                "lineHeight": "1.5"
+              },
+              "headline-lg": {
+                "fontFamily": "Geist",
+                "fontSize": "32px",
+                "fontWeight": "600",
+                "letterSpacing": "-0.02em",
+                "lineHeight": "1.2"
+              },
+              "headline-lg-mobile": {
+                "fontFamily": "Geist",
+                "fontSize": "26px",
+                "fontWeight": "600",
+                "lineHeight": "1.2"
+              },
+              "headline-md": {
+                "fontFamily": "Geist",
+                "fontSize": "24px",
+                "fontWeight": "600",
+                "lineHeight": "1.2"
+              },
+              "headline-sm": {
+                "fontFamily": "Geist",
+                "fontSize": "18px",
+                "fontWeight": "600",
+                "lineHeight": "1.4"
+              },
+              "label-md": {
+                "fontFamily": "JetBrains Mono",
+                "fontSize": "12px",
+                "fontWeight": "500",
+                "letterSpacing": "0.05em",
+                "lineHeight": "1.0"
+              },
+              "label-sm": {
+                "fontFamily": "JetBrains Mono",
+                "fontSize": "10px",
+                "fontWeight": "500",
+                "letterSpacing": "0.05em",
+                "lineHeight": "1.0"
+              }
+            }
+          }
+        },
+        "name": "assets/29bc26c8f74c4b43963d9534d2da9f74",
+        "version": "1"
+      },
+      "deviceType": "DESKTOP",
+      "generatedBy": "figaro_agent",
+      "height": "2048",
+      "htmlCode": {
+        "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzczNjRiYWMwMjNhMjQ4YmM5ZDU0MjkwYzFkNTc4ZGRkEgsSBxDAguWNgBkYAZIBIwoKcHJvamVjdF9pZBIVQhM4MzAyMDk2NTQyMDA2NTk1NTUz&filename=&opi=96797242",
+        "mimeType": "text/html",
+        "name": "projects/8302096542006595553/files/42fc442cb83f4607ba91b5db63f1bcf7"
+      },
+      "id": "b8857ef4e4da4c89af59f4f11b8edf9c",
+      "name": "projects/8302096542006595553/screens/b8857ef4e4da4c89af59f4f11b8edf9c",
+      "prompt": "Create a desktop chat interface for Datara. \nHeader: Title \"Análisis de Datos\" and an \"Exportar\" download button.\nSidebar: Use the existing Datara SideNavBar from {{DATA:COMPONENTS:COMPONENTS_15}}.\nChat Area: Scrollable list. \n- User messages: Right-aligned, neon blue bubbles (#00f2ff), white text.\n- AI messages: Left-aligned, dark surface-container-low cards with a 4px solid neon blue left border. AI responses should show: \n    1. A text message summarizing an analysis.\n    2. A chart placeholder (e.g., a bar chart or line chart silhouette).\n    3. A data table preview (3-4 rows).\n    4. Small action buttons at the bottom of the card: \"Exportar Gráfico\" and \"Exportar Datos\".\nInput: Fixed bottom bar with a text field \"Escribe un mensaje...\" and a send icon button.\nEmpty State: If no files are loaded, show a central message \"Carga un archivo primero para empezar a analizar datos\" with a subtle upload icon.\nStyle: Professional, technical, dark theme, using Geist font and #00f2ff neon blue accents.",
+      "screenMetadata": {
+        "agentType": "PRO_AGENT",
+        "status": "COMPLETE"
+      },
+      "screenType": "DESIGN",
+      "screenshot": {
+        "downloadUrl": "https://lh3.googleusercontent.com/aida/ADBb0uhfSGf7Q_OInSXiCz7blQG89xsAODFyqLqOccxb8gYejMaWxdsKySFxl-qlB6wUY-8AC8uI45mhPb4bS4iYEC3Bg8nUEwsDTdEAm5ddlmrNwFrJYMc_XS9NeQ99_jpuZDu-rSKqZaibsfUkWDxSXK7Wvh54aFI4sjlmGkeFOInm0VDaTCdoHuCJ5VARptnC8pyXwF7hMLRYEe0s6dpT6FQ5SMsnAnURP6wXi8yXY0wd5_wdqua_Ae8wLQ",
+        "name": "projects/8302096542006595553/files/00585def20164eda9d1cc7cff6f27714"
+      },
+      "theme": {
+        "bodyFont": "INTER",
+        "bodyFontFamily": "Inter",
+        "colorMode": "DARK",
+        "colorVariant": "FIDELITY",
+        "customColor": "#00f2ff",
+        "designMd": "---\nname: Datara Precise Analytics\ncolors:\n  surface: '#111317'\n  surface-dim: '#111317'\n  surface-bright: '#37393e'\n  surface-container-lowest: '#0c0e12'\n  surface-container-low: '#1a1c20'\n  surface-container: '#1e2024'\n  surface-container-high: '#282a2e'\n  surface-container-highest: '#333539'\n  on-surface: '#e2e2e8'\n  on-surface-variant: '#b9cacb'\n  inverse-surface: '#e2e2e8'\n  inverse-on-surface: '#2f3035'\n  outline: '#849495'\n  outline-variant: '#3a494b'\n  surface-tint: '#00dbe7'\n  primary: '#e1fdff'\n  on-primary: '#00363a'\n  primary-container: '#00f2ff'\n  on-primary-container: '#006a71'\n  inverse-primary: '#00696f'\n  secondary: '#d1bcff'\n  on-secondary: '#3c0090'\n  secondary-container: '#7000ff'\n  on-secondary-container: '#ddcdff'\n  tertiary: '#fff6e4'\n  on-tertiary: '#3b2f00'\n  tertiary-container: '#fed83a'\n  on-tertiary-container: '#725e00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#74f5ff'\n  primary-fixed-dim: '#00dbe7'\n  on-primary-fixed: '#002022'\n  on-primary-fixed-variant: '#004f54'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#d1bcff'\n  on-secondary-fixed: '#23005b'\n  on-secondary-fixed-variant: '#5700c9'\n  tertiary-fixed: '#ffe173'\n  tertiary-fixed-dim: '#e8c423'\n  on-tertiary-fixed: '#221b00'\n  on-tertiary-fixed-variant: '#554500'\n  background: '#111317'\n  on-background: '#e2e2e8'\n  surface-variant: '#333539'\ntypography:\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: '1.2'\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: '1.2'\n  headline-sm:\n    fontFamily: Geist\n    fontSize: 18px\n    fontWeight: '600'\n    lineHeight: '1.4'\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: '1.6'\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: '1.5'\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  label-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 10px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  headline-lg-mobile:\n    fontFamily: Geist\n    fontSize: 26px\n    fontWeight: '600'\n    lineHeight: '1.2'\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  unit: 4px\n  gutter: 16px\n  margin-page: 24px\n  panel-padding: 12px\n  stack-gap: 8px\n---\n\n## Brand & Style\n\nThe brand identity is rooted in precision, technical excellence, and high-performance data processing. It targets data scientists, analysts, and engineers who require a focused, low-distraction environment for deep work. \n\nThe design style is **High-Contrast Tech-Minimalism**. It utilizes a dark, atmospheric backdrop to make data points and visualizations vibrate with clarity. The aesthetic draws from modern developer tools and aerospace interfaces: it is disciplined, structured, and intentionally lean. Visual flourish is reserved strictly for functional feedback and data highlighting, ensuring the \"signal\" is never lost in the \"noise.\"\n\n## Colors\n\nThe palette is optimized for long-duration cognitive tasks in low-light environments. \n\n- **Primary (#00f2ff):** An electric \"Neon Blue\" used exclusively for primary actions, active states, and critical data trends.\n- **Secondary (#7000ff):** A deep violet used for secondary data sets to provide distinct visual separation from the primary accent.\n- **Neutral/Background (#0c0e12):** A deep charcoal \"True Dark\" that reduces eye strain and provides infinite depth.\n- **Surface (#161920):** A slightly lighter grey for containers and panels to establish hierarchy.\n- **Success/Warning/Error:** Use high-chroma Green (#00ff9d), Amber (#ffb800), and Red (#ff4b4b) to maintain the \"Neon\" technical aesthetic.\n\n## Typography\n\nThis design system employs a tri-font strategy to maximize legibility and technical feel:\n\n1.  **Geist (Headlines):** Used for structural headings. Its geometric, slightly condensed nature feels modern and efficient.\n2.  **Inter (Body):** The workhorse for all UI text, descriptions, and inputs. It provides maximum readability at small sizes.\n3.  **JetBrains Mono (Data & Labels):** Used for all numerical data, table headers, and status labels. The monospaced nature ensures that columns of numbers align perfectly for quick scanning.\n\nAll typography should favor high contrast (White or Light Grey) against the dark background.\n\n## Layout & Spacing\n\nThe layout follows a **Fixed-Fluid Hybrid** grid. \n- Sidebars and Inspector panels are fixed-width (e.g., 260px or 320px) to maintain consistent control densities.\n- The central \"Stage\" or \"Dashboard\" area is fluid, expanding to show as much data as possible.\n- A **4px base unit** governs all spacing. Gutters between data cards are strictly 16px. \n- For mobile, the layout reflows into a single column with a bottom-tab navigation, and margins reduce to 16px.\n- Use dense spacing for data tables and utility bars, while increasing spacing for \"Analysis Reports\" to improve focus.\n\n## Elevation & Depth\n\nIn this dark-themed system, elevation is conveyed through **Tonal Layering** and **Subtle Outlines** rather than heavy shadows.\n\n- **Level 0 (Base):** `#0c0e12` (Application background).\n- **Level 1 (Panels):** `#161920` with a 1px solid border of `#2d323d`.\n- **Level 2 (Popovers/Modals):** `#1e232d` with a slightly brighter border and a very subtle, sharp 4px shadow to lift it off the surface.\n- **Active State:** Elements like active inputs or selected cards should use a 1px `#00f2ff` (Neon Blue) border to indicate focus.\n- **Depth via Blur:** When a modal is active, the background data layers are blurred (8px) to maintain context without causing distraction.\n\n## Shapes\n\nThe shape language is **Precision-Sharp**. \n- Standard components (Buttons, Inputs, Cards) use a **4px corner radius**. \n- Icons must be stroke-based (1.5px or 2px weight) with sharp terminals to match the typography.\n- Avoid large rounded corners or \"pill\" shapes, as they detract from the technical, grid-aligned aesthetic of the data. \n- Interactive elements utilize \"inner-glow\" borders on hover to simulate a digital backlit effect.\n\n## Components\n\n- **Buttons:** Primary buttons are solid `#00f2ff` with black text for maximum contrast. Secondary buttons are outlined with `#2d323d` and white text. Ghost buttons use `JetBrains Mono` for a \"code-like\" interaction feel.\n- **Data Cards:** Containers for charts should have no padding on the chart itself, only on the header. Use a subtle top-border (2px) of the accent color to categorize different data types.\n- **Inputs:** Darker than the surface (`#0c0e12`). On focus, the border turns Neon Blue with a subtle outer glow.\n- **Chips/Status:** Small, rectangular tags with 2px rounding. Use a \"dot\" indicator for status (e.g., a neon green dot for \"Live Data\").\n- **Data Tables:** Zebra-striping is forbidden. Use 1px horizontal dividers only. On hover, a row should highlight with a faint `#ffffff08` (5% white) overlay.\n- **Scrollbars:** Custom-styled to be thin (4px) and dark grey, only turning light grey on hover to minimize visual clutter in data-heavy views.",
+        "font": "GEIST",
+        "headlineFont": "GEIST",
+        "headlineFontFamily": "Geist",
+        "labelFont": "JETBRAINS_MONO",
+        "labelFontFamily": "Jetbrains Mono",
+        "namedColors": {
+          "background": "#111317",
+          "error": "#ffb4ab",
+          "error_container": "#93000a",
+          "inverse_on_surface": "#2f3035",
+          "inverse_primary": "#00696f",
+          "inverse_surface": "#e2e2e8",
+          "on_background": "#e2e2e8",
+          "on_error": "#690005",
+          "on_error_container": "#ffdad6",
+          "on_primary": "#00363a",
+          "on_primary_container": "#006a71",
+          "on_primary_fixed": "#002022",
+          "on_primary_fixed_variant": "#004f54",
+          "on_secondary": "#3c0090",
+          "on_secondary_container": "#ddcdff",
+          "on_secondary_fixed": "#23005b",
+          "on_secondary_fixed_variant": "#5700c9",
+          "on_surface": "#e2e2e8",
+          "on_surface_variant": "#b9cacb",
+          "on_tertiary": "#3b2f00",
+          "on_tertiary_container": "#725e00",
+          "on_tertiary_fixed": "#221b00",
+          "on_tertiary_fixed_variant": "#554500",
+          "outline": "#849495",
+          "outline_variant": "#3a494b",
+          "primary": "#e1fdff",
+          "primary_container": "#00f2ff",
+          "primary_fixed": "#74f5ff",
+          "primary_fixed_dim": "#00dbe7",
+          "secondary": "#d1bcff",
+          "secondary_container": "#7000ff",
+          "secondary_fixed": "#e9ddff",
+          "secondary_fixed_dim": "#d1bcff",
+          "surface": "#111317",
+          "surface_bright": "#37393e",
+          "surface_container": "#1e2024",
+          "surface_container_high": "#282a2e",
+          "surface_container_highest": "#333539",
+          "surface_container_low": "#1a1c20",
+          "surface_container_lowest": "#0c0e12",
+          "surface_dim": "#111317",
+          "surface_tint": "#00dbe7",
+          "surface_variant": "#333539",
+          "tertiary": "#fff6e4",
+          "tertiary_container": "#fed83a",
+          "tertiary_fixed": "#ffe173",
+          "tertiary_fixed_dim": "#e8c423"
+        },
+        "overrideNeutralColor": "#0c0e12",
+        "overridePrimaryColor": "#00f2ff",
+        "overrideSecondaryColor": "#7000ff",
+        "roundness": "ROUND_FOUR",
+        "spacing": {
+          "gutter": "16px",
+          "margin-page": "24px",
+          "panel-padding": "12px",
+          "stack-gap": "8px",
+          "unit": "4px"
+        },
+        "spacingScale": 2,
+        "typography": {
+          "body-lg": {
+            "fontFamily": "Inter",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "1.6"
+          },
+          "body-md": {
+            "fontFamily": "Inter",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "1.5"
+          },
+          "headline-lg": {
+            "fontFamily": "Geist",
+            "fontSize": "32px",
+            "fontWeight": "600",
+            "letterSpacing": "-0.02em",
+            "lineHeight": "1.2"
+          },
+          "headline-lg-mobile": {
+            "fontFamily": "Geist",
+            "fontSize": "26px",
+            "fontWeight": "600",
+            "lineHeight": "1.2"
+          },
+          "headline-md": {
+            "fontFamily": "Geist",
+            "fontSize": "24px",
+            "fontWeight": "600",
+            "lineHeight": "1.2"
+          },
+          "headline-sm": {
+            "fontFamily": "Geist",
+            "fontSize": "18px",
+            "fontWeight": "600",
+            "lineHeight": "1.4"
+          },
+          "label-md": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "12px",
+            "fontWeight": "500",
+            "letterSpacing": "0.05em",
+            "lineHeight": "1.0"
+          },
+          "label-sm": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "10px",
+            "fontWeight": "500",
+            "letterSpacing": "0.05em",
+            "lineHeight": "1.0"
+          }
+        }
+      },
+      "title": "Datara - Análisis de Datos Chat",
+      "width": "2560",
+      "projectId": "8302096542006595553"
+    },
+    "localPath": "frontend\\screens\\chat.html",
+    "htmlSize": 17421
+  },
+  {
+    "name": "dashboard",
+    "id": "72751584dd924ec0841f33be65aa8a15",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzg4NzJlZTg2OTVhYTQ2OTlhN2Q4YzE5ZDA3MmY5YzFlEgsSBxDAguWNgBkYAZIBIwoKcHJvamVjdF9pZBIVQhM4MzAyMDk2NTQyMDA2NTk1NTUz&filename=&opi=96797242",
+    "imageUrl": "https://lh3.googleusercontent.com/aida/ADBb0ujvFrNEI3NK8sd8Gp6KfxPIAb9jXvroPSMQiTNfnQ2E0LMOTYIgjtDuZ5g1ozAEanxYi3kHPbU9Pzvk0VzyU1oztQtTcjyZkL79oxG1VMnFdoHgXgsHK9HNXzFRKjgpNB3Eq_AipDzLMxnS7HcnvhJx4Xus3o6b978K7qbTHWsFb09DFX0-MyonYkAiA34YnOqDET69tYt8tGqi1MqG5HvykZEWclTYVeHzsE-e91AcWzH3Ta37F94Ngw",
+    "data": {
+      "designSystem": {
+        "designSystem": {
+          "displayName": "Datara Precise Analytics",
+          "styleGuidelines": "## Brand & Style\n\nThe brand identity is rooted in precision, technical excellence, and high-performance data processing. It targets data scientists, analysts, and engineers who require a focused, low-distraction environment for deep work. \n\nThe design style is **High-Contrast Tech-Minimalism**. It utilizes a dark, atmospheric backdrop to make data points and visualizations vibrate with clarity. The aesthetic draws from modern developer tools and aerospace interfaces: it is disciplined, structured, and intentionally lean. Visual flourish is reserved strictly for functional feedback and data highlighting, ensuring the \"signal\" is never lost in the \"noise.\"\n\n## Layout & Spacing\n\nThe layout follows a **Fixed-Fluid Hybrid** grid. \n- Sidebars and Inspector panels are fixed-width (e.g., 260px or 320px) to maintain consistent control densities.\n- The central \"Stage\" or \"Dashboard\" area is fluid, expanding to show as much data as possible.\n- A **4px base unit** governs all spacing. Gutters between data cards are strictly 16px. \n- For mobile, the layout reflows into a single column with a bottom-tab navigation, and margins reduce to 16px.\n- Use dense spacing for data tables and utility bars, while increasing spacing for \"Analysis Reports\" to improve focus.\n\n## Elevation & Depth\n\nIn this dark-themed system, elevation is conveyed through **Tonal Layering** and **Subtle Outlines** rather than heavy shadows.\n\n- **Level 0 (Base):** `#0c0e12` (Application background).\n- **Level 1 (Panels):** `#161920` with a 1px solid border of `#2d323d`.\n- **Level 2 (Popovers/Modals):** `#1e232d` with a slightly brighter border and a very subtle, sharp 4px shadow to lift it off the surface.\n- **Active State:** Elements like active inputs or selected cards should use a 1px `#00f2ff` (Neon Blue) border to indicate focus.\n- **Depth via Blur:** When a modal is active, the background data layers are blurred (8px) to maintain context without causing distraction.\n\n## Components\n\n- **Buttons:** Primary buttons are solid `#00f2ff` with black text for maximum contrast. Secondary buttons are outlined with `#2d323d` and white text. Ghost buttons use `JetBrains Mono` for a \"code-like\" interaction feel.\n- **Data Cards:** Containers for charts should have no padding on the chart itself, only on the header. Use a subtle top-border (2px) of the accent color to categorize different data types.\n- **Inputs:** Darker than the surface (`#0c0e12`). On focus, the border turns Neon Blue with a subtle outer glow.\n- **Chips/Status:** Small, rectangular tags with 2px rounding. Use a \"dot\" indicator for status (e.g., a neon green dot for \"Live Data\").\n- **Data Tables:** Zebra-striping is forbidden. Use 1px horizontal dividers only. On hover, a row should highlight with a faint `#ffffff08` (5% white) overlay.\n- **Scrollbars:** Custom-styled to be thin (4px) and dark grey, only turning light grey on hover to minimize visual clutter in data-heavy views.",
+          "theme": {
+            "bodyFont": "INTER",
+            "bodyFontFamily": "Inter",
+            "colorMode": "DARK",
+            "colorVariant": "FIDELITY",
+            "customColor": "#00f2ff",
+            "designMd": "---\nname: Datara Precise Analytics\ncolors:\n  surface: '#111317'\n  surface-dim: '#111317'\n  surface-bright: '#37393e'\n  surface-container-lowest: '#0c0e12'\n  surface-container-low: '#1a1c20'\n  surface-container: '#1e2024'\n  surface-container-high: '#282a2e'\n  surface-container-highest: '#333539'\n  on-surface: '#e2e2e8'\n  on-surface-variant: '#b9cacb'\n  inverse-surface: '#e2e2e8'\n  inverse-on-surface: '#2f3035'\n  outline: '#849495'\n  outline-variant: '#3a494b'\n  surface-tint: '#00dbe7'\n  primary: '#e1fdff'\n  on-primary: '#00363a'\n  primary-container: '#00f2ff'\n  on-primary-container: '#006a71'\n  inverse-primary: '#00696f'\n  secondary: '#d1bcff'\n  on-secondary: '#3c0090'\n  secondary-container: '#7000ff'\n  on-secondary-container: '#ddcdff'\n  tertiary: '#fff6e4'\n  on-tertiary: '#3b2f00'\n  tertiary-container: '#fed83a'\n  on-tertiary-container: '#725e00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#74f5ff'\n  primary-fixed-dim: '#00dbe7'\n  on-primary-fixed: '#002022'\n  on-primary-fixed-variant: '#004f54'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#d1bcff'\n  on-secondary-fixed: '#23005b'\n  on-secondary-fixed-variant: '#5700c9'\n  tertiary-fixed: '#ffe173'\n  tertiary-fixed-dim: '#e8c423'\n  on-tertiary-fixed: '#221b00'\n  on-tertiary-fixed-variant: '#554500'\n  background: '#111317'\n  on-background: '#e2e2e8'\n  surface-variant: '#333539'\ntypography:\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: '1.2'\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: '1.2'\n  headline-sm:\n    fontFamily: Geist\n    fontSize: 18px\n    fontWeight: '600'\n    lineHeight: '1.4'\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: '1.6'\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: '1.5'\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  label-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 10px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  headline-lg-mobile:\n    fontFamily: Geist\n    fontSize: 26px\n    fontWeight: '600'\n    lineHeight: '1.2'\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  unit: 4px\n  gutter: 16px\n  margin-page: 24px\n  panel-padding: 12px\n  stack-gap: 8px\n---\n\n## Brand & Style\n\nThe brand identity is rooted in precision, technical excellence, and high-performance data processing. It targets data scientists, analysts, and engineers who require a focused, low-distraction environment for deep work. \n\nThe design style is **High-Contrast Tech-Minimalism**. It utilizes a dark, atmospheric backdrop to make data points and visualizations vibrate with clarity. The aesthetic draws from modern developer tools and aerospace interfaces: it is disciplined, structured, and intentionally lean. Visual flourish is reserved strictly for functional feedback and data highlighting, ensuring the \"signal\" is never lost in the \"noise.\"\n\n## Colors\n\nThe palette is optimized for long-duration cognitive tasks in low-light environments. \n\n- **Primary (#00f2ff):** An electric \"Neon Blue\" used exclusively for primary actions, active states, and critical data trends.\n- **Secondary (#7000ff):** A deep violet used for secondary data sets to provide distinct visual separation from the primary accent.\n- **Neutral/Background (#0c0e12):** A deep charcoal \"True Dark\" that reduces eye strain and provides infinite depth.\n- **Surface (#161920):** A slightly lighter grey for containers and panels to establish hierarchy.\n- **Success/Warning/Error:** Use high-chroma Green (#00ff9d), Amber (#ffb800), and Red (#ff4b4b) to maintain the \"Neon\" technical aesthetic.\n\n## Typography\n\nThis design system employs a tri-font strategy to maximize legibility and technical feel:\n\n1.  **Geist (Headlines):** Used for structural headings. Its geometric, slightly condensed nature feels modern and efficient.\n2.  **Inter (Body):** The workhorse for all UI text, descriptions, and inputs. It provides maximum readability at small sizes.\n3.  **JetBrains Mono (Data & Labels):** Used for all numerical data, table headers, and status labels. The monospaced nature ensures that columns of numbers align perfectly for quick scanning.\n\nAll typography should favor high contrast (White or Light Grey) against the dark background.\n\n## Layout & Spacing\n\nThe layout follows a **Fixed-Fluid Hybrid** grid. \n- Sidebars and Inspector panels are fixed-width (e.g., 260px or 320px) to maintain consistent control densities.\n- The central \"Stage\" or \"Dashboard\" area is fluid, expanding to show as much data as possible.\n- A **4px base unit** governs all spacing. Gutters between data cards are strictly 16px. \n- For mobile, the layout reflows into a single column with a bottom-tab navigation, and margins reduce to 16px.\n- Use dense spacing for data tables and utility bars, while increasing spacing for \"Analysis Reports\" to improve focus.\n\n## Elevation & Depth\n\nIn this dark-themed system, elevation is conveyed through **Tonal Layering** and **Subtle Outlines** rather than heavy shadows.\n\n- **Level 0 (Base):** `#0c0e12` (Application background).\n- **Level 1 (Panels):** `#161920` with a 1px solid border of `#2d323d`.\n- **Level 2 (Popovers/Modals):** `#1e232d` with a slightly brighter border and a very subtle, sharp 4px shadow to lift it off the surface.\n- **Active State:** Elements like active inputs or selected cards should use a 1px `#00f2ff` (Neon Blue) border to indicate focus.\n- **Depth via Blur:** When a modal is active, the background data layers are blurred (8px) to maintain context without causing distraction.\n\n## Shapes\n\nThe shape language is **Precision-Sharp**. \n- Standard components (Buttons, Inputs, Cards) use a **4px corner radius**. \n- Icons must be stroke-based (1.5px or 2px weight) with sharp terminals to match the typography.\n- Avoid large rounded corners or \"pill\" shapes, as they detract from the technical, grid-aligned aesthetic of the data. \n- Interactive elements utilize \"inner-glow\" borders on hover to simulate a digital backlit effect.\n\n## Components\n\n- **Buttons:** Primary buttons are solid `#00f2ff` with black text for maximum contrast. Secondary buttons are outlined with `#2d323d` and white text. Ghost buttons use `JetBrains Mono` for a \"code-like\" interaction feel.\n- **Data Cards:** Containers for charts should have no padding on the chart itself, only on the header. Use a subtle top-border (2px) of the accent color to categorize different data types.\n- **Inputs:** Darker than the surface (`#0c0e12`). On focus, the border turns Neon Blue with a subtle outer glow.\n- **Chips/Status:** Small, rectangular tags with 2px rounding. Use a \"dot\" indicator for status (e.g., a neon green dot for \"Live Data\").\n- **Data Tables:** Zebra-striping is forbidden. Use 1px horizontal dividers only. On hover, a row should highlight with a faint `#ffffff08` (5% white) overlay.\n- **Scrollbars:** Custom-styled to be thin (4px) and dark grey, only turning light grey on hover to minimize visual clutter in data-heavy views.",
+            "font": "GEIST",
+            "headlineFont": "GEIST",
+            "headlineFontFamily": "Geist",
+            "labelFont": "JETBRAINS_MONO",
+            "labelFontFamily": "Jetbrains Mono",
+            "namedColors": {
+              "background": "#111317",
+              "error": "#ffb4ab",
+              "error_container": "#93000a",
+              "inverse_on_surface": "#2f3035",
+              "inverse_primary": "#00696f",
+              "inverse_surface": "#e2e2e8",
+              "on_background": "#e2e2e8",
+              "on_error": "#690005",
+              "on_error_container": "#ffdad6",
+              "on_primary": "#00363a",
+              "on_primary_container": "#006a71",
+              "on_primary_fixed": "#002022",
+              "on_primary_fixed_variant": "#004f54",
+              "on_secondary": "#3c0090",
+              "on_secondary_container": "#ddcdff",
+              "on_secondary_fixed": "#23005b",
+              "on_secondary_fixed_variant": "#5700c9",
+              "on_surface": "#e2e2e8",
+              "on_surface_variant": "#b9cacb",
+              "on_tertiary": "#3b2f00",
+              "on_tertiary_container": "#725e00",
+              "on_tertiary_fixed": "#221b00",
+              "on_tertiary_fixed_variant": "#554500",
+              "outline": "#849495",
+              "outline_variant": "#3a494b",
+              "primary": "#e1fdff",
+              "primary_container": "#00f2ff",
+              "primary_fixed": "#74f5ff",
+              "primary_fixed_dim": "#00dbe7",
+              "secondary": "#d1bcff",
+              "secondary_container": "#7000ff",
+              "secondary_fixed": "#e9ddff",
+              "secondary_fixed_dim": "#d1bcff",
+              "surface": "#111317",
+              "surface_bright": "#37393e",
+              "surface_container": "#1e2024",
+              "surface_container_high": "#282a2e",
+              "surface_container_highest": "#333539",
+              "surface_container_low": "#1a1c20",
+              "surface_container_lowest": "#0c0e12",
+              "surface_dim": "#111317",
+              "surface_tint": "#00dbe7",
+              "surface_variant": "#333539",
+              "tertiary": "#fff6e4",
+              "tertiary_container": "#fed83a",
+              "tertiary_fixed": "#ffe173",
+              "tertiary_fixed_dim": "#e8c423"
+            },
+            "overrideNeutralColor": "#0c0e12",
+            "overridePrimaryColor": "#00f2ff",
+            "overrideSecondaryColor": "#7000ff",
+            "roundness": "ROUND_FOUR",
+            "spacing": {
+              "gutter": "16px",
+              "margin-page": "24px",
+              "panel-padding": "12px",
+              "stack-gap": "8px",
+              "unit": "4px"
+            },
+            "spacingScale": 2,
+            "typography": {
+              "body-lg": {
+                "fontFamily": "Inter",
+                "fontSize": "16px",
+                "fontWeight": "400",
+                "lineHeight": "1.6"
+              },
+              "body-md": {
+                "fontFamily": "Inter",
+                "fontSize": "14px",
+                "fontWeight": "400",
+                "lineHeight": "1.5"
+              },
+              "headline-lg": {
+                "fontFamily": "Geist",
+                "fontSize": "32px",
+                "fontWeight": "600",
+                "letterSpacing": "-0.02em",
+                "lineHeight": "1.2"
+              },
+              "headline-lg-mobile": {
+                "fontFamily": "Geist",
+                "fontSize": "26px",
+                "fontWeight": "600",
+                "lineHeight": "1.2"
+              },
+              "headline-md": {
+                "fontFamily": "Geist",
+                "fontSize": "24px",
+                "fontWeight": "600",
+                "lineHeight": "1.2"
+              },
+              "headline-sm": {
+                "fontFamily": "Geist",
+                "fontSize": "18px",
+                "fontWeight": "600",
+                "lineHeight": "1.4"
+              },
+              "label-md": {
+                "fontFamily": "JetBrains Mono",
+                "fontSize": "12px",
+                "fontWeight": "500",
+                "letterSpacing": "0.05em",
+                "lineHeight": "1.0"
+              },
+              "label-sm": {
+                "fontFamily": "JetBrains Mono",
+                "fontSize": "10px",
+                "fontWeight": "500",
+                "letterSpacing": "0.05em",
+                "lineHeight": "1.0"
+              }
+            }
+          }
+        },
+        "name": "assets/29bc26c8f74c4b43963d9534d2da9f74",
+        "version": "1"
+      },
+      "deviceType": "DESKTOP",
+      "generatedBy": "figaro_agent",
+      "height": "2378",
+      "htmlCode": {
+        "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sXzg4NzJlZTg2OTVhYTQ2OTlhN2Q4YzE5ZDA3MmY5YzFlEgsSBxDAguWNgBkYAZIBIwoKcHJvamVjdF9pZBIVQhM4MzAyMDk2NTQyMDA2NTk1NTUz&filename=&opi=96797242",
+        "mimeType": "text/html",
+        "name": "projects/8302096542006595553/files/ca92cfe87dc44f5fa1dbac428bb06ed4"
+      },
+      "id": "72751584dd924ec0841f33be65aa8a15",
+      "name": "projects/8302096542006595553/screens/72751584dd924ec0841f33be65aa8a15",
+      "prompt": "Create a professional analytics dashboard for Datara. \nDark theme with neon blue accents (#00f2ff). \nStructure:\n1. Top Bar: Title 'Dashboard' and a 'Limpiar Dashboard' button (outlined or ghost style with red hover).\n2. Filter Bar: Dropdown for 'Columna' and a multi-select for 'Valores'.\n3. KPI Row: Four metric cards. Each with a label (e.g., 'Total Registros', 'Valor Promedio', 'Tasa de Error', 'Tiempo de Proceso'), a large numeric value, and a thin neon blue top border.\n4. Chart Grid: 2-column layout. Each card has a title (e.g., 'Distribución de Datos', 'Tendencia Temporal'), a dark placeholder area for a chart, and a small 'Eliminar' icon/button in the corner.\nProfessional, technical aesthetic with subtle borders and clear hierarchy.",
+      "screenMetadata": {
+        "agentType": "PRO_AGENT",
+        "status": "COMPLETE"
+      },
+      "screenType": "DESIGN",
+      "screenshot": {
+        "downloadUrl": "https://lh3.googleusercontent.com/aida/ADBb0ujvFrNEI3NK8sd8Gp6KfxPIAb9jXvroPSMQiTNfnQ2E0LMOTYIgjtDuZ5g1ozAEanxYi3kHPbU9Pzvk0VzyU1oztQtTcjyZkL79oxG1VMnFdoHgXgsHK9HNXzFRKjgpNB3Eq_AipDzLMxnS7HcnvhJx4Xus3o6b978K7qbTHWsFb09DFX0-MyonYkAiA34YnOqDET69tYt8tGqi1MqG5HvykZEWclTYVeHzsE-e91AcWzH3Ta37F94Ngw",
+        "name": "projects/8302096542006595553/files/bde82a566a2944c2a09ea490101a83f6"
+      },
+      "theme": {
+        "bodyFont": "INTER",
+        "bodyFontFamily": "Inter",
+        "colorMode": "DARK",
+        "colorVariant": "FIDELITY",
+        "customColor": "#00f2ff",
+        "designMd": "---\nname: Datara Precise Analytics\ncolors:\n  surface: '#111317'\n  surface-dim: '#111317'\n  surface-bright: '#37393e'\n  surface-container-lowest: '#0c0e12'\n  surface-container-low: '#1a1c20'\n  surface-container: '#1e2024'\n  surface-container-high: '#282a2e'\n  surface-container-highest: '#333539'\n  on-surface: '#e2e2e8'\n  on-surface-variant: '#b9cacb'\n  inverse-surface: '#e2e2e8'\n  inverse-on-surface: '#2f3035'\n  outline: '#849495'\n  outline-variant: '#3a494b'\n  surface-tint: '#00dbe7'\n  primary: '#e1fdff'\n  on-primary: '#00363a'\n  primary-container: '#00f2ff'\n  on-primary-container: '#006a71'\n  inverse-primary: '#00696f'\n  secondary: '#d1bcff'\n  on-secondary: '#3c0090'\n  secondary-container: '#7000ff'\n  on-secondary-container: '#ddcdff'\n  tertiary: '#fff6e4'\n  on-tertiary: '#3b2f00'\n  tertiary-container: '#fed83a'\n  on-tertiary-container: '#725e00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#74f5ff'\n  primary-fixed-dim: '#00dbe7'\n  on-primary-fixed: '#002022'\n  on-primary-fixed-variant: '#004f54'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#d1bcff'\n  on-secondary-fixed: '#23005b'\n  on-secondary-fixed-variant: '#5700c9'\n  tertiary-fixed: '#ffe173'\n  tertiary-fixed-dim: '#e8c423'\n  on-tertiary-fixed: '#221b00'\n  on-tertiary-fixed-variant: '#554500'\n  background: '#111317'\n  on-background: '#e2e2e8'\n  surface-variant: '#333539'\ntypography:\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: '1.2'\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: '1.2'\n  headline-sm:\n    fontFamily: Geist\n    fontSize: 18px\n    fontWeight: '600'\n    lineHeight: '1.4'\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: '1.6'\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: '1.5'\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  label-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 10px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  headline-lg-mobile:\n    fontFamily: Geist\n    fontSize: 26px\n    fontWeight: '600'\n    lineHeight: '1.2'\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  unit: 4px\n  gutter: 16px\n  margin-page: 24px\n  panel-padding: 12px\n  stack-gap: 8px\n---\n\n## Brand & Style\n\nThe brand identity is rooted in precision, technical excellence, and high-performance data processing. It targets data scientists, analysts, and engineers who require a focused, low-distraction environment for deep work. \n\nThe design style is **High-Contrast Tech-Minimalism**. It utilizes a dark, atmospheric backdrop to make data points and visualizations vibrate with clarity. The aesthetic draws from modern developer tools and aerospace interfaces: it is disciplined, structured, and intentionally lean. Visual flourish is reserved strictly for functional feedback and data highlighting, ensuring the \"signal\" is never lost in the \"noise.\"\n\n## Colors\n\nThe palette is optimized for long-duration cognitive tasks in low-light environments. \n\n- **Primary (#00f2ff):** An electric \"Neon Blue\" used exclusively for primary actions, active states, and critical data trends.\n- **Secondary (#7000ff):** A deep violet used for secondary data sets to provide distinct visual separation from the primary accent.\n- **Neutral/Background (#0c0e12):** A deep charcoal \"True Dark\" that reduces eye strain and provides infinite depth.\n- **Surface (#161920):** A slightly lighter grey for containers and panels to establish hierarchy.\n- **Success/Warning/Error:** Use high-chroma Green (#00ff9d), Amber (#ffb800), and Red (#ff4b4b) to maintain the \"Neon\" technical aesthetic.\n\n## Typography\n\nThis design system employs a tri-font strategy to maximize legibility and technical feel:\n\n1.  **Geist (Headlines):** Used for structural headings. Its geometric, slightly condensed nature feels modern and efficient.\n2.  **Inter (Body):** The workhorse for all UI text, descriptions, and inputs. It provides maximum readability at small sizes.\n3.  **JetBrains Mono (Data & Labels):** Used for all numerical data, table headers, and status labels. The monospaced nature ensures that columns of numbers align perfectly for quick scanning.\n\nAll typography should favor high contrast (White or Light Grey) against the dark background.\n\n## Layout & Spacing\n\nThe layout follows a **Fixed-Fluid Hybrid** grid. \n- Sidebars and Inspector panels are fixed-width (e.g., 260px or 320px) to maintain consistent control densities.\n- The central \"Stage\" or \"Dashboard\" area is fluid, expanding to show as much data as possible.\n- A **4px base unit** governs all spacing. Gutters between data cards are strictly 16px. \n- For mobile, the layout reflows into a single column with a bottom-tab navigation, and margins reduce to 16px.\n- Use dense spacing for data tables and utility bars, while increasing spacing for \"Analysis Reports\" to improve focus.\n\n## Elevation & Depth\n\nIn this dark-themed system, elevation is conveyed through **Tonal Layering** and **Subtle Outlines** rather than heavy shadows.\n\n- **Level 0 (Base):** `#0c0e12` (Application background).\n- **Level 1 (Panels):** `#161920` with a 1px solid border of `#2d323d`.\n- **Level 2 (Popovers/Modals):** `#1e232d` with a slightly brighter border and a very subtle, sharp 4px shadow to lift it off the surface.\n- **Active State:** Elements like active inputs or selected cards should use a 1px `#00f2ff` (Neon Blue) border to indicate focus.\n- **Depth via Blur:** When a modal is active, the background data layers are blurred (8px) to maintain context without causing distraction.\n\n## Shapes\n\nThe shape language is **Precision-Sharp**. \n- Standard components (Buttons, Inputs, Cards) use a **4px corner radius**. \n- Icons must be stroke-based (1.5px or 2px weight) with sharp terminals to match the typography.\n- Avoid large rounded corners or \"pill\" shapes, as they detract from the technical, grid-aligned aesthetic of the data. \n- Interactive elements utilize \"inner-glow\" borders on hover to simulate a digital backlit effect.\n\n## Components\n\n- **Buttons:** Primary buttons are solid `#00f2ff` with black text for maximum contrast. Secondary buttons are outlined with `#2d323d` and white text. Ghost buttons use `JetBrains Mono` for a \"code-like\" interaction feel.\n- **Data Cards:** Containers for charts should have no padding on the chart itself, only on the header. Use a subtle top-border (2px) of the accent color to categorize different data types.\n- **Inputs:** Darker than the surface (`#0c0e12`). On focus, the border turns Neon Blue with a subtle outer glow.\n- **Chips/Status:** Small, rectangular tags with 2px rounding. Use a \"dot\" indicator for status (e.g., a neon green dot for \"Live Data\").\n- **Data Tables:** Zebra-striping is forbidden. Use 1px horizontal dividers only. On hover, a row should highlight with a faint `#ffffff08` (5% white) overlay.\n- **Scrollbars:** Custom-styled to be thin (4px) and dark grey, only turning light grey on hover to minimize visual clutter in data-heavy views.",
+        "font": "GEIST",
+        "headlineFont": "GEIST",
+        "headlineFontFamily": "Geist",
+        "labelFont": "JETBRAINS_MONO",
+        "labelFontFamily": "Jetbrains Mono",
+        "namedColors": {
+          "background": "#111317",
+          "error": "#ffb4ab",
+          "error_container": "#93000a",
+          "inverse_on_surface": "#2f3035",
+          "inverse_primary": "#00696f",
+          "inverse_surface": "#e2e2e8",
+          "on_background": "#e2e2e8",
+          "on_error": "#690005",
+          "on_error_container": "#ffdad6",
+          "on_primary": "#00363a",
+          "on_primary_container": "#006a71",
+          "on_primary_fixed": "#002022",
+          "on_primary_fixed_variant": "#004f54",
+          "on_secondary": "#3c0090",
+          "on_secondary_container": "#ddcdff",
+          "on_secondary_fixed": "#23005b",
+          "on_secondary_fixed_variant": "#5700c9",
+          "on_surface": "#e2e2e8",
+          "on_surface_variant": "#b9cacb",
+          "on_tertiary": "#3b2f00",
+          "on_tertiary_container": "#725e00",
+          "on_tertiary_fixed": "#221b00",
+          "on_tertiary_fixed_variant": "#554500",
+          "outline": "#849495",
+          "outline_variant": "#3a494b",
+          "primary": "#e1fdff",
+          "primary_container": "#00f2ff",
+          "primary_fixed": "#74f5ff",
+          "primary_fixed_dim": "#00dbe7",
+          "secondary": "#d1bcff",
+          "secondary_container": "#7000ff",
+          "secondary_fixed": "#e9ddff",
+          "secondary_fixed_dim": "#d1bcff",
+          "surface": "#111317",
+          "surface_bright": "#37393e",
+          "surface_container": "#1e2024",
+          "surface_container_high": "#282a2e",
+          "surface_container_highest": "#333539",
+          "surface_container_low": "#1a1c20",
+          "surface_container_lowest": "#0c0e12",
+          "surface_dim": "#111317",
+          "surface_tint": "#00dbe7",
+          "surface_variant": "#333539",
+          "tertiary": "#fff6e4",
+          "tertiary_container": "#fed83a",
+          "tertiary_fixed": "#ffe173",
+          "tertiary_fixed_dim": "#e8c423"
+        },
+        "overrideNeutralColor": "#0c0e12",
+        "overridePrimaryColor": "#00f2ff",
+        "overrideSecondaryColor": "#7000ff",
+        "roundness": "ROUND_FOUR",
+        "spacing": {
+          "gutter": "16px",
+          "margin-page": "24px",
+          "panel-padding": "12px",
+          "stack-gap": "8px",
+          "unit": "4px"
+        },
+        "spacingScale": 2,
+        "typography": {
+          "body-lg": {
+            "fontFamily": "Inter",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "1.6"
+          },
+          "body-md": {
+            "fontFamily": "Inter",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "1.5"
+          },
+          "headline-lg": {
+            "fontFamily": "Geist",
+            "fontSize": "32px",
+            "fontWeight": "600",
+            "letterSpacing": "-0.02em",
+            "lineHeight": "1.2"
+          },
+          "headline-lg-mobile": {
+            "fontFamily": "Geist",
+            "fontSize": "26px",
+            "fontWeight": "600",
+            "lineHeight": "1.2"
+          },
+          "headline-md": {
+            "fontFamily": "Geist",
+            "fontSize": "24px",
+            "fontWeight": "600",
+            "lineHeight": "1.2"
+          },
+          "headline-sm": {
+            "fontFamily": "Geist",
+            "fontSize": "18px",
+            "fontWeight": "600",
+            "lineHeight": "1.4"
+          },
+          "label-md": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "12px",
+            "fontWeight": "500",
+            "letterSpacing": "0.05em",
+            "lineHeight": "1.0"
+          },
+          "label-sm": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "10px",
+            "fontWeight": "500",
+            "letterSpacing": "0.05em",
+            "lineHeight": "1.0"
+          }
+        }
+      },
+      "title": "Datara - Dashboard Analytics",
+      "width": "2560",
+      "projectId": "8302096542006595553"
+    },
+    "localPath": "frontend\\screens\\dashboard.html",
+    "htmlSize": 23314
+  },
+  {
+    "name": "settings",
+    "id": "c53a5e63e90e491e8c35920b0a086bcf",
+    "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2U2Zjk4MDhjZGFmODQxNzU4NDMzNWQwMGMyZDQ0OGJkEgsSBxDAguWNgBkYAZIBIwoKcHJvamVjdF9pZBIVQhM4MzAyMDk2NTQyMDA2NTk1NTUz&filename=&opi=96797242",
+    "imageUrl": "https://lh3.googleusercontent.com/aida/ADBb0uiirL0reNqjlLUiw-AtLsQVJcDFwd5K9CZXRzyXV4nkgGia6cnIICpr7YT59DFA1Em3Q-4dSNDU0w3k1AggRKpRP90Pxo5SuLn6ZNbBgAB6H5kVc9s6dLRjtATUQq5Z9LR0k9F9tVrJ171cG7Qfy1PnIuQgKPB30TFGVlqBqHouR6Lq9WwiHAg2Q4eFK7m1eE5j0hMKJFJwL8rc8BZIymBfIUR1YF10dcvng0ioppdP6onTb0AH9DUkLw",
+    "data": {
+      "designSystem": {
+        "designSystem": {
+          "displayName": "Datara Precise Analytics",
+          "styleGuidelines": "## Brand & Style\n\nThe brand identity is rooted in precision, technical excellence, and high-performance data processing. It targets data scientists, analysts, and engineers who require a focused, low-distraction environment for deep work. \n\nThe design style is **High-Contrast Tech-Minimalism**. It utilizes a dark, atmospheric backdrop to make data points and visualizations vibrate with clarity. The aesthetic draws from modern developer tools and aerospace interfaces: it is disciplined, structured, and intentionally lean. Visual flourish is reserved strictly for functional feedback and data highlighting, ensuring the \"signal\" is never lost in the \"noise.\"\n\n## Layout & Spacing\n\nThe layout follows a **Fixed-Fluid Hybrid** grid. \n- Sidebars and Inspector panels are fixed-width (e.g., 260px or 320px) to maintain consistent control densities.\n- The central \"Stage\" or \"Dashboard\" area is fluid, expanding to show as much data as possible.\n- A **4px base unit** governs all spacing. Gutters between data cards are strictly 16px. \n- For mobile, the layout reflows into a single column with a bottom-tab navigation, and margins reduce to 16px.\n- Use dense spacing for data tables and utility bars, while increasing spacing for \"Analysis Reports\" to improve focus.\n\n## Elevation & Depth\n\nIn this dark-themed system, elevation is conveyed through **Tonal Layering** and **Subtle Outlines** rather than heavy shadows.\n\n- **Level 0 (Base):** `#0c0e12` (Application background).\n- **Level 1 (Panels):** `#161920` with a 1px solid border of `#2d323d`.\n- **Level 2 (Popovers/Modals):** `#1e232d` with a slightly brighter border and a very subtle, sharp 4px shadow to lift it off the surface.\n- **Active State:** Elements like active inputs or selected cards should use a 1px `#00f2ff` (Neon Blue) border to indicate focus.\n- **Depth via Blur:** When a modal is active, the background data layers are blurred (8px) to maintain context without causing distraction.\n\n## Components\n\n- **Buttons:** Primary buttons are solid `#00f2ff` with black text for maximum contrast. Secondary buttons are outlined with `#2d323d` and white text. Ghost buttons use `JetBrains Mono` for a \"code-like\" interaction feel.\n- **Data Cards:** Containers for charts should have no padding on the chart itself, only on the header. Use a subtle top-border (2px) of the accent color to categorize different data types.\n- **Inputs:** Darker than the surface (`#0c0e12`). On focus, the border turns Neon Blue with a subtle outer glow.\n- **Chips/Status:** Small, rectangular tags with 2px rounding. Use a \"dot\" indicator for status (e.g., a neon green dot for \"Live Data\").\n- **Data Tables:** Zebra-striping is forbidden. Use 1px horizontal dividers only. On hover, a row should highlight with a faint `#ffffff08` (5% white) overlay.\n- **Scrollbars:** Custom-styled to be thin (4px) and dark grey, only turning light grey on hover to minimize visual clutter in data-heavy views.",
+          "theme": {
+            "bodyFont": "INTER",
+            "bodyFontFamily": "Inter",
+            "colorMode": "DARK",
+            "colorVariant": "FIDELITY",
+            "customColor": "#00f2ff",
+            "designMd": "---\nname: Datara Precise Analytics\ncolors:\n  surface: '#111317'\n  surface-dim: '#111317'\n  surface-bright: '#37393e'\n  surface-container-lowest: '#0c0e12'\n  surface-container-low: '#1a1c20'\n  surface-container: '#1e2024'\n  surface-container-high: '#282a2e'\n  surface-container-highest: '#333539'\n  on-surface: '#e2e2e8'\n  on-surface-variant: '#b9cacb'\n  inverse-surface: '#e2e2e8'\n  inverse-on-surface: '#2f3035'\n  outline: '#849495'\n  outline-variant: '#3a494b'\n  surface-tint: '#00dbe7'\n  primary: '#e1fdff'\n  on-primary: '#00363a'\n  primary-container: '#00f2ff'\n  on-primary-container: '#006a71'\n  inverse-primary: '#00696f'\n  secondary: '#d1bcff'\n  on-secondary: '#3c0090'\n  secondary-container: '#7000ff'\n  on-secondary-container: '#ddcdff'\n  tertiary: '#fff6e4'\n  on-tertiary: '#3b2f00'\n  tertiary-container: '#fed83a'\n  on-tertiary-container: '#725e00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#74f5ff'\n  primary-fixed-dim: '#00dbe7'\n  on-primary-fixed: '#002022'\n  on-primary-fixed-variant: '#004f54'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#d1bcff'\n  on-secondary-fixed: '#23005b'\n  on-secondary-fixed-variant: '#5700c9'\n  tertiary-fixed: '#ffe173'\n  tertiary-fixed-dim: '#e8c423'\n  on-tertiary-fixed: '#221b00'\n  on-tertiary-fixed-variant: '#554500'\n  background: '#111317'\n  on-background: '#e2e2e8'\n  surface-variant: '#333539'\ntypography:\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: '1.2'\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: '1.2'\n  headline-sm:\n    fontFamily: Geist\n    fontSize: 18px\n    fontWeight: '600'\n    lineHeight: '1.4'\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: '1.6'\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: '1.5'\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  label-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 10px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  headline-lg-mobile:\n    fontFamily: Geist\n    fontSize: 26px\n    fontWeight: '600'\n    lineHeight: '1.2'\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  unit: 4px\n  gutter: 16px\n  margin-page: 24px\n  panel-padding: 12px\n  stack-gap: 8px\n---\n\n## Brand & Style\n\nThe brand identity is rooted in precision, technical excellence, and high-performance data processing. It targets data scientists, analysts, and engineers who require a focused, low-distraction environment for deep work. \n\nThe design style is **High-Contrast Tech-Minimalism**. It utilizes a dark, atmospheric backdrop to make data points and visualizations vibrate with clarity. The aesthetic draws from modern developer tools and aerospace interfaces: it is disciplined, structured, and intentionally lean. Visual flourish is reserved strictly for functional feedback and data highlighting, ensuring the \"signal\" is never lost in the \"noise.\"\n\n## Colors\n\nThe palette is optimized for long-duration cognitive tasks in low-light environments. \n\n- **Primary (#00f2ff):** An electric \"Neon Blue\" used exclusively for primary actions, active states, and critical data trends.\n- **Secondary (#7000ff):** A deep violet used for secondary data sets to provide distinct visual separation from the primary accent.\n- **Neutral/Background (#0c0e12):** A deep charcoal \"True Dark\" that reduces eye strain and provides infinite depth.\n- **Surface (#161920):** A slightly lighter grey for containers and panels to establish hierarchy.\n- **Success/Warning/Error:** Use high-chroma Green (#00ff9d), Amber (#ffb800), and Red (#ff4b4b) to maintain the \"Neon\" technical aesthetic.\n\n## Typography\n\nThis design system employs a tri-font strategy to maximize legibility and technical feel:\n\n1.  **Geist (Headlines):** Used for structural headings. Its geometric, slightly condensed nature feels modern and efficient.\n2.  **Inter (Body):** The workhorse for all UI text, descriptions, and inputs. It provides maximum readability at small sizes.\n3.  **JetBrains Mono (Data & Labels):** Used for all numerical data, table headers, and status labels. The monospaced nature ensures that columns of numbers align perfectly for quick scanning.\n\nAll typography should favor high contrast (White or Light Grey) against the dark background.\n\n## Layout & Spacing\n\nThe layout follows a **Fixed-Fluid Hybrid** grid. \n- Sidebars and Inspector panels are fixed-width (e.g., 260px or 320px) to maintain consistent control densities.\n- The central \"Stage\" or \"Dashboard\" area is fluid, expanding to show as much data as possible.\n- A **4px base unit** governs all spacing. Gutters between data cards are strictly 16px. \n- For mobile, the layout reflows into a single column with a bottom-tab navigation, and margins reduce to 16px.\n- Use dense spacing for data tables and utility bars, while increasing spacing for \"Analysis Reports\" to improve focus.\n\n## Elevation & Depth\n\nIn this dark-themed system, elevation is conveyed through **Tonal Layering** and **Subtle Outlines** rather than heavy shadows.\n\n- **Level 0 (Base):** `#0c0e12` (Application background).\n- **Level 1 (Panels):** `#161920` with a 1px solid border of `#2d323d`.\n- **Level 2 (Popovers/Modals):** `#1e232d` with a slightly brighter border and a very subtle, sharp 4px shadow to lift it off the surface.\n- **Active State:** Elements like active inputs or selected cards should use a 1px `#00f2ff` (Neon Blue) border to indicate focus.\n- **Depth via Blur:** When a modal is active, the background data layers are blurred (8px) to maintain context without causing distraction.\n\n## Shapes\n\nThe shape language is **Precision-Sharp**. \n- Standard components (Buttons, Inputs, Cards) use a **4px corner radius**. \n- Icons must be stroke-based (1.5px or 2px weight) with sharp terminals to match the typography.\n- Avoid large rounded corners or \"pill\" shapes, as they detract from the technical, grid-aligned aesthetic of the data. \n- Interactive elements utilize \"inner-glow\" borders on hover to simulate a digital backlit effect.\n\n## Components\n\n- **Buttons:** Primary buttons are solid `#00f2ff` with black text for maximum contrast. Secondary buttons are outlined with `#2d323d` and white text. Ghost buttons use `JetBrains Mono` for a \"code-like\" interaction feel.\n- **Data Cards:** Containers for charts should have no padding on the chart itself, only on the header. Use a subtle top-border (2px) of the accent color to categorize different data types.\n- **Inputs:** Darker than the surface (`#0c0e12`). On focus, the border turns Neon Blue with a subtle outer glow.\n- **Chips/Status:** Small, rectangular tags with 2px rounding. Use a \"dot\" indicator for status (e.g., a neon green dot for \"Live Data\").\n- **Data Tables:** Zebra-striping is forbidden. Use 1px horizontal dividers only. On hover, a row should highlight with a faint `#ffffff08` (5% white) overlay.\n- **Scrollbars:** Custom-styled to be thin (4px) and dark grey, only turning light grey on hover to minimize visual clutter in data-heavy views.",
+            "font": "GEIST",
+            "headlineFont": "GEIST",
+            "headlineFontFamily": "Geist",
+            "labelFont": "JETBRAINS_MONO",
+            "labelFontFamily": "Jetbrains Mono",
+            "namedColors": {
+              "background": "#111317",
+              "error": "#ffb4ab",
+              "error_container": "#93000a",
+              "inverse_on_surface": "#2f3035",
+              "inverse_primary": "#00696f",
+              "inverse_surface": "#e2e2e8",
+              "on_background": "#e2e2e8",
+              "on_error": "#690005",
+              "on_error_container": "#ffdad6",
+              "on_primary": "#00363a",
+              "on_primary_container": "#006a71",
+              "on_primary_fixed": "#002022",
+              "on_primary_fixed_variant": "#004f54",
+              "on_secondary": "#3c0090",
+              "on_secondary_container": "#ddcdff",
+              "on_secondary_fixed": "#23005b",
+              "on_secondary_fixed_variant": "#5700c9",
+              "on_surface": "#e2e2e8",
+              "on_surface_variant": "#b9cacb",
+              "on_tertiary": "#3b2f00",
+              "on_tertiary_container": "#725e00",
+              "on_tertiary_fixed": "#221b00",
+              "on_tertiary_fixed_variant": "#554500",
+              "outline": "#849495",
+              "outline_variant": "#3a494b",
+              "primary": "#e1fdff",
+              "primary_container": "#00f2ff",
+              "primary_fixed": "#74f5ff",
+              "primary_fixed_dim": "#00dbe7",
+              "secondary": "#d1bcff",
+              "secondary_container": "#7000ff",
+              "secondary_fixed": "#e9ddff",
+              "secondary_fixed_dim": "#d1bcff",
+              "surface": "#111317",
+              "surface_bright": "#37393e",
+              "surface_container": "#1e2024",
+              "surface_container_high": "#282a2e",
+              "surface_container_highest": "#333539",
+              "surface_container_low": "#1a1c20",
+              "surface_container_lowest": "#0c0e12",
+              "surface_dim": "#111317",
+              "surface_tint": "#00dbe7",
+              "surface_variant": "#333539",
+              "tertiary": "#fff6e4",
+              "tertiary_container": "#fed83a",
+              "tertiary_fixed": "#ffe173",
+              "tertiary_fixed_dim": "#e8c423"
+            },
+            "overrideNeutralColor": "#0c0e12",
+            "overridePrimaryColor": "#00f2ff",
+            "overrideSecondaryColor": "#7000ff",
+            "roundness": "ROUND_FOUR",
+            "spacing": {
+              "gutter": "16px",
+              "margin-page": "24px",
+              "panel-padding": "12px",
+              "stack-gap": "8px",
+              "unit": "4px"
+            },
+            "spacingScale": 2,
+            "typography": {
+              "body-lg": {
+                "fontFamily": "Inter",
+                "fontSize": "16px",
+                "fontWeight": "400",
+                "lineHeight": "1.6"
+              },
+              "body-md": {
+                "fontFamily": "Inter",
+                "fontSize": "14px",
+                "fontWeight": "400",
+                "lineHeight": "1.5"
+              },
+              "headline-lg": {
+                "fontFamily": "Geist",
+                "fontSize": "32px",
+                "fontWeight": "600",
+                "letterSpacing": "-0.02em",
+                "lineHeight": "1.2"
+              },
+              "headline-lg-mobile": {
+                "fontFamily": "Geist",
+                "fontSize": "26px",
+                "fontWeight": "600",
+                "lineHeight": "1.2"
+              },
+              "headline-md": {
+                "fontFamily": "Geist",
+                "fontSize": "24px",
+                "fontWeight": "600",
+                "lineHeight": "1.2"
+              },
+              "headline-sm": {
+                "fontFamily": "Geist",
+                "fontSize": "18px",
+                "fontWeight": "600",
+                "lineHeight": "1.4"
+              },
+              "label-md": {
+                "fontFamily": "JetBrains Mono",
+                "fontSize": "12px",
+                "fontWeight": "500",
+                "letterSpacing": "0.05em",
+                "lineHeight": "1.0"
+              },
+              "label-sm": {
+                "fontFamily": "JetBrains Mono",
+                "fontSize": "10px",
+                "fontWeight": "500",
+                "letterSpacing": "0.05em",
+                "lineHeight": "1.0"
+              }
+            }
+          }
+        },
+        "name": "assets/29bc26c8f74c4b43963d9534d2da9f74",
+        "version": "1"
+      },
+      "deviceType": "DESKTOP",
+      "generatedBy": "figaro_agent",
+      "height": "2048",
+      "htmlCode": {
+        "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpaCiVodG1sX2U2Zjk4MDhjZGFmODQxNzU4NDMzNWQwMGMyZDQ0OGJkEgsSBxDAguWNgBkYAZIBIwoKcHJvamVjdF9pZBIVQhM4MzAyMDk2NTQyMDA2NTk1NTUz&filename=&opi=96797242",
+        "mimeType": "text/html",
+        "name": "projects/8302096542006595553/files/6a78520fdfd24bcf9d7fbbea11479a91"
+      },
+      "id": "c53a5e63e90e491e8c35920b0a086bcf",
+      "name": "projects/8302096542006595553/screens/c53a5e63e90e491e8c35920b0a086bcf",
+      "prompt": "A desktop settings screen for Datara with a dark theme. \n\nLayout:\n- Use the sidebar from {{DATA:COMPONENTS:COMPONENTS_5}} for navigation.\n- Main content area features three cards stacked vertically with generous spacing.\n\nCard 1: 'Configuración de IA'\n- Title: 'Configuración de IA'\n- A password input field labeled 'API Key' or 'Clave de API'.\n- Help text below the input: 'La clave se almacena en memoria durante la sesión'.\n- A dropdown selector labeled 'Modelo' or 'Seleccionar Modelo'.\n- An accent button on the right or bottom-right labeled 'Aplicar Cambios'.\n\nCard 2: 'Sesión'\n- Title: 'Sesión'\n- Information text showing a 'Current Session ID' (e.g., 'ID de Sesión: DT-8829-X').\n- A button labeled 'Nueva Sesión' to reset.\n\nCard 3: 'Acerca de Datara'\n- Title: 'Acerca de Datara'\n- App name 'DATARA' in neon blue (hex #00f2ff).\n- Version number (e.g., 'v2.4.0-stable').\n- Description text: 'Plataforma de análisis de datos con inteligencia artificial'.\n\nStyle: \n- Dark mode, using the 'Datara Precise Analytics' design system.\n- Clean settings UI with clear hierarchy and consistent padding.\n- Use the sidebar navigation from the existing components.",
+      "screenMetadata": {
+        "agentType": "PRO_AGENT",
+        "status": "COMPLETE"
+      },
+      "screenType": "DESIGN",
+      "screenshot": {
+        "downloadUrl": "https://lh3.googleusercontent.com/aida/ADBb0uiirL0reNqjlLUiw-AtLsQVJcDFwd5K9CZXRzyXV4nkgGia6cnIICpr7YT59DFA1Em3Q-4dSNDU0w3k1AggRKpRP90Pxo5SuLn6ZNbBgAB6H5kVc9s6dLRjtATUQq5Z9LR0k9F9tVrJ171cG7Qfy1PnIuQgKPB30TFGVlqBqHouR6Lq9WwiHAg2Q4eFK7m1eE5j0hMKJFJwL8rc8BZIymBfIUR1YF10dcvng0ioppdP6onTb0AH9DUkLw",
+        "name": "projects/8302096542006595553/files/bf357c8e58c34e69bd7962ddabbc22e2"
+      },
+      "theme": {
+        "bodyFont": "INTER",
+        "bodyFontFamily": "Inter",
+        "colorMode": "DARK",
+        "colorVariant": "FIDELITY",
+        "customColor": "#00f2ff",
+        "designMd": "---\nname: Datara Precise Analytics\ncolors:\n  surface: '#111317'\n  surface-dim: '#111317'\n  surface-bright: '#37393e'\n  surface-container-lowest: '#0c0e12'\n  surface-container-low: '#1a1c20'\n  surface-container: '#1e2024'\n  surface-container-high: '#282a2e'\n  surface-container-highest: '#333539'\n  on-surface: '#e2e2e8'\n  on-surface-variant: '#b9cacb'\n  inverse-surface: '#e2e2e8'\n  inverse-on-surface: '#2f3035'\n  outline: '#849495'\n  outline-variant: '#3a494b'\n  surface-tint: '#00dbe7'\n  primary: '#e1fdff'\n  on-primary: '#00363a'\n  primary-container: '#00f2ff'\n  on-primary-container: '#006a71'\n  inverse-primary: '#00696f'\n  secondary: '#d1bcff'\n  on-secondary: '#3c0090'\n  secondary-container: '#7000ff'\n  on-secondary-container: '#ddcdff'\n  tertiary: '#fff6e4'\n  on-tertiary: '#3b2f00'\n  tertiary-container: '#fed83a'\n  on-tertiary-container: '#725e00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#74f5ff'\n  primary-fixed-dim: '#00dbe7'\n  on-primary-fixed: '#002022'\n  on-primary-fixed-variant: '#004f54'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#d1bcff'\n  on-secondary-fixed: '#23005b'\n  on-secondary-fixed-variant: '#5700c9'\n  tertiary-fixed: '#ffe173'\n  tertiary-fixed-dim: '#e8c423'\n  on-tertiary-fixed: '#221b00'\n  on-tertiary-fixed-variant: '#554500'\n  background: '#111317'\n  on-background: '#e2e2e8'\n  surface-variant: '#333539'\ntypography:\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: '1.2'\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: '1.2'\n  headline-sm:\n    fontFamily: Geist\n    fontSize: 18px\n    fontWeight: '600'\n    lineHeight: '1.4'\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: '1.6'\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: '1.5'\n  label-md:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  label-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 10px\n    fontWeight: '500'\n    lineHeight: '1.0'\n    letterSpacing: 0.05em\n  headline-lg-mobile:\n    fontFamily: Geist\n    fontSize: 26px\n    fontWeight: '600'\n    lineHeight: '1.2'\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  unit: 4px\n  gutter: 16px\n  margin-page: 24px\n  panel-padding: 12px\n  stack-gap: 8px\n---\n\n## Brand & Style\n\nThe brand identity is rooted in precision, technical excellence, and high-performance data processing. It targets data scientists, analysts, and engineers who require a focused, low-distraction environment for deep work. \n\nThe design style is **High-Contrast Tech-Minimalism**. It utilizes a dark, atmospheric backdrop to make data points and visualizations vibrate with clarity. The aesthetic draws from modern developer tools and aerospace interfaces: it is disciplined, structured, and intentionally lean. Visual flourish is reserved strictly for functional feedback and data highlighting, ensuring the \"signal\" is never lost in the \"noise.\"\n\n## Colors\n\nThe palette is optimized for long-duration cognitive tasks in low-light environments. \n\n- **Primary (#00f2ff):** An electric \"Neon Blue\" used exclusively for primary actions, active states, and critical data trends.\n- **Secondary (#7000ff):** A deep violet used for secondary data sets to provide distinct visual separation from the primary accent.\n- **Neutral/Background (#0c0e12):** A deep charcoal \"True Dark\" that reduces eye strain and provides infinite depth.\n- **Surface (#161920):** A slightly lighter grey for containers and panels to establish hierarchy.\n- **Success/Warning/Error:** Use high-chroma Green (#00ff9d), Amber (#ffb800), and Red (#ff4b4b) to maintain the \"Neon\" technical aesthetic.\n\n## Typography\n\nThis design system employs a tri-font strategy to maximize legibility and technical feel:\n\n1.  **Geist (Headlines):** Used for structural headings. Its geometric, slightly condensed nature feels modern and efficient.\n2.  **Inter (Body):** The workhorse for all UI text, descriptions, and inputs. It provides maximum readability at small sizes.\n3.  **JetBrains Mono (Data & Labels):** Used for all numerical data, table headers, and status labels. The monospaced nature ensures that columns of numbers align perfectly for quick scanning.\n\nAll typography should favor high contrast (White or Light Grey) against the dark background.\n\n## Layout & Spacing\n\nThe layout follows a **Fixed-Fluid Hybrid** grid. \n- Sidebars and Inspector panels are fixed-width (e.g., 260px or 320px) to maintain consistent control densities.\n- The central \"Stage\" or \"Dashboard\" area is fluid, expanding to show as much data as possible.\n- A **4px base unit** governs all spacing. Gutters between data cards are strictly 16px. \n- For mobile, the layout reflows into a single column with a bottom-tab navigation, and margins reduce to 16px.\n- Use dense spacing for data tables and utility bars, while increasing spacing for \"Analysis Reports\" to improve focus.\n\n## Elevation & Depth\n\nIn this dark-themed system, elevation is conveyed through **Tonal Layering** and **Subtle Outlines** rather than heavy shadows.\n\n- **Level 0 (Base):** `#0c0e12` (Application background).\n- **Level 1 (Panels):** `#161920` with a 1px solid border of `#2d323d`.\n- **Level 2 (Popovers/Modals):** `#1e232d` with a slightly brighter border and a very subtle, sharp 4px shadow to lift it off the surface.\n- **Active State:** Elements like active inputs or selected cards should use a 1px `#00f2ff` (Neon Blue) border to indicate focus.\n- **Depth via Blur:** When a modal is active, the background data layers are blurred (8px) to maintain context without causing distraction.\n\n## Shapes\n\nThe shape language is **Precision-Sharp**. \n- Standard components (Buttons, Inputs, Cards) use a **4px corner radius**. \n- Icons must be stroke-based (1.5px or 2px weight) with sharp terminals to match the typography.\n- Avoid large rounded corners or \"pill\" shapes, as they detract from the technical, grid-aligned aesthetic of the data. \n- Interactive elements utilize \"inner-glow\" borders on hover to simulate a digital backlit effect.\n\n## Components\n\n- **Buttons:** Primary buttons are solid `#00f2ff` with black text for maximum contrast. Secondary buttons are outlined with `#2d323d` and white text. Ghost buttons use `JetBrains Mono` for a \"code-like\" interaction feel.\n- **Data Cards:** Containers for charts should have no padding on the chart itself, only on the header. Use a subtle top-border (2px) of the accent color to categorize different data types.\n- **Inputs:** Darker than the surface (`#0c0e12`). On focus, the border turns Neon Blue with a subtle outer glow.\n- **Chips/Status:** Small, rectangular tags with 2px rounding. Use a \"dot\" indicator for status (e.g., a neon green dot for \"Live Data\").\n- **Data Tables:** Zebra-striping is forbidden. Use 1px horizontal dividers only. On hover, a row should highlight with a faint `#ffffff08` (5% white) overlay.\n- **Scrollbars:** Custom-styled to be thin (4px) and dark grey, only turning light grey on hover to minimize visual clutter in data-heavy views.",
+        "font": "GEIST",
+        "headlineFont": "GEIST",
+        "headlineFontFamily": "Geist",
+        "labelFont": "JETBRAINS_MONO",
+        "labelFontFamily": "Jetbrains Mono",
+        "namedColors": {
+          "background": "#111317",
+          "error": "#ffb4ab",
+          "error_container": "#93000a",
+          "inverse_on_surface": "#2f3035",
+          "inverse_primary": "#00696f",
+          "inverse_surface": "#e2e2e8",
+          "on_background": "#e2e2e8",
+          "on_error": "#690005",
+          "on_error_container": "#ffdad6",
+          "on_primary": "#00363a",
+          "on_primary_container": "#006a71",
+          "on_primary_fixed": "#002022",
+          "on_primary_fixed_variant": "#004f54",
+          "on_secondary": "#3c0090",
+          "on_secondary_container": "#ddcdff",
+          "on_secondary_fixed": "#23005b",
+          "on_secondary_fixed_variant": "#5700c9",
+          "on_surface": "#e2e2e8",
+          "on_surface_variant": "#b9cacb",
+          "on_tertiary": "#3b2f00",
+          "on_tertiary_container": "#725e00",
+          "on_tertiary_fixed": "#221b00",
+          "on_tertiary_fixed_variant": "#554500",
+          "outline": "#849495",
+          "outline_variant": "#3a494b",
+          "primary": "#e1fdff",
+          "primary_container": "#00f2ff",
+          "primary_fixed": "#74f5ff",
+          "primary_fixed_dim": "#00dbe7",
+          "secondary": "#d1bcff",
+          "secondary_container": "#7000ff",
+          "secondary_fixed": "#e9ddff",
+          "secondary_fixed_dim": "#d1bcff",
+          "surface": "#111317",
+          "surface_bright": "#37393e",
+          "surface_container": "#1e2024",
+          "surface_container_high": "#282a2e",
+          "surface_container_highest": "#333539",
+          "surface_container_low": "#1a1c20",
+          "surface_container_lowest": "#0c0e12",
+          "surface_dim": "#111317",
+          "surface_tint": "#00dbe7",
+          "surface_variant": "#333539",
+          "tertiary": "#fff6e4",
+          "tertiary_container": "#fed83a",
+          "tertiary_fixed": "#ffe173",
+          "tertiary_fixed_dim": "#e8c423"
+        },
+        "overrideNeutralColor": "#0c0e12",
+        "overridePrimaryColor": "#00f2ff",
+        "overrideSecondaryColor": "#7000ff",
+        "roundness": "ROUND_FOUR",
+        "spacing": {
+          "gutter": "16px",
+          "margin-page": "24px",
+          "panel-padding": "12px",
+          "stack-gap": "8px",
+          "unit": "4px"
+        },
+        "spacingScale": 2,
+        "typography": {
+          "body-lg": {
+            "fontFamily": "Inter",
+            "fontSize": "16px",
+            "fontWeight": "400",
+            "lineHeight": "1.6"
+          },
+          "body-md": {
+            "fontFamily": "Inter",
+            "fontSize": "14px",
+            "fontWeight": "400",
+            "lineHeight": "1.5"
+          },
+          "headline-lg": {
+            "fontFamily": "Geist",
+            "fontSize": "32px",
+            "fontWeight": "600",
+            "letterSpacing": "-0.02em",
+            "lineHeight": "1.2"
+          },
+          "headline-lg-mobile": {
+            "fontFamily": "Geist",
+            "fontSize": "26px",
+            "fontWeight": "600",
+            "lineHeight": "1.2"
+          },
+          "headline-md": {
+            "fontFamily": "Geist",
+            "fontSize": "24px",
+            "fontWeight": "600",
+            "lineHeight": "1.2"
+          },
+          "headline-sm": {
+            "fontFamily": "Geist",
+            "fontSize": "18px",
+            "fontWeight": "600",
+            "lineHeight": "1.4"
+          },
+          "label-md": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "12px",
+            "fontWeight": "500",
+            "letterSpacing": "0.05em",
+            "lineHeight": "1.0"
+          },
+          "label-sm": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "10px",
+            "fontWeight": "500",
+            "letterSpacing": "0.05em",
+            "lineHeight": "1.0"
+          }
+        }
+      },
+      "title": "Datara - Configuración",
+      "width": "2560",
+      "projectId": "8302096542006595553"
+    },
+    "localPath": "frontend\\screens\\settings.html",
+    "htmlSize": 18146
+  }
+]

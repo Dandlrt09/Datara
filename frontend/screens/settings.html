@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Datara - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1A3FD4",
+              "on-primary": "#FFFFFF",
+              "primary-container": "#bac3ff",
+              "primary-dim": "#0F2A9E",
+              "secondary": "#4A6CF7",
+              "secondary-container": "rgba(26, 63, 212, 0.1)",
+              "on-secondary-container": "#bac3ff",
+              surface: "#0D1117",
+              "surface-container": "#0D1117",
+              "surface-container-low": "#0D1117",
+              "surface-container-high": "#0D1117",
+              "surface-container-highest": "#161B22",
+              "surface-variant": "#161B22",
+              "surface-bright": "#21262D",
+              background: "#0D1117",
+              "on-surface": "#E6EDF3",
+              "on-surface-variant": "#8B949E",
+              "on-background": "#E6EDF3",
+              outline: "#30363D",
+              "outline-variant": "#21262D",
+              error: "#F85149",
+              "error-container": "#871c34",
+              "on-error": "#490013",
+              success: "#3FB950"
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+            spacing: {
+              xs: "4px",
+              sm: "8px",
+              md: "16px",
+              lg: "24px",
+              xl: "32px",
+              gutter: "16px",
+              base: "8px"
+            },
+            fontFamily: {
+              "headline-lg": ["Geist"],
+              "headline-md": ["Geist"],
+              "body-md": ["Geist"],
+              "label-md": ["Geist"],
+              "label-sm": ["Geist"]
+            },
+            fontSize: {
+              "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+              "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+              "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+              "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+              "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        input, select {
+            background-color: #0D1117 !important;
+            border: 1px solid #30363D !important;
+        }
+        input:focus, select:focus {
+            border-color: #1A3FD4 !important;
+            outline: none !important;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased">
+<!-- Sidebar -->
+<div id="sidebar-container"></div>
+<!-- Top App Bar -->
+<header class="fixed top-0 left-72 z-40 flex items-center justify-between px-lg h-16 w-[calc(100%-18rem)] border-b border-outline-variant bg-surface">
+<div class="flex items-center gap-md flex-1">
+<div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-primary rounded-lg">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-variant border-none rounded-lg pl-10 pr-4 py-2 text-label-md focus:ring-0 placeholder:text-on-surface-variant" placeholder="Search settings..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<button id="notif-btn" class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button id="help-btn" class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div id="profile-btn" class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden cursor-pointer relative">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfZFqJIyt-4_hTGiXb565z3ib7lVRHQ_44sxvHKDu9KQ6amdHsi1UJMOy6KrierrvzcpEeRf8tvlBKYqHa0PR57k0utha-yxRMqi12PRpP9gygKRZKEr4YcY2ufW4-UkSY0sLDdx6jB5myWQa9Yi9UjY8YYHTYVIV0loP_DcEnxMr7IcTmnQ3f88FoDqRgwNBWw_JUQyPXTPyLcwOzHn19nJUs9aVpHYqm9n5z2YDt-gM0GMc987vczmGQJobnyfpiXojUX7XaiC72"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-72 pt-16 min-h-screen p-lg">
+<section class="mb-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Configuración</h2>
+<p class="text-on-surface-variant font-body-md text-body-md">Configura tu experiencia en Datara.</p>
+</section>
+
+<div class="max-w-2xl flex flex-col gap-lg">
+<!-- Card 1: Configuración de IA -->
+<section class="bg-surface-container-highest rounded-xl border border-outline-variant p-lg flex flex-col gap-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Configuración de IA</h3>
+</div>
+<div class="grid grid-cols-1 gap-md mt-sm">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="api_key">API Key / Clave de API</label>
+<input class="w-full px-md py-sm rounded bg-surface border border-outline-variant font-label-md text-label-md text-on-surface" id="api_key" type="password" placeholder="Ingresá tu API key de Gemini"/>
+<p class="font-label-sm text-label-sm text-outline">La clave se almacena en memoria durante la sesión</p>
+<p id="api-status" class="font-label-sm text-label-sm mt-xs hidden"></p>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="model_select">Seleccionar Modelo</label>
+<select class="w-full px-md py-sm rounded bg-surface border border-outline-variant font-label-md text-label-md text-on-surface appearance-none cursor-pointer" id="model_select">
+<option value="models/gemini-2.5-flash">Gemini 2.5 Flash (rápido, default)</option>
+<option value="models/gemini-2.0-flash">Gemini 2.0 Flash (estable)</option>
+<option value="models/gemini-2.5-pro">Gemini 2.5 Pro (más capaz)</option>
+<option value="models/gemini-1.5-flash">Gemini 1.5 Flash (legacy)</option>
+</select>
+</div>
+<div class="mt-sm flex justify-end">
+<button id="save-settings-btn" class="bg-primary text-white font-label-md text-label-md px-lg py-sm rounded hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+Aplicar Cambios
+</button>
+</div>
+</div>
+</section>
+
+<!-- Card 2: Sesión -->
+<section class="bg-surface-container-highest rounded-xl border border-outline-variant p-lg flex flex-row items-center justify-between">
+<div class="flex flex-col gap-xs">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary">database</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Sesión</h3>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant font-medium mt-xs">ID DE SESIÓN: <span id="session-id-display" class="text-primary font-bold">—</span></p>
+</div>
+<button id="new-session-btn" class="border border-outline-variant text-on-surface font-label-md text-label-md px-lg py-sm rounded hover:bg-surface-bright transition-colors active:scale-95">
+  Nueva Sesión</button>
+</section>
+
+<!-- Card 3: Acerca de Datara -->
+<section class="bg-surface-container-highest rounded-xl border border-outline-variant p-lg border-l-4 border-l-primary">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-sm">
+<h3 class="font-headline-lg text-headline-lg text-primary font-extrabold tracking-tighter">DATARA</h3>
+<span class="font-label-sm text-label-sm bg-surface-container-high text-secondary border border-outline-variant px-sm py-1 rounded w-fit">v2.4.0-stable</span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mt-xs">
+Plataforma de análisis de datos con inteligencia artificial. Diseñada para entornos de alta precisión y procesamiento técnico optimizado.
+</p>
+</div>
+<div class="hidden md:block opacity-20">
+<span class="material-symbols-outlined text-[64px]" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+
+<!-- Settings: carga y guardado real -->
+<script>
+(function() {
+  'use strict';
+
+  /* ── Actualizar session ID ────────────────── */
+  function updateSessionId() {
+    var el = document.getElementById('session-id-display');
+    if (!el) return;
+    var sid = DataraAPI.getSessionId();
+    el.textContent = sid ? sid.substring(0, 12) + '…' : '—';
+  }
+
+  /* ── Mostrar estado de configuración ──────── */
+  function showApiStatus(configured) {
+    var el = document.getElementById('api-status');
+    if (!el) return;
+    el.classList.remove('hidden');
+    if (configured) {
+      el.className = 'font-label-sm text-label-sm mt-xs text-success';
+      el.innerHTML = '<span class="material-symbols-outlined text-xs" style="font-size:12px">check_circle</span> API key configurada';
+    } else {
+      el.className = 'font-label-sm text-label-sm mt-xs text-amber-400';
+      el.innerHTML = '<span class="material-symbols-outlined text-xs" style="font-size:12px">warning</span> API key no configurada — usá la de .env o cargá una nueva';
+    }
+  }
+
+  /* ── Cargar settings desde el backend ─────── */
+  function loadSettings() {
+    DataraAPI.getSettings().then(function(settings) {
+      /* Modelo */
+      var modelSelect = document.getElementById('model_select');
+      if (modelSelect && settings.model) {
+        /* Si el modelo actual no está en el select, agregarlo */
+        if (!modelSelect.querySelector('option[value="' + settings.model + '"]')) {
+          var opt = document.createElement('option');
+          opt.value = settings.model;
+          opt.textContent = settings.model + ' (actual)';
+          modelSelect.prepend(opt);
+        }
+        modelSelect.value = settings.model;
+      }
+      /* Estado API key */
+      var apiInput = document.getElementById('api_key');
+      if (apiInput) {
+        apiInput.value = settings.is_configured ? '••••••••' : '';
+      }
+      showApiStatus(settings.is_configured);
+    }).catch(function(e) {
+      DataraAPI.showToast('Error al cargar configuración: ' + e.message, 'error');
+    });
+  }
+
+  /* ── Guardar settings ─────────────────────── */
+  function saveSettings() {
+    var btn = document.getElementById('save-settings-btn');
+    if (!btn || btn.disabled) return;
+    btn.disabled = true;
+    btn.textContent = 'Guardando…';
+
+    var apiKey = document.getElementById('api_key').value;
+    var model = document.getElementById('model_select').value;
+
+    var body = {};
+    /* Solo enviar api_key si el usuario escribió algo distinto de •••••••• */
+    if (apiKey && apiKey !== '••••••••') body.api_key = apiKey;
+    if (model) body.model = model;
+
+    /* Si no hay nada para cambiar, avisar */
+    if (Object.keys(body).length === 0) {
+      btn.textContent = 'Sin cambios';
+      setTimeout(function() { btn.textContent = 'Aplicar Cambios'; btn.disabled = false; }, 1500);
+      return;
+    }
+
+    DataraAPI.updateSettings(body).then(function(result) {
+      btn.textContent = '✓ Cambios Guardados';
+      btn.style.backgroundColor = '#3FB950';
+      setTimeout(function() {
+        btn.textContent = 'Aplicar Cambios';
+        btn.style.backgroundColor = '';
+        btn.disabled = false;
+      }, 2000);
+      /* Actualizar estado */
+      if (apiKey && apiKey !== '••••••••') {
+        document.getElementById('api_key').value = '••••••••';
+      }
+      showApiStatus(result.is_configured);
+      DataraAPI.showToast('Configuración guardada correctamente', 'success');
+    }).catch(function(e) {
+      btn.textContent = 'Error al guardar';
+      btn.style.backgroundColor = '#F85149';
+      setTimeout(function() {
+        btn.textContent = 'Aplicar Cambios';
+        btn.style.backgroundColor = '';
+        btn.disabled = false;
+      }, 2000);
+      DataraAPI.showToast('Error: ' + e.message, 'error');
+    });
+  }
+
+  /* ── Nueva sesión ─────────────────────────── */
+  function newSession() {
+    if (!confirm('¿Crear una nueva sesión? Se perderán los mensajes y archivos de la sesión actual.')) return;
+    DataraAPI.resetSession().then(function() {
+      updateSessionId();
+      DataraAPI.showToast('Nueva sesión creada', 'success');
+      /* Recargar settings para reflejar el estado fresco */
+      loadSettings();
+    }).catch(function(e) {
+      DataraAPI.showToast('Error: ' + e.message, 'error');
+    });
+  }
+
+  /* ── Init ──────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function() {
+    /* Session ID */
+    updateSessionId();
+
+    /* Cargar settings del backend */
+    DataraAPI.initSession().then(function() {
+      loadSettings();
+    }).catch(function() {
+      DataraAPI.showToast('Error al iniciar sesión', 'error');
+    });
+
+    /* Botón guardar */
+    document.getElementById('save-settings-btn').addEventListener('click', saveSettings);
+
+    /* Botón nueva sesión */
+    document.getElementById('new-session-btn').addEventListener('click', newSession);
+
+    /* Enter en el input de API key → guardar */
+    document.getElementById('api_key').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') saveSettings();
+    });
+  });
+
+})();
+</script>
+<!-- Notification Panel -->
+<div id="notif-overlay" class="fixed inset-0 bg-black/50 z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="notif-panel" class="fixed top-0 right-0 h-full w-96 bg-surface border-l border-outline-variant z-[70] translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col">
+  <div class="flex items-center justify-between p-6 border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary">notifications</span>
+      <h2 class="font-headline-md text-headline-md text-on-surface">notifications</h2>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="mark-read-btn" class="text-xs text-primary hover:text-primary-dim font-medium transition-colors">Marcar todo como leído</button>
+      <button id="notif-close" class="text-on-surface-variant hover:text-on-surface transition-colors p-1">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  </div>
+  <div class="flex-1 overflow-y-auto divide-y divide-outline-variant/30">
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Pipeline completado</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Análisis de ventas Q3 terminado</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 2 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Nuevo dataset disponible</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">user_export_2024.xlsx listo para análisis</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 15 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer opacity-60">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-transparent mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Actualización del sistema instalada</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Datara Engine actualizado a v2.4.0</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 2 horas</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer opacity-60">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-transparent mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Reporte semanal generado</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Resumen analítico semanal listo</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 1 día</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-4 border-t border-outline-variant shrink-0 text-center">
+    <button class="text-xs text-primary hover:text-primary-dim font-medium transition-colors">Ver todas las notificaciones</button>
+  </div>
+</div>
+<!-- Help Modal -->
+<div id="help-overlay" class="fixed inset-0 bg-black/50 z-[80] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="help-modal" class="fixed inset-0 z-[90] hidden items-center justify-center p-4">
+  <div class="bg-surface border border-outline-variant rounded-xl shadow-2xl w-full max-w-lg max-h-[80vh] overflow-y-auto">
+    <div class="flex items-center justify-between p-6 border-b border-outline-variant">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary">help_outline</span>
+        <h2 class="font-headline-md text-headline-md text-on-surface">Ayuda y Atajos</h2>
+      </div>
+      <button id="help-close" class="text-on-surface-variant hover:text-on-surface transition-colors p-1">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="p-6 space-y-6">
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">Atajos de Teclado</h3>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Subir archivos</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">U</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Abrir chat</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">K</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Ir al Dashboard</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">D</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Buscar datasets</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">F</kbd></span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">Guía Rápida</h3>
+        <div class="space-y-3">
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">upload</span>
+            <div><p class="text-sm text-on-surface font-medium">Subir datasets</p><p class="text-xs text-on-surface-variant mt-0.5">Archivos CSV, Excel, JSON o TSV hasta 256MB</p></div>
+          </div>
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">chat</span>
+            <div><p class="text-sm text-on-surface font-medium">Chatea con tus datos</p><p class="text-xs text-on-surface-variant mt-0.5">Haz preguntas en lenguaje natural, obtén respuestas al instante</p></div>
+          </div>
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">dashboard</span>
+            <div><p class="text-sm text-on-surface font-medium">Visualiza resultados</p><p class="text-xs text-on-surface-variant mt-0.5">Gráficos interactivos, tablas y reportes exportables</p></div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">¿Necesitas ayuda?</h3>
+        <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg items-center">
+          <span class="material-symbols-outlined text-primary">mail</span>
+          <div><p class="text-sm text-on-surface font-medium">Contactar soporte</p><p class="text-xs text-on-surface-variant">support@datara.io &middot; Respuesta en menos de 2 horas</p></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<script>
+  (function(){
+    var helpBtn = document.getElementById('help-btn');
+    var helpModal = document.getElementById('help-modal');
+    var helpOverlay = document.getElementById('help-overlay');
+    var helpClose = document.getElementById('help-close');
+    if (!helpBtn || !helpModal || !helpOverlay) return;
+    function openH(){ helpModal.classList.remove('hidden'); helpModal.classList.add('flex'); helpOverlay.classList.remove('hidden'); requestAnimationFrame(function(){ helpOverlay.classList.remove('opacity-0'); helpOverlay.classList.add('opacity-100'); }); }
+    function closeH(){ helpOverlay.classList.remove('opacity-100'); helpOverlay.classList.add('opacity-0'); helpModal.classList.remove('flex'); helpModal.classList.add('hidden'); setTimeout(function(){ helpOverlay.classList.add('hidden'); },300); }
+    helpBtn.addEventListener('click', openH);
+    if (helpClose) helpClose.addEventListener('click', closeH);
+    helpOverlay.addEventListener('click', closeH);
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { closeH(); } });
+  })();
+</script>
+<!-- Profile Dropdown -->
+<div id="profile-dropdown" class="fixed right-6 top-16 z-[100] hidden w-56 bg-surface border border-outline-variant rounded-xl shadow-2xl overflow-hidden">
+  <div class="p-4 border-b border-outline-variant">
+    <p class="text-sm text-on-surface font-medium">Alex Rivera</p>
+    <p class="text-xs text-on-surface-variant">alex@datara.io</p>
+  </div>
+  <div class="p-2">
+    <a href="settings.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant text-sm">settings</span> Configuración
+    </a>
+    <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant text-sm">logout</span> Cerrar sesión
+    </button>
+  </div>
+</div>
+<script>
+  (function(){
+    var pBtn=document.getElementById('profile-btn'),pDd=document.getElementById('profile-dropdown');
+    if(!pBtn||!pDd)return;
+    pBtn.addEventListener('click',function(e){e.stopPropagation();pDd.classList.toggle('hidden');});
+    document.addEventListener('click',function(e){if(!pDd.classList.contains('hidden')&&!pBtn.contains(e.target))pDd.classList.add('hidden');});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')pDd.classList.add('hidden');});
+  })();
+</script>
+<script>
+  (function(){
+    var btn = document.getElementById('notif-btn');
+    var panel = document.getElementById('notif-panel');
+    var overlay = document.getElementById('notif-overlay');
+    var closeBtn = document.getElementById('notif-close');
+    var markBtn = document.getElementById('mark-read-btn');
+    if (!btn || !panel || !overlay) return;
+    function openN(){ overlay.classList.remove('hidden'); requestAnimationFrame(function(){ overlay.classList.remove('opacity-0'); overlay.classList.add('opacity-100'); panel.classList.remove('translate-x-full'); }); }
+    function closeN(){ overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0'); panel.classList.add('translate-x-full'); setTimeout(function(){ overlay.classList.add('hidden'); },300); }
+    btn.addEventListener('click', openN);
+    if (closeBtn) closeBtn.addEventListener('click', closeN);
+    overlay.addEventListener('click', closeN);
+    if (markBtn) markBtn.addEventListener('click', function(){
+      var items = panel.querySelectorAll('.divide-y > div');
+      for (var i=0;i<items.length;i++){
+        var dot = items[i].querySelector('.rounded-full');
+        if (dot && !dot.classList.contains('bg-transparent')){ dot.classList.remove('bg-primary'); dot.classList.add('bg-transparent'); items[i].classList.add('opacity-60'); }
+      }
+      markBtn.textContent = 'Todo leído \u2713';
+      markBtn.classList.add('text-green-400');
+      setTimeout(function(){ markBtn.textContent = 'Marcar todo como leído'; markBtn.classList.remove('text-green-400'); },2000);
+    });
+  })();
+</script>
+<script src="/static/api.js?v=3"></script>
+<script>
+(function(){
+  var t = Date.now();
+  fetch('/static/screens/sidebar.inc.html?t=' + t).then(function(r){return r.text()}).then(function(h){
+    var c = document.getElementById('sidebar-container');
+    if (!c) return;
+    c.innerHTML = h;
+    var p = window.location.pathname;
+    var a = c.querySelectorAll('nav a');
+    for (var i = 0; i < a.length; i++) {
+      if (a[i].getAttribute('href') === p) {
+        a[i].className = 'bg-secondary-container text-on-secondary-container font-bold rounded-lg px-4 py-2.5 flex items-center gap-3 transition-all duration-200 active:scale-95 active-nav-border group';
+      }
+    }
+    if (window.DataraAPI) { DataraAPI.loadActiveFiles(); DataraAPI.loadSidebarArchives(); DataraAPI.loadMessageCount(); }
+  }).catch(function(err) {
+    console.error('Error al cargar sidebar.inc.html:', err);
+    var retry = Date.now();
+    fetch('/static/screens/sidebar.inc.html?t=' + retry).then(function(r){return r.text()}).then(function(h2){
+      var c2 = document.getElementById('sidebar-container');
+      if (!c2) return;
+      c2.innerHTML = h2;
+      if (window.DataraAPI) { DataraAPI.loadActiveFiles(); DataraAPI.loadSidebarArchives(); DataraAPI.loadMessageCount(); }
+    }).catch(function(err2) {
+      console.error('Sidebar.inc falló en reintento también:', err2);
+    });
+  });
+})();
+</script>
+</body></html>

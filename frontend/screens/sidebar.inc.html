@@ -1,0 +1,72 @@
+<aside class="h-screen w-72 flex flex-col fixed left-0 top-0 bg-surface border-r border-outline-variant z-50">
+<div class="flex flex-col h-full p-6">
+  <!-- Brand Header (fixed top) -->
+  <div class="shrink-0">
+    <div class="flex flex-col">
+      <h1 class="font-headline text-xl font-black text-primary tracking-tight">Datara</h1>
+      <span class="text-xs text-on-surface-variant font-label tracking-wide">Data Engine v1.0</span>
+    </div>
+  </div>
+
+  <!-- Scrollable middle -->
+  <div class="flex-1 overflow-y-auto min-h-0 mt-6 space-y-6">
+    <!-- Primary Navigation -->
+    <nav class="flex flex-col gap-y-1">
+      <a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest px-4 py-2.5 flex items-center gap-3 rounded-lg transition-all duration-200 active:scale-95 group" href="/upload">
+        <span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="upload">upload</span>
+        <span class="font-body text-body-md">Subir</span>
+      </a>
+      <a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest px-4 py-2.5 flex items-center gap-3 rounded-lg transition-all duration-200 active:scale-95 group" href="/chat">
+        <span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="chat">chat</span>
+        <span class="font-body text-body-md">Chat</span>
+      </a>
+      <a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest px-4 py-2.5 flex items-center gap-3 rounded-lg transition-all duration-200 active:scale-95 group" href="/dashboard">
+        <span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="dashboard">dashboard</span>
+        <span class="font-body text-body-md">Dashboard</span>
+      </a>
+      <a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest px-4 py-2.5 flex items-center gap-3 rounded-lg transition-all duration-200 active:scale-95 group" href="/settings">
+        <span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="settings">settings</span>
+        <span class="font-body text-body-md">Configuración</span>
+      </a>
+    </nav>
+    <!-- Stats Section -->
+    <div class="flex flex-col gap-y-4">
+      <h2 class="text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase px-4">Estadísticas</h2>
+      <div class="flex flex-col gap-y-1">
+        <div class="flex items-center justify-between px-4 py-1.5">
+          <div class="flex items-center gap-3 text-on-surface-variant">
+            <span class="material-symbols-outlined" data-icon="description">description</span>
+            <span class="text-sm">Archivos</span>
+          </div>
+          <span id="sidebar-file-count" class="text-xs font-mono text-primary bg-primary/10 px-2 py-0.5 rounded">0</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-1.5">
+          <div class="flex items-center gap-3 text-on-surface-variant">
+            <span class="material-symbols-outlined" data-icon="forum">forum</span>
+            <span class="text-sm">Mensajes</span>
+          </div>
+          <span id="sidebar-message-count" class="text-xs font-mono text-primary bg-primary/10 px-2 py-0.5 rounded">0</span>
+        </div>
+      </div>
+    </div>
+    <!-- Archivos Activos List (dynamic) -->
+    <div class="flex flex-col gap-y-4">
+      <h2 class="text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase px-4">Archivos Activos</h2>
+      <div id="sidebar-active-files" class="flex flex-col gap-y-1 px-2">
+        <!-- Populated dynamically by api.js -->
+      </div>
+    </div>
+
+    <!-- Sesiones Anteriores (dynamic) -->
+    <div class="flex flex-col gap-y-4">
+      <button id="sidebar-archives-toggle" class="flex items-center gap-2 px-4 text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase hover:text-on-surface transition-colors">
+        <span id="sidebar-archives-arrow" class="material-symbols-outlined text-sm transition-transform">chevron_right</span>
+        Sesiones Anteriores
+      </button>
+      <div id="sidebar-archives-list" class="flex flex-col gap-y-1 px-2 hidden">
+        <!-- Populated dynamically by api.js -->
+      </div>
+    </div>
+  </div>
+</div>
+</aside>

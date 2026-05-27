@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Datara Engine - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1A3FD4",
+                        "on-primary": "#FFFFFF",
+                        "primary-container": "#bac3ff",
+                        "secondary-container": "rgba(26, 63, 212, 0.1)",
+                        "on-secondary-container": "#bac3ff",
+                        surface: "#0D1117",
+                        "surface-container-highest": "#161B22",
+                        "on-surface": "#E6EDF3",
+                        "on-surface-variant": "#8B949E",
+                        outline: "#30363D",
+                        "outline-variant": "#21262D"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Geist", "sans-serif"],
+                        display: ["Geist", "sans-serif"],
+                        body: ["Geist", "sans-serif"],
+                        label: ["Geist", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        body {
+            background-color: #0D1117;
+            color: #E6EDF3;
+            font-family: 'Geist', sans-serif;
+        }
+        .active-nav-border {
+            border-left: 3px solid #1A3FD4;
+        }
+    </style>
+</head>
+<body class="bg-surface">
+<aside class="h-screen w-72 flex flex-col fixed left-0 top-0 bg-surface border-r border-outline-variant z-50">
+<div class="flex flex-col h-full p-6 gap-y-8">
+<!-- Brand Header -->
+<div class="flex flex-col">
+<h1 class="font-headline text-xl font-black text-primary tracking-tight">Datara</h1>
+<span class="text-xs text-on-surface-variant font-label tracking-wide">Data Engine v1.0</span>
+</div>
+<!-- Primary Navigation -->
+<nav class="flex flex-col gap-y-1">
+<!-- Active Item: Upload -->
+    <a class="bg-secondary-container text-on-secondary-container font-bold rounded-lg px-4 py-2.5 flex items-center gap-3 transition-all duration-200 active:scale-95 active-nav-border group" href="upload.html">
+      <span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="upload">upload</span>
+<span class="font-body text-body-md">Upload</span>
+</a>
+    <a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest px-4 py-2.5 flex items-center gap-3 rounded-lg transition-all duration-200 active:scale-95 group" href="chat.html">
+      <span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="chat">chat</span>
+<span class="font-body text-body-md">Chat</span>
+</a>
+    <a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest px-4 py-2.5 flex items-center gap-3 rounded-lg transition-all duration-200 active:scale-95 group" href="dashboard.html">
+      <span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="dashboard">dashboard</span>
+<span class="font-body text-body-md">Dashboard</span>
+</a>
+    <a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest px-4 py-2.5 flex items-center gap-3 rounded-lg transition-all duration-200 active:scale-95 group" href="settings.html">
+      <span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="settings">settings</span>
+<span class="font-body text-body-md">Settings</span>
+</a>
+</nav>
+<!-- Stats Section -->
+<div class="flex flex-col gap-y-4">
+<h2 class="text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase px-4">Stats</h2>
+<div class="flex flex-col gap-y-1">
+<div class="flex items-center justify-between px-4 py-1.5">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="text-sm">Files</span>
+</div>
+<span class="text-xs font-mono text-primary bg-primary/10 px-2 py-0.5 rounded">12</span>
+</div>
+<div class="flex items-center justify-between px-4 py-1.5">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="text-sm">Messages</span>
+</div>
+<span class="text-xs font-mono text-primary bg-primary/10 px-2 py-0.5 rounded">84</span>
+</div>
+</div>
+</div>
+<!-- Active Files List -->
+<div class="flex flex-col gap-y-4">
+<h2 class="text-[10px] font-bold text-on-surface-variant tracking-[0.15em] uppercase px-4">Active Files</h2>
+<div class="flex flex-col gap-y-2 px-2">
+<div class="flex items-center gap-2 p-2 rounded hover:bg-surface-container-highest transition-colors cursor-pointer group">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+<span class="text-xs text-on-surface font-mono truncate">sales_2024.csv</span>
+</div>
+<div class="flex items-center gap-2 p-2 rounded hover:bg-surface-container-highest transition-colors cursor-pointer group">
+<span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
+<span class="text-xs text-on-surface font-mono truncate">users_export.xlsx</span>
+</div>
+<div class="flex items-center gap-2 p-2 rounded hover:bg-surface-container-highest transition-colors cursor-pointer group">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="text-xs text-on-surface font-mono truncate">data_sample.json</span>
+</div>
+</div>
+</div>
+<!-- Bottom CTA -->
+<div class="mt-auto">
+<button class="w-full flex items-center justify-center gap-2 px-4 py-3 border border-primary text-primary hover:bg-primary/5 rounded-lg font-bold text-sm transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    Nueva Sesión
+                </button>
+</div>
+</div>
+</aside>
+</body></html>

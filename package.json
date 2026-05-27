@@ -1,0 +1,33 @@
+{
+  "name": "projecto-app-de-analisis",
+  "version": "1.0.0",
+  "description": "**Analiza tus datos y construye dashboards sin esfuerzo.** Sube archivos CSV, Excel, JSON o TSV; crea gráficos y KPIs con el constructor visual, o deja que la IA lo haga por ti con lenguaje natural. Todo en un dashboard acumulativo con filtros globales.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dandlrt09/Datara.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Dandlrt09/Datara/issues"
+  },
+  "homepage": "https://github.com/Dandlrt09/Datara#readme",
+  "dependencies": {
+    "@google/stitch-sdk": "^0.3.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.0",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.11",
+    "tailwindcss": "^4.3.0"
+  }
+}

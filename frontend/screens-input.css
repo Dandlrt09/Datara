@@ -1,0 +1,3 @@
+/* Tailwind v4 with legacy config for Stitch theme */
+@import "tailwindcss";
+@config "../tailwind.config.js";

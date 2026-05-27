@@ -1,0 +1,1256 @@
+﻿<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Datara - Chat de Análisis de Datos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Geist', sans-serif; background-color: #0D1117; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chat-container::-webkit-scrollbar { width: 6px; }
+        .chat-container::-webkit-scrollbar-track { background: transparent; }
+        .chat-container::-webkit-scrollbar-thumb { background: #21262D; border-radius: 10px; }
+        .glass-effect { backdrop-filter: blur(12px); background: rgba(21, 26, 33, 0.8); }
+        .message-enter { animation: fadeInUp 0.25s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: #8B949E; animation: bounce 1.2s infinite; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+        pre { white-space: pre-wrap; word-break: break-word; }
+        /* ── Toast notifications ─────────────── */
+        .toast-container { position: fixed; top: 16px; right: 16px; z-index: 99999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+        .toast { padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 500; box-shadow: 0 8px 24px rgba(0,0,0,0.4); animation: toastIn 0.25s ease; max-width: 360px; pointer-events: auto; backdrop-filter: blur(8px); }
+        .toast.info { background: rgba(26, 63, 212, 0.9); color: #fff; }
+        .toast.success { background: rgba(34, 197, 94, 0.9); color: #fff; }
+        .toast.warning { background: rgba(251, 191, 36, 0.9); color: #000; }
+        .toast.error { background: rgba(249, 115, 134, 0.85); color: #fff; }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes toastOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(40px); } }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+                primary: "#1A3FD4",
+                "on-primary": "#FFFFFF",
+                "primary-container": "#bac3ff",
+                "primary-dim": "#1A3FD4",
+                "secondary-container": "rgba(26, 63, 212, 0.1)",
+                "on-secondary-container": "#bac3ff",
+                "on-primary-container": "#bac3ff",
+                surface: "#0D1117",
+                "surface-container-low": "#0D1117",
+                "surface-container": "#0D1117",
+                "surface-container-high": "#0D1117",
+                "surface-container-highest": "#161B22",
+                "surface-variant": "#161B22",
+                background: "#0D1117",
+                "on-surface": "#E6EDF3",
+                "on-surface-variant": "#8B949E",
+                outline: "#30363D",
+                "outline-variant": "#21262D",
+                error: "#f97386",
+                "error-container": "#871c34",
+                "on-error": "#490013"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "xl": "32px",
+                "lg": "24px",
+                "sm": "8px",
+                "margin": "24px",
+                "base": "8px",
+                "xs": "4px",
+                "gutter": "16px",
+                "md": "16px"
+            },
+            "fontFamily": {
+                "headline-lg": ["Geist"],
+                "label-md": ["Geist"],
+                "body-md": ["Geist"],
+                "headline-md": ["Geist"]
+            },
+            "fontSize": {
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface overflow-hidden">
+<!-- Sidebar -->
+<div id="sidebar-container"></div>
+<!-- Main Content Area -->
+<main class="ml-72 flex flex-col h-screen relative">
+<!-- Top App Bar -->
+<header class="sticky top-0 right-0 z-40 flex items-center justify-between px-lg h-16 w-full border-b border-outline-variant bg-surface">
+<div class="flex items-center gap-md flex-1">
+  <h1 class="font-headline-md text-headline-md text-on-surface">Chat</h1>
+</div>
+<div class="flex items-center gap-lg">
+  <button id="export-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Exportar conversación">
+    <span class="material-symbols-outlined text-sm">download</span>
+    Exportar
+  </button>
+  <button id="clear-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors" title="Limpiar conversación">
+    <span class="material-symbols-outlined text-sm">delete_sweep</span>
+    Limpiar
+  </button>
+  <button id="archive-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors disabled:opacity-30 disabled:cursor-not-allowed" title="Archivar sesión" disabled>
+    <span class="material-symbols-outlined text-sm">archive</span>
+    Archivar
+  </button>
+  <button id="notif-btn" class="text-on-surface-variant hover:text-on-surface transition-colors">
+    <span class="material-symbols-outlined">notifications</span>
+  </button>
+  <button id="help-btn" class="text-on-surface-variant hover:text-on-surface transition-colors">
+    <span class="material-symbols-outlined">help_outline</span>
+  </button>
+  <div id="profile-btn" class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden cursor-pointer relative">
+    <img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfZFqJIyt-4_hTGiXb565z3ib7lVRHQ_44sxvHKDu9KQ6amdHsi1UJMOy6KrierrvzcpEeRf8tvlBKYqHa0PR57k0utha-yxRMqi12PRpP9gygKRZKEr4YcY2ufW4-UkSY0sLDdx6jB5myWQa9Yi9UjY8YYHTYVIV0loP_DcEnxMr7IcTmnQ3f88FoDqRgwNBWw_JUQyPXTPyLcwOzHn19nJUs9aVpHYqm9n5z2YDt-gM0GMc987vczmGQJobnyfpiXojUX7XaiC72"/>
+  </div>
+</div>
+</header>
+
+<!-- Chat Conversation -->
+<div id="message-list" class="flex-1 overflow-y-auto chat-container p-lg space-y-xl bg-surface">
+  <!-- Messages render here dynamically -->
+</div>
+
+<!-- No-files guard (hidden by default) -->
+<div id="no-files-guard" class="hidden flex-1 flex flex-col bg-surface p-xl">
+  <div id="no-files-guard-content" class="flex-1 flex flex-col items-center justify-center">
+    <div class="text-outline mb-md">
+      <span class="material-symbols-outlined !text-[72px]">cloud_off</span>
+    </div>
+    <h2 class="font-headline-md text-headline-md text-on-surface mb-sm">No hay archivos cargados</h2>
+    <p class="text-on-surface-variant font-body-md text-body-md mb-lg text-center max-w-md">
+      Subí un archivo primero para poder chatear sobre tus datos.
+    </p>
+    <a href="/upload" class="bg-primary text-on-primary font-label-md px-lg py-sm rounded-xl hover:brightness-110 transition-all active:scale-95 flex items-center gap-2">
+      <span class="material-symbols-outlined text-sm">upload</span>
+      Ir a Subir Archivos
+    </a>
+  </div>
+</div>
+
+<!-- Archived sessions panel (always visible when there are archives) -->
+<div id="archived-sessions-panel" class="hidden w-full max-w-4xl mx-auto px-lg pb-lg">
+</div>
+
+<!-- Chat Input Area -->
+<div id="chat-input-area" class="p-lg bg-surface border-t border-outline-variant">
+  <div class="max-w-4xl mx-auto relative">
+    <div class="bg-surface-container-high border border-outline-variant rounded-2xl p-xs flex items-center focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+      <textarea id="chat-input" class="flex-1 bg-transparent border-none focus:ring-0 text-body-md text-on-surface py-md resize-none h-12 max-h-[150px] overflow-hidden placeholder:text-on-surface-variant" placeholder="Preguntale a Datara sobre tus datos..." rows="1" disabled></textarea>
+      <div class="flex items-center gap-sm px-md">
+        <button id="send-btn" class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center hover:brightness-110 transition-all shadow-lg active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed" disabled>
+          <span class="material-symbols-outlined">send</span>
+        </button>
+      </div>
+    </div>
+    <p id="input-hint" class="text-xs text-on-surface-variant mt-sm px-md">
+      Presioná Enter para enviar · Shift+Enter para nueva línea
+    </p>
+  </div>
+</div>
+
+<!-- Gradient overlay -->
+<div class="fixed top-0 right-0 w-1/3 h-full pointer-events-none opacity-20 bg-gradient-to-l from-primary/10 to-transparent"></div>
+</main>
+
+<script>
+/* ============================================
+   DATARA — Chat Screen
+   ============================================ */
+(function() {
+  'use strict';
+
+  const messageList = document.getElementById('message-list');
+  const noFilesGuard = document.getElementById('no-files-guard');
+  const chatInputArea = document.getElementById('chat-input-area');
+  const chatInput = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('send-btn');
+  const exportBtn = document.getElementById('export-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const inputHint = document.getElementById('input-hint');
+
+  let isLoading = false;
+  let isArchiving = false;
+
+  /* ── Download helper (fetch with session header, then blob) ── */
+  function downloadFromApi(path, filename) {
+    var sid = DataraAPI.getSessionId();
+    if (!sid) { DataraAPI.showToast('No hay sesión activa', 'warning'); return; }
+    fetch('/api' + path, { headers: { 'X-Session-Id': sid } })
+      .then(function(r) {
+        if (!r.ok) throw new Error(r.statusText);
+        return r.blob();
+      })
+      .then(function(blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = filename || 'download';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function() { URL.revokeObjectURL(url); }, 10000);
+      })
+      .catch(function(e) {
+        DataraAPI.showToast('Error al descargar: ' + e.message, 'error');
+      });
+  }
+
+  /* ── Helpers ──────────────────────────────── */
+  function escHtml(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function scrollToBottom() {
+    requestAnimationFrame(function() {
+      messageList.scrollTop = messageList.scrollHeight;
+    });
+  }
+
+  /* ── Enable/disable archive button based on messages ── */
+  function updateArchiveBtn() {
+    var btn = document.getElementById('archive-btn');
+    if (!btn) return;
+    /* If the empty-state placeholder exists, there are no real messages */
+    var emptyState = messageList.querySelector('.flex-col.items-center.justify-center.py-xl');
+    btn.disabled = !!emptyState;
+
+    /* Update button label based on whether we're tracking an active archive */
+    var activeId = sessionStorage.getItem('datara_active_archive_id');
+    if (activeId && !btn.disabled) {
+      btn.innerHTML = '<span class="material-symbols-outlined text-sm">update</span> Actualizar';
+    } else {
+      btn.innerHTML = '<span class="material-symbols-outlined text-sm">archive</span> Archivar';
+    }
+  }
+
+  /* ── Show no-files guard (disables everything) ── */
+  function showNoFilesGuard(title, message) {
+    messageList.classList.add('hidden');
+    noFilesGuard.classList.remove('hidden');
+    chatInputArea.classList.add('hidden');
+    chatInput.disabled = true;
+    sendBtn.disabled = true;
+    if (title) {
+      var h = noFilesGuard.querySelector('h2');
+      if (h) h.textContent = title;
+    }
+    if (message) {
+      var p = noFilesGuard.querySelector('p');
+      if (p) p.textContent = message;
+    }
+  }
+
+  /* ── Show chat enabled ────────────────────── */
+  function showChatEnabled() {
+    messageList.classList.remove('hidden');
+    noFilesGuard.classList.add('hidden');
+    chatInputArea.classList.remove('hidden');
+    chatInput.disabled = false;
+    sendBtn.disabled = false;
+  }
+
+  /* ── No-files guard ───────────────────────── */
+  function checkFiles(wasReset) {
+    return DataraAPI.getSessionState().then(function(state) {
+      /* Enable chat regardless of files — mock mode doesn't need them */
+      showChatEnabled();
+      /* Hide archived panel if visible */
+      var panel = document.getElementById('archived-sessions-panel');
+      if (panel) panel.classList.add('hidden');
+      /* Show a subtle banner if no files (informational, not blocking) */
+      if (state.file_count === 0) {
+        var banner = document.getElementById('no-files-banner');
+        if (!banner) {
+          banner = document.createElement('div');
+          banner.id = 'no-files-banner';
+          banner.className = 'flex items-center gap-2 px-lg py-sm bg-amber-500/10 border-b border-amber-500/30 text-xs text-amber-400';
+          banner.innerHTML =
+            '<span class="material-symbols-outlined text-sm">info</span>' +
+            'No hay archivos cargados — podés chatear en modo de prueba, pero para analizar datos reales subí un archivo en <a href="/upload" class="underline font-bold">Upload</a>.';
+          var header = document.querySelector('header');
+          if (header) header.after(banner);
+        }
+      }
+      checkSettings();
+      return true;
+    }).catch(function() {
+      showNoFilesGuard('Error de conexión', 'No se pudo conectar con el servidor. Asegurate de que el servidor esté corriendo.');
+      return false;
+    });
+  }
+
+  /* ── Render a single message ──────────────── */
+  function renderMessage(msg) {
+    const div = document.createElement('div');
+    div.className = 'message-enter';
+
+    if (msg.role === 'user') {
+      /* ── User message (right-aligned) ────────── */
+      div.innerHTML =
+        '<div class="flex flex-col items-end gap-xs max-w-2xl ml-auto">' +
+          '<div class="bg-primary px-lg py-md rounded-2xl rounded-tr-none text-on-primary font-body-md text-body-md shadow-lg">' +
+            escHtml(msg.content) +
+          '</div>' +
+        '</div>';
+    } else {
+      /* ── Assistant message (left-aligned) ────── */
+      const isError = msg.error;
+      let html =
+        '<div class="flex gap-md max-w-4xl">' +
+          '<div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center shrink-0">' +
+            '<span class="material-symbols-outlined text-on-secondary-container text-sm" style="font-variation-settings: \'FILL\' 1;">smart_toy</span>' +
+          '</div>' +
+          '<div class="flex flex-col gap-md flex-1">' +
+            '<div class="bg-surface-container-high px-lg py-md rounded-2xl rounded-tl-none border ' + (isError ? 'border-error/30' : 'border-outline-variant') + '">';
+
+      /* Content text */
+      if (msg.content) {
+        html += '<div class="font-body-md text-body-md text-on-surface mb-md whitespace-pre-wrap">' + escHtml(msg.content) + '</div>';
+
+        /* If it's an API key error, add a direct Settings link */
+        if (isError && msg.content.toLowerCase().indexOf('api key') !== -1) {
+          html += '<a href="/settings" class="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-dim transition-colors mb-md">' +
+                    '<span class="material-symbols-outlined text-sm">settings</span> Ir a Settings para configurar la API key' +
+                  '</a>';
+        }
+      }
+
+      /* Plotly chart */
+      if (msg.figure_html) {
+        html += '<div class="chart-container mb-md" data-mid="' + msg.message_id + '">' + msg.figure_html + '</div>';
+      }
+
+      /* Data table */
+      if (msg.dataframe_json) {
+        try {
+          const df = JSON.parse(msg.dataframe_json);
+          if (df && df.columns && df.data) {
+            html += '<div class="overflow-x-auto mb-md border border-outline-variant rounded-lg">';
+            html += '<table class="w-full text-left text-sm">';
+            html += '<thead><tr class="bg-surface-container">';
+            df.columns.forEach(function(col) {
+              html += '<th class="px-3 py-2 text-xs font-bold text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">' + escHtml(col) + '</th>';
+            });
+            html += '</tr></thead><tbody>';
+            df.data.forEach(function(row) {
+              html += '<tr class="border-b border-outline-variant/30 hover:bg-surface-container/50">';
+              df.columns.forEach(function(col, i) {
+                var val = row[i];
+                html += '<td class="px-3 py-1.5 text-xs text-on-surface truncate max-w-[200px]">' + escHtml(val === null || val === undefined ? '—' : String(val)) + '</td>';
+              });
+              html += '</tr>';
+            });
+            html += '</tbody></table>';
+            html += '<div class="px-3 py-1.5 bg-surface-container text-[10px] text-on-surface-variant border-t border-outline-variant">';
+            html += df.data.length + ' filas · ' + df.columns.length + ' columnas';
+            html += '</div></div>';
+          }
+        } catch(e) {
+          // silent — skip bad JSON
+        }
+      }
+
+      html += '</div>'; // close message bubble
+
+      /* Action buttons */
+      html += '<div class="flex gap-md">';
+      if (msg.content) {
+        html += '<button class="copy-btn flex items-center gap-xs px-sm py-1 rounded-full border border-outline-variant hover:bg-surface-variant transition-colors text-xs text-on-surface-variant" data-content="' + escHtml(msg.content) + '">' +
+                  '<span class="material-symbols-outlined text-sm">content_copy</span> Copiar</button>';
+      }
+      if (msg.figure_html) {
+        html += '<button class="chart-png-btn flex items-center gap-xs px-sm py-1 rounded-full border border-outline-variant hover:bg-surface-variant transition-colors text-xs text-on-surface-variant" data-mid="' + msg.message_id + '">' +
+                  '<span class="material-symbols-outlined text-sm">download</span> PNG</button>';
+      }
+      if (msg.dataframe_json) {
+        html += '<button class="data-csv-btn flex items-center gap-xs px-sm py-1 rounded-full border border-outline-variant hover:bg-surface-variant transition-colors text-xs text-on-surface-variant" data-mid="' + msg.message_id + '">' +
+                  '<span class="material-symbols-outlined text-sm">table_chart</span> CSV</button>';
+      }
+      html += '</div>';
+
+      html += '</div></div>'; // close flex + row
+      div.innerHTML = html;
+
+      /* ── Re-ejectuar scripts de Plotly (innerHTML no ejecuta <script>) ── */
+      div.querySelectorAll('.chart-container script').forEach(function(oldScript) {
+        var newScript = document.createElement('script');
+        /* Copiar atributos */
+        for (var i = 0; i < oldScript.attributes.length; i++) {
+          newScript.setAttribute(oldScript.attributes[i].name, oldScript.attributes[i].value);
+        }
+        newScript.textContent = oldScript.textContent;
+        oldScript.replaceWith(newScript);
+      });
+    }
+
+    messageList.appendChild(div);
+    return div;
+  }
+
+  /* ── Bind action buttons ──────────────────── */
+  function bindActions() {
+    /* Copy response */
+    messageList.querySelectorAll('.copy-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var text = btn.getAttribute('data-content');
+        navigator.clipboard.writeText(text).then(function() {
+          DataraAPI.showToast('Respuesta copiada', 'success');
+        }).catch(function() {
+          DataraAPI.showToast('Error al copiar', 'error');
+        });
+      });
+    });
+
+    /* Download chart PNG */
+    messageList.querySelectorAll('.chart-png-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var mid = btn.getAttribute('data-mid');
+        var container = btn.closest('.flex-1').querySelector('.chart-container');
+        if (container) {
+          var plotDiv = container.querySelector('.plotly-graph-div, .js-plotly-plot');
+          if (plotDiv && plotDiv._fullLayout) {
+            Plotly.downloadImage(plotDiv, { format: 'png', width: 1200, height: 800, scale: 2 });
+          }
+        }
+      });
+    });
+
+    /* Download data CSV via fetch + blob */
+    messageList.querySelectorAll('.data-csv-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var mid = btn.getAttribute('data-mid');
+        downloadFromApi('/export/' + mid + '/data', 'datara-export-' + mid + '.csv');
+        DataraAPI.showToast('Descargando CSV...', 'info');
+      });
+    });
+  }
+
+  /* ── Check settings (API key warning) ──────── */
+  function checkSettings() {
+    return DataraAPI.getSettings().then(function(settings) {
+      if (!settings.is_configured) {
+        var banner = document.createElement('div');
+        banner.className = 'message-enter';
+        banner.id = 'api-key-warning';
+        banner.innerHTML =
+          '<div class="flex items-start gap-3 p-md bg-amber-500/10 border border-amber-500/30 rounded-xl max-w-4xl">' +
+            '<span class="material-symbols-outlined text-amber-400">warning</span>' +
+            '<div class="flex-1">' +
+              '<p class="font-bold text-sm text-amber-400 mb-xs">API Key no configurada</p>' +
+              '<p class="text-xs text-on-surface-variant mb-sm">Necesitás una API key de Gemini para poder chatear con la IA. Configurala en Settings.</p>' +
+              '<a href="/settings" class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:text-amber-300 transition-colors">' +
+                '<span class="material-symbols-outlined text-sm">settings</span> Ir a Settings' +
+              '</a>' +
+            '</div>' +
+            '<button class="shrink-0 text-amber-400/50 hover:text-amber-400 transition-colors" onclick="this.parentElement.remove()">' +
+              '<span class="material-symbols-outlined text-sm">close</span>' +
+            '</button>' +
+          '</div>';
+        /* Show banner in the visible container — guard or message list */
+        var target = noFilesGuard.classList.contains('hidden') ? messageList : noFilesGuard;
+        target.prepend(banner);
+      }
+    }).catch(function() {
+      // silently ignore
+    });
+  }
+
+  /* ── Load chat history ────────────────────── */
+  function loadHistory() {
+    return DataraAPI.getChatHistory().then(function(messages) {
+      messageList.innerHTML = '';
+      if (!messages || messages.length === 0) {
+        messageList.innerHTML =
+          '<div class="flex flex-col items-center justify-center py-xl text-on-surface-variant message-enter">' +
+            '<span class="material-symbols-outlined !text-[48px] text-outline mb-md">chat</span>' +
+            '<p class="font-headline-md text-headline-md text-on-surface mb-xs">Sin conversación</p>' +
+            '<p class="text-sm text-on-surface-variant">Hacé una pregunta sobre tus datos para empezar</p>' +
+          '</div>';
+        return;
+      }
+      messages.forEach(function(msg) {
+        renderMessage(msg);
+      });
+      scrollToBottom();
+      requestAnimationFrame(function() { bindActions(); });
+      updateArchiveBtn();
+      if (window.DataraAPI && DataraAPI.loadMessageCount) DataraAPI.loadMessageCount();
+    }).catch(function(e) {
+      DataraAPI.showToast('Error al cargar historial: ' + e.message, 'error');
+    });
+  }
+
+  /* ── Debug panel ──────────────────────────── */
+  var debugPanel = document.createElement('div');
+  debugPanel.id = 'debug-panel';
+  debugPanel.style.cssText = 'position:fixed;bottom:0;right:0;z-index:9999;background:#1a1a2e;color:#0f0;padding:8px 12px;font-size:11px;font-family:monospace;max-width:400px;max-height:200px;overflow:auto;border-radius:8px 0 0 0;border-top:1px solid #333;border-left:1px solid #333;opacity:0.9;';
+  debugPanel.innerHTML = '<div style="font-weight:bold;margin-bottom:4px;color:#888;">🐛 DEBUG</div><div id="debug-log"></div>';
+  document.body.appendChild(debugPanel);
+  function debugLog(msg) {
+    var log = document.getElementById('debug-log');
+    if (!log) return;
+    var line = document.createElement('div');
+    line.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
+    log.appendChild(line);
+    debugPanel.scrollTop = debugPanel.scrollHeight;
+  }
+  debugLog('Chat screen loaded');
+
+  /* ── Send message ─────────────────────────── */
+  function sendMessage() {
+    var text = chatInput.value.trim();
+    debugLog('sendMessage() called, text="' + text + '", isLoading=' + isLoading);
+    if (!text || isLoading) return;
+
+    /* Ocultar panel de sesiones anteriores al empezar a chatear */
+    var archivedPanel = document.getElementById('archived-sessions-panel');
+    if (archivedPanel) archivedPanel.classList.add('hidden');
+
+    isLoading = true;
+    sendBtn.disabled = true;
+    chatInput.disabled = true;
+
+    /* Remove empty-state placeholder */
+    var emptyState = messageList.querySelector('.flex-col.items-center.justify-center.py-xl');
+    if (emptyState) emptyState.remove();
+
+    /* Render user message immediately */
+    renderMessage({ role: 'user', content: text });
+    scrollToBottom();
+    chatInput.value = '';
+    chatInput.style.height = 'auto';
+
+    /* Show typing indicator */
+    var typingDiv = document.createElement('div');
+    typingDiv.className = 'flex gap-md max-w-4xl message-enter';
+    typingDiv.id = 'typing-indicator';
+    typingDiv.innerHTML =
+      '<div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center shrink-0">' +
+        '<span class="material-symbols-outlined text-on-secondary-container text-sm" style="font-variation-settings: \'FILL\' 1;">smart_toy</span>' +
+      '</div>' +
+      '<div class="flex items-center gap-2 px-lg py-md bg-surface-container-high rounded-2xl rounded-tl-none border border-outline-variant">' +
+        '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>' +
+      '</div>';
+    messageList.appendChild(typingDiv);
+    scrollToBottom();
+
+    debugLog('Calling DataraAPI.sendMessage()...');
+    DataraAPI.sendMessage(text).then(function(response) {
+      debugLog('Response received: message_id=' + (response ? response.message_id : 'null'));
+      /* Remove typing indicator */
+      var typing = document.getElementById('typing-indicator');
+      if (typing) typing.remove();
+
+      if (response) {
+        renderMessage(response);
+        scrollToBottom();
+        requestAnimationFrame(function() { bindActions(); });
+      }
+      /* Update message count */
+      if (window.DataraAPI && DataraAPI.loadMessageCount) DataraAPI.loadMessageCount();
+    }).catch(function(e) {
+      debugLog('ERROR: ' + e.message);
+      var typing = document.getElementById('typing-indicator');
+      if (typing) typing.remove();
+
+      renderMessage({
+        role: 'assistant',
+        content: 'Error al procesar el mensaje: ' + e.message,
+        error: true
+      });
+      scrollToBottom();
+    }).finally(function() {
+      isLoading = false;
+      sendBtn.disabled = false;
+      chatInput.disabled = false;
+      chatInput.focus();
+      updateArchiveBtn();
+    });
+  }
+
+  /* ── Export conversation ──────────────────── */
+  function exportConversation() {
+    downloadFromApi('/export/session', 'datara-conversacion.txt');
+    DataraAPI.showToast('Descargando conversación...', 'info');
+  }
+
+  /* ── Clear conversation ───────────────────── */
+  function clearConversation() {
+    if (!confirm('¿Limpiar toda la conversación?')) return;
+    DataraAPI.clearChat().then(function() {
+      messageList.innerHTML =
+        '<div class="flex flex-col items-center justify-center py-xl text-on-surface-variant message-enter">' +
+          '<span class="material-symbols-outlined !text-[48px] text-outline mb-md">chat</span>' +
+          '<p class="font-headline-md text-headline-md text-on-surface mb-xs">Conversación limpiada</p>' +
+          '<p class="text-sm text-on-surface-variant">Hacé una pregunta sobre tus datos para empezar</p>' +
+        '</div>';
+      sessionStorage.removeItem('datara_active_archive_id');
+      updateArchiveBtn();
+      fetchArchivedSessions();
+      if (window.DataraAPI && DataraAPI.loadSidebarArchives) DataraAPI.loadSidebarArchives();
+      if (window.DataraAPI && DataraAPI.loadMessageCount) DataraAPI.loadMessageCount();
+      DataraAPI.showToast('Conversación limpiada', 'success');
+    }).catch(function(e) {
+      DataraAPI.showToast('Error al limpiar: ' + e.message, 'error');
+    });
+  }
+
+  /* ── Fetch & render archived sessions ────── */
+  window.fetchArchivedSessions = function fetchArchivedSessions() {
+    var panel = document.getElementById('archived-sessions-panel');
+    if (!panel) return;
+
+    DataraAPI.listArchivedSessions().then(function(archives) {
+      panel.innerHTML = '';
+      if (!archives || archives.length === 0) {
+        panel.classList.add('hidden');
+        return;
+      }
+
+      panel.classList.remove('hidden');
+
+      /* Divider */
+      var divider = document.createElement('div');
+      divider.className = 'w-full border-t border-outline-variant mb-lg';
+      panel.appendChild(divider);
+
+      /* Title */
+      var title = document.createElement('h3');
+      title.className = 'font-headline-md text-headline-md text-on-surface mb-sm text-center';
+      title.textContent = 'Sesiones anteriores';
+      panel.appendChild(title);
+
+      var desc = document.createElement('p');
+      desc.className = 'text-sm text-on-surface-variant mb-lg text-center';
+      desc.textContent = 'Estas sesiones fueron archivadas. Hacé clic en "Restaurar" para continuar.';
+      panel.appendChild(desc);
+
+      /* Archive cards */
+      archives.forEach(function(arch) {
+        var card = document.createElement('div');
+        card.className = 'w-full bg-surface-container-high border border-outline-variant rounded-xl p-4 mb-md';
+
+        var dateStr = '—';
+        if (arch.archived_at) {
+          dateStr = new Date(arch.archived_at * 1000).toLocaleString('es-ES');
+        }
+
+        var msgCount = arch.message_count || 0;
+        var datasetNames = '';
+        if (arch.datasets && arch.datasets.length > 0) {
+          datasetNames = arch.datasets.map(function(d) { return d.filename; }).join(', ');
+        }
+
+        card.innerHTML =
+          '<div class="flex items-start justify-between mb-2">' +
+            '<div>' +
+              '<h4 class="text-sm font-bold text-on-surface">' + escHtml(arch.name || 'Sesión') + '</h4>' +
+              '<p class="text-xs text-on-surface-variant mt-0.5">' + escHtml(dateStr) + '</p>' +
+            '</div>' +
+          '</div>' +
+          '<div class="flex gap-3 mb-3 text-xs text-on-surface-variant">' +
+            '<span>' + msgCount + ' mensajes</span>' +
+          '</div>' +
+          (datasetNames ? '<div class="text-xs text-on-surface-variant mb-3 truncate">' + escHtml(datasetNames) + '</div>' : '') +
+          '<div class="flex gap-2">' +
+            '<button class="archive-detail-btn flex-1 px-3 py-1.5 rounded-lg border border-outline-variant text-xs text-on-surface hover:bg-surface-variant transition-colors" data-id="' + arch.archive_id + '">Ver detalle</button>' +
+            '<button class="archive-restore-btn flex-1 px-3 py-1.5 rounded-lg bg-primary text-on-primary text-xs hover:brightness-110 transition-colors" data-id="' + arch.archive_id + '">Restaurar</button>' +
+            '<button class="archive-delete-btn w-9 h-9 rounded-lg border border-outline-variant text-xs text-on-surface-variant hover:text-error hover:border-error/30 transition-colors flex items-center justify-center shrink-0" title="Eliminar sesión" data-id="' + arch.archive_id + '">' +
+              '<span class="material-symbols-outlined text-sm">delete</span>' +
+            '</button>' +
+          '</div>';
+
+        panel.appendChild(card);
+      });
+
+      /* Bind detail buttons */
+      panel.querySelectorAll('.archive-detail-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          showArchiveDetail(btn.getAttribute('data-id'));
+        });
+      });
+
+      /* Bind restore buttons */
+      panel.querySelectorAll('.archive-restore-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          restoreArchive(btn.getAttribute('data-id'));
+        });
+      });
+
+      /* Bind delete buttons */
+      panel.querySelectorAll('.archive-delete-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var id = this.getAttribute('data-id');
+          if (confirm('¿Eliminar esta sesión archivada?\nNo se puede deshacer.')) {
+            DataraAPI.deleteArchivedSession(id).then(function() {
+              /* Si el archivo borrado es el que tenemos activo, limpiar el flag */
+              var activeId = sessionStorage.getItem('datara_active_archive_id');
+              if (activeId === id) {
+                sessionStorage.removeItem('datara_active_archive_id');
+                DataraAPI.showToast('Archivo borrado. La sesión actual sigue activa pero ya no está vinculada.', 'warning', 5000);
+                /* Actualizar el label del botón archivar */
+                var archiveBtn = document.getElementById('archive-btn');
+                if (archiveBtn) archiveBtn.innerHTML = '<span class="material-symbols-outlined text-sm">archive</span> Archivar';
+              } else {
+                DataraAPI.showToast('Sesión eliminada', 'success');
+              }
+              fetchArchivedSessions();
+              if (window.DataraAPI && DataraAPI.loadSidebarArchives) DataraAPI.loadSidebarArchives();
+            }).catch(function(e) {
+              DataraAPI.showToast('Error: ' + (e.message || 'desconocido'), 'error');
+            });
+          }
+        });
+      });
+    }).catch(function() {
+      // silently ignore
+    });
+  }
+
+  /* ── Show archive detail modal ───────────── */
+  function showArchiveDetail(archiveId) {
+    DataraAPI.getArchivedSession(archiveId).then(function(detail) {
+      var overlay = document.getElementById('archive-detail-overlay');
+      var modal = document.getElementById('archive-detail-modal');
+      if (!overlay || !modal) return;
+
+      var dateStr = '—';
+      if (detail.archived_at) {
+        dateStr = new Date(detail.archived_at * 1000).toLocaleString('es-ES');
+      }
+
+      var html =
+        '<div class="flex items-center justify-between p-6 border-b border-outline-variant">' +
+          '<div>' +
+            '<h2 class="font-headline-md text-headline-md text-on-surface">' + escHtml(detail.name || 'Sesión') + '</h2>' +
+            '<p class="text-xs text-on-surface-variant mt-1">' + escHtml(dateStr) + '</p>' +
+          '</div>' +
+          '<button id="archive-detail-close" class="text-on-surface-variant hover:text-on-surface transition-colors p-1">' +
+            '<span class="material-symbols-outlined">close</span>' +
+          '</button>' +
+        '</div>' +
+        '<div class="flex-1 overflow-y-auto p-6 space-y-6">';
+
+      /* Datasets section */
+      if (detail.datasets && detail.datasets.length > 0) {
+        html += '<section>' +
+          '<h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">Datasets (' + detail.datasets.length + ')</h3>';
+        detail.datasets.forEach(function(ds) {
+          html += '<div class="flex items-center justify-between p-3 bg-surface-container-highest rounded-lg mb-2">' +
+            '<div>' +
+              '<p class="text-sm text-on-surface font-medium">' + escHtml(ds.filename) + '</p>' +
+              '<p class="text-xs text-on-surface-variant mt-0.5">' + ds.columns + ' columnas · ' + ds.rows + ' filas</p>' +
+            '</div>' +
+            (ds.needed ? '<span class="text-xs text-amber-400 font-medium">Necesario</span>' : '') +
+          '</div>';
+        });
+        html += '</section>';
+      }
+
+      /* Messages preview */
+      if (detail.messages && detail.messages.length > 0) {
+        html += '<section>' +
+          '<h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">Mensajes recientes (' + detail.messages.length + ')</h3>';
+        var previewMsgs = detail.messages.slice(-5);
+        previewMsgs.forEach(function(msg) {
+          var role = msg.role === 'user' ? 'Tú' : 'Datara';
+          html += '<div class="p-3 bg-surface-container-highest rounded-lg mb-2">' +
+            '<p class="text-xs font-bold text-primary mb-1">' + role + '</p>' +
+            '<p class="text-xs text-on-surface">' + escHtml((msg.content || '').substring(0, 200)) + '</p>' +
+          '</div>';
+        });
+        html += '</section>';
+      }
+
+      html += '</div>' + // close body
+        '<div class="flex items-center justify-end gap-3 p-4 border-t border-outline-variant">' +
+          '<button id="archive-detail-cancel" class="px-4 py-2 rounded-lg border border-outline-variant text-xs text-on-surface hover:bg-surface-variant transition-colors">Cerrar</button>' +
+          '<button id="archive-detail-restore" class="px-4 py-2 rounded-lg bg-primary text-on-primary text-xs hover:brightness-110 transition-colors" data-id="' + archiveId + '">Restaurar</button>' +
+        '</div>';
+
+      modal.innerHTML = html;
+
+      /* Show modal */
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      overlay.classList.remove('hidden');
+      requestAnimationFrame(function() {
+        overlay.classList.remove('opacity-0');
+        overlay.classList.add('opacity-100');
+      });
+
+      /* Bind close buttons */
+      var closeBtn = modal.querySelector('#archive-detail-close');
+      var cancelBtn = modal.querySelector('#archive-detail-cancel');
+      var restoreBtn = modal.querySelector('#archive-detail-restore');
+
+      function closeDetail() {
+        overlay.classList.remove('opacity-100');
+        overlay.classList.add('opacity-0');
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+        setTimeout(function() { overlay.classList.add('hidden'); }, 300);
+      }
+
+      if (closeBtn) closeBtn.addEventListener('click', closeDetail);
+      if (cancelBtn) cancelBtn.addEventListener('click', closeDetail);
+      overlay.addEventListener('click', closeDetail);
+      if (restoreBtn) {
+        restoreBtn.addEventListener('click', function() {
+          closeDetail();
+          restoreArchive(restoreBtn.getAttribute('data-id'));
+        });
+      }
+    }).catch(function(e) {
+      /* Si el archivo fue eliminado mientras el modal estaba abierto, cerrar y refrescar */
+      var overlay = document.getElementById('archive-detail-overlay');
+      var modal = document.getElementById('archive-detail-modal');
+      if (overlay) { overlay.classList.add('hidden'); overlay.classList.remove('opacity-100', 'flex'); }
+      if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+      DataraAPI.showToast('La sesión ya no existe. Lista actualizada.', 'warning');
+      fetchArchivedSessions();
+      if (window.DataraAPI && DataraAPI.loadSidebarArchives) DataraAPI.loadSidebarArchives();
+    });
+  }
+
+  /* ── Restore archived session ────────────── */
+  function restoreArchive(archiveId) {
+    if (isArchiving) return;
+    isArchiving = true;
+
+    DataraAPI.restoreArchivedSession(archiveId).then(function(response) {
+      /* Update session ID in sessionStorage */
+      if (response && response.new_session_id) {
+        sessionStorage.setItem('datara_session_id', response.new_session_id);
+      }
+      /* Track which archive this session came from */
+      sessionStorage.setItem('datara_active_archive_id', archiveId);
+
+      var archiveName = response ? (response.archive_name || 'Sesión') : 'Sesión';
+
+      /* Build dataset names string for banner */
+      var datasetStr = '';
+      if (response && response.datasets && response.datasets.length > 0) {
+        datasetStr = response.datasets.map(function(d) { return d.filename; }).join(', ');
+      }
+
+      /* Switch to chat view (hide no-files guard) */
+      showChatEnabled();
+
+      /* Enable archive button since we now have content */
+      var archiveBtn = document.getElementById('archive-btn');
+      if (archiveBtn) archiveBtn.disabled = false;
+
+      /* Show success banner */
+      var bannerMsg = "Sesión '" + archiveName + "' restaurada.";
+      var anyNeeded = response && response.datasets && response.datasets.some(function(d) { return d.needed; });
+      if (datasetStr) {
+        if (anyNeeded) {
+          bannerMsg += " Esta sesión usaba: " + datasetStr + ". Subí los archivos para continuar.";
+        } else {
+          bannerMsg += " Todos los archivos se restauraron automáticamente.";
+        }
+      }
+      DataraAPI.showToast(bannerMsg, 'success', 6000);
+
+      /* Load messages into chat */
+      if (response && response.messages && response.messages.length > 0) {
+        messageList.innerHTML = '';
+        response.messages.forEach(function(msg) {
+          renderMessage(msg);
+        });
+        scrollToBottom();
+        requestAnimationFrame(function() { bindActions(); });
+      }
+      updateArchiveBtn();
+
+      /* Show link to upload if datasets needed */
+      if (response && response.datasets && response.datasets.some(function(d) { return d.needed; })) {
+        var uploadLink = document.createElement('div');
+        uploadLink.className = 'flex items-center justify-center gap-2 py-md message-enter';
+        uploadLink.innerHTML =
+          '<a href="/upload" class="inline-flex items-center gap-2 bg-primary text-on-primary font-label-md px-lg py-sm rounded-xl hover:brightness-110 transition-all active:scale-95">' +
+            '<span class="material-symbols-outlined text-sm">upload</span>' +
+            'Ir a Subir Archivos' +
+          '</a>';
+        messageList.appendChild(uploadLink);
+      }
+
+      /* Update message count */
+      if (window.DataraAPI && DataraAPI.loadMessageCount) DataraAPI.loadMessageCount();
+      /* Refresh active files in sidebar */
+      if (window.DataraAPI && DataraAPI.loadActiveFiles) DataraAPI.loadActiveFiles();
+      /* Hide panel — ahora estás en una sesión activa */
+      var panel = document.getElementById('archived-sessions-panel');
+      if (panel) panel.classList.add('hidden');
+      /* Refresh sidebar archives if available */
+      if (window.DataraAPI && DataraAPI.loadSidebarArchives) DataraAPI.loadSidebarArchives();
+
+    }).catch(function(e) {
+      /* Si el archivo fue eliminado mientras tanto, refrescar la lista */
+      if (e.message && (e.message.indexOf('ARCHIVE_NOT_FOUND') >= 0 || e.message.indexOf('404') >= 0)) {
+        DataraAPI.showToast('La sesión ya no existe. Lista actualizada.', 'warning');
+        fetchArchivedSessions();
+        if (window.DataraAPI && DataraAPI.loadSidebarArchives) DataraAPI.loadSidebarArchives();
+      } else {
+        DataraAPI.showToast('Error al restaurar: ' + e.message, 'error');
+      }
+    }).finally(function() {
+      isArchiving = false;
+    });
+  }
+
+  /* ── Input helpers ────────────────────────── */
+  function onInput() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+    if (this.scrollHeight > 150) {
+      this.style.overflowY = 'scroll';
+    } else {
+      this.style.overflowY = 'hidden';
+    }
+  }
+
+  /* ── Init ──────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function() {
+    /* Detect if there was a previous session (lost on server restart) */
+    var hadPreviousSession = !!DataraAPI.getSessionId();
+
+    DataraAPI.initSession().then(async function(sid) {
+      if (!sid) {
+        showNoFilesGuard('Error de sesión', 'Error al iniciar sesión. Recargá la página o intentá de nuevo.');
+        return;
+      }
+      await DataraAPI.loadActiveFiles();
+      /* Cargar contador de mensajes después de que la sesión existe */
+      if (DataraAPI.loadMessageCount) DataraAPI.loadMessageCount();
+      return checkFiles(hadPreviousSession);
+    }).then(function(hasFiles) {
+      if (hasFiles) {
+        checkSettings();
+        return loadHistory();
+      }
+    }).then(function() {
+      /* Show archived sessions panel ONLY when no conversation is active */
+      var hasConversation = messageList.children.length > 0 &&
+        !messageList.querySelector('.flex-col.items-center.justify-center.py-xl');
+      if (!hasConversation) {
+        fetchArchivedSessions();
+      }
+    }).catch(function(e) {
+      var msg = e ? (e.message || e.toString()) : 'Error desconocido';
+      showNoFilesGuard('Error: ' + (e ? e.name : 'Error'), 'Ocurrió: ' + msg + '. Recargá la página.');
+      if (window.DataraAPI) DataraAPI.showToast('Error: ' + msg, 'error');
+      console.error('Chat init error:', e);
+    });
+
+    /* Auto-resize textarea */
+    chatInput.addEventListener('input', onInput);
+
+    /* Send on Enter (without Shift) */
+    chatInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    /* Send button click */
+    sendBtn.addEventListener('click', sendMessage);
+
+    /* Export conversation */
+    exportBtn.addEventListener('click', exportConversation);
+
+    /* Clear conversation */
+    clearBtn.addEventListener('click', clearConversation);
+
+    /* Archive session */
+    var archiveBtn = document.getElementById('archive-btn');
+    if (archiveBtn) {
+      archiveBtn.addEventListener('click', function() {
+        if (isArchiving) return;
+        var activeArchiveId = sessionStorage.getItem('datara_active_archive_id');
+        var label = activeArchiveId ? 'actualizar' : 'archivar';
+        if (!confirm('¿' + (activeArchiveId ? 'Actualizar' : 'Archivar') + ' esta sesión? ' + (activeArchiveId ? 'Se reemplazará el contenido de la sesión archivada.' : 'Se guardará como una sesión anterior y podrás restaurarla después.'))) return;
+        isArchiving = true;
+        archiveBtn.disabled = true;
+        DataraAPI.archiveCurrentSession(activeArchiveId || undefined).then(function(response) {
+          /* Track this archive so next click updates it instead of creating another */
+          if (response && response.archive_id) {
+            sessionStorage.setItem('datara_active_archive_id', response.archive_id);
+          }
+          DataraAPI.showToast('Sesión ' + (activeArchiveId ? 'actualizada' : 'archivada') + ' correctamente', 'success');
+          /* Reset session AFTER archiving — así al ir a /chat arrancás fresco */
+          return DataraAPI.resetSession();
+        }).then(function() {
+          window.location.href = '/chat';
+        }).catch(function(e) {
+          DataraAPI.showToast('Error al archivar: ' + e.message, 'error');
+        }).finally(function() {
+          isArchiving = false;
+        });
+      });
+    }
+
+  });
+
+})();
+
+/* Sidebar loaded via inline script at bottom of page */
+</script>
+
+<!-- Notification Panel -->
+<div id="notif-overlay" class="fixed inset-0 bg-black/50 z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="notif-panel" class="fixed top-0 right-0 h-full w-96 bg-surface border-l border-outline-variant z-[70] translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col">
+  <div class="flex items-center justify-between p-6 border-b border-outline-variant shrink-0">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary">notifications</span>
+      <h2 class="font-headline-md text-headline-md text-on-surface">notifications</h2>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="mark-read-btn" class="text-xs text-primary hover:text-primary-dim font-medium transition-colors">Marcar todo como leído</button>
+      <button id="notif-close" class="text-on-surface-variant hover:text-on-surface transition-colors p-1">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  </div>
+  <div class="flex-1 overflow-y-auto divide-y divide-outline-variant/30">
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Pipeline completado</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Análisis de ventas Q3 terminado</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 2 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Nuevo dataset disponible</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">user_export_2024.xlsx listo para análisis</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 15 min</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer opacity-60">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-transparent mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Actualización del sistema instalada</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Datara Engine actualizado a v2.4.0</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 2 horas</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 hover:bg-surface-container-highest transition-colors cursor-pointer opacity-60">
+      <div class="flex items-start gap-3">
+        <span class="w-2 h-2 rounded-full bg-transparent mt-2 shrink-0"></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-on-surface font-medium">Reporte semanal generado</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Resumen analítico semanal listo</p>
+          <span class="text-[10px] text-on-surface-variant/50 mt-1.5 block">hace 1 día</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-4 border-t border-outline-variant shrink-0 text-center">
+    <button class="text-xs text-primary hover:text-primary-dim font-medium transition-colors">Ver todas las notificaciones</button>
+  </div>
+</div>
+<!-- Help Modal -->
+<div id="help-overlay" class="fixed inset-0 bg-black/50 z-[80] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="help-modal" class="fixed inset-0 z-[90] hidden items-center justify-center p-4">
+  <div class="bg-surface border border-outline-variant rounded-xl shadow-2xl w-full max-w-lg max-h-[80vh] overflow-y-auto">
+    <div class="flex items-center justify-between p-6 border-b border-outline-variant">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary">help_outline</span>
+        <h2 class="font-headline-md text-headline-md text-on-surface">Ayuda y Atajos</h2>
+      </div>
+      <button id="help-close" class="text-on-surface-variant hover:text-on-surface transition-colors p-1">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="p-6 space-y-6">
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">Atajos de Teclado</h3>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Subir archivos</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">U</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Abrir chat</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">K</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Ir al Dashboard</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">D</kbd></span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-sm text-on-surface">Buscar datasets</span>
+            <span class="flex items-center gap-1"><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">Ctrl</kbd><span class="text-on-surface-variant text-xs">+</span><kbd class="px-2 py-0.5 bg-surface-container-highest border border-outline-variant rounded text-xs font-mono text-on-surface-variant">F</kbd></span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">Guía Rápida</h3>
+        <div class="space-y-3">
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">upload</span>
+            <div><p class="text-sm text-on-surface font-medium">Subir datasets</p><p class="text-xs text-on-surface-variant mt-0.5">Archivos CSV, Excel, JSON o TSV hasta 256MB</p></div>
+          </div>
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">chat</span>
+            <div><p class="text-sm text-on-surface font-medium">Chatea con tus datos</p><p class="text-xs text-on-surface-variant mt-0.5">Haz preguntas en lenguaje natural, obtén respuestas al instante</p></div>
+          </div>
+          <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg">
+            <span class="material-symbols-outlined text-primary text-sm">dashboard</span>
+            <div><p class="text-sm text-on-surface font-medium">Visualiza resultados</p><p class="text-xs text-on-surface-variant mt-0.5">Gráficos interactivos, tablas y reportes exportables</p></div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-3">¿Necesitas ayuda?</h3>
+        <div class="flex gap-3 p-3 bg-surface-container-highest rounded-lg items-center">
+          <span class="material-symbols-outlined text-primary">mail</span>
+          <div><p class="text-sm text-on-surface font-medium">Contactar soporte</p><p class="text-xs text-on-surface-variant">support@datara.io &middot; Respuesta en menos de 2 horas</p></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<script>
+  (function(){
+    var helpBtn = document.getElementById('help-btn');
+    var helpModal = document.getElementById('help-modal');
+    var helpOverlay = document.getElementById('help-overlay');
+    var helpClose = document.getElementById('help-close');
+    if (!helpBtn || !helpModal || !helpOverlay) return;
+    function openH(){ helpModal.classList.remove('hidden'); helpModal.classList.add('flex'); helpOverlay.classList.remove('hidden'); requestAnimationFrame(function(){ helpOverlay.classList.remove('opacity-0'); helpOverlay.classList.add('opacity-100'); }); }
+    function closeH(){ helpOverlay.classList.remove('opacity-100'); helpOverlay.classList.add('opacity-0'); helpModal.classList.remove('flex'); helpModal.classList.add('hidden'); setTimeout(function(){ helpOverlay.classList.add('hidden'); },300); }
+    helpBtn.addEventListener('click', openH);
+    if (helpClose) helpClose.addEventListener('click', closeH);
+    helpOverlay.addEventListener('click', closeH);
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { closeH(); } });
+  })();
+</script>
+<!-- Archive Detail Modal -->
+<div id="archive-detail-overlay" class="fixed inset-0 bg-black/50 z-[80] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="archive-detail-modal" class="fixed inset-0 z-[90] hidden items-center justify-center p-4">
+  <div class="bg-surface border border-outline-variant rounded-xl shadow-2xl w-full max-w-lg max-h-[80vh] overflow-y-auto flex flex-col">
+    <!-- Populated dynamically by showArchiveDetail() -->
+  </div>
+</div>
+
+<!-- Profile Dropdown -->
+<div id="profile-dropdown" class="fixed right-6 top-16 z-[100] hidden w-56 bg-surface border border-outline-variant rounded-xl shadow-2xl overflow-hidden">
+  <div class="p-4 border-b border-outline-variant">
+    <p class="text-sm text-on-surface font-medium">Alex Rivera</p>
+    <p class="text-xs text-on-surface-variant">alex@datara.io</p>
+  </div>
+  <div class="p-2">
+    <a href="/settings" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant text-sm">settings</span> Configuración
+    </a>
+    <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-on-surface hover:bg-surface-container-highest transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant text-sm">logout</span> Cerrar sesión
+    </button>
+  </div>
+</div>
+<script>
+  (function(){
+    var pBtn=document.getElementById('profile-btn'),pDd=document.getElementById('profile-dropdown');
+    if(!pBtn||!pDd)return;
+    pBtn.addEventListener('click',function(e){e.stopPropagation();pDd.classList.toggle('hidden');});
+    document.addEventListener('click',function(e){if(!pDd.classList.contains('hidden')&&!pBtn.contains(e.target))pDd.classList.add('hidden');});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')pDd.classList.add('hidden');});
+  })();
+</script>
+<script>
+  (function(){
+    var btn = document.getElementById('notif-btn');
+    var panel = document.getElementById('notif-panel');
+    var overlay = document.getElementById('notif-overlay');
+    var closeBtn = document.getElementById('notif-close');
+    var markBtn = document.getElementById('mark-read-btn');
+    if (!btn || !panel || !overlay) return;
+    function openN(){ overlay.classList.remove('hidden'); requestAnimationFrame(function(){ overlay.classList.remove('opacity-0'); overlay.classList.add('opacity-100'); panel.classList.remove('translate-x-full'); }); }
+    function closeN(){ overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0'); panel.classList.add('translate-x-full'); setTimeout(function(){ overlay.classList.add('hidden'); },300); }
+    btn.addEventListener('click', openN);
+    if (closeBtn) closeBtn.addEventListener('click', closeN);
+    overlay.addEventListener('click', closeN);
+    if (markBtn) markBtn.addEventListener('click', function(){
+      var items = panel.querySelectorAll('.divide-y > div');
+      for (var i=0;i<items.length;i++){
+        var dot = items[i].querySelector('.rounded-full');
+        if (dot && !dot.classList.contains('bg-transparent')){ dot.classList.remove('bg-primary'); dot.classList.add('bg-transparent'); items[i].classList.add('opacity-60'); }
+      }
+      markBtn.textContent = 'Todo leído \u2713';
+      markBtn.classList.add('text-green-400');
+      setTimeout(function(){ markBtn.textContent = 'Marcar todo como leído'; markBtn.classList.remove('text-green-400'); },2000);
+    });
+  })();
+</script>
+<script src="/static/api.js?v=3"></script>
+<script>
+(function(){
+  var t = Date.now();
+  fetch('/static/screens/sidebar.inc.html?t=' + t).then(function(r){return r.text()}).then(function(h){
+    var c = document.getElementById('sidebar-container');
+    if (!c) return;
+    c.innerHTML = h;
+    /* Nav highlight */
+    var p = window.location.pathname;
+    var a = c.querySelectorAll('nav a');
+    for (var i = 0; i < a.length; i++) {
+      if (a[i].getAttribute('href') === p) {
+        a[i].className = 'bg-secondary-container text-on-secondary-container font-bold rounded-lg px-4 py-2.5 flex items-center gap-3 transition-all duration-200 active:scale-95 active-nav-border group';
+      }
+    }
+    /* Active files + archives + message count */
+    if (window.DataraAPI) { DataraAPI.loadActiveFiles(); DataraAPI.loadSidebarArchives(); DataraAPI.loadMessageCount(); }
+  }).catch(function(err) {
+    console.error('Error al cargar sidebar.inc.html:', err);
+    /* Reintentar una vez después de 2s */
+    var retry = Date.now();
+    fetch('/static/screens/sidebar.inc.html?t=' + retry).then(function(r){return r.text()}).then(function(h2){
+      var c2 = document.getElementById('sidebar-container');
+      if (!c2) return;
+      c2.innerHTML = h2;
+      if (window.DataraAPI) { DataraAPI.loadActiveFiles(); DataraAPI.loadSidebarArchives(); DataraAPI.loadMessageCount(); }
+    }).catch(function(err2) {
+      console.error('Sidebar.inc falló en reintento también:', err2);
+    });
+  });
+})();
+</script>
+</body></html>

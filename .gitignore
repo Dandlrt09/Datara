@@ -35,6 +35,25 @@ Logo_Datara/
 # Streamlit logs
 streamlit_*.txt
 
+# Node
+node_modules/
+
+# App data
+uploads/
+archives/
+
+# Logs
+fastapi_*.log
+
+# Backups
+*.backup
+
+# Dev screenshots & test images
+Prueba Graficos/
+frontend/screenshots/
+frontend/screens-backup/
+upload_actual.png
+
 # Testing
 .pytest_cache/
 htmlcov/
