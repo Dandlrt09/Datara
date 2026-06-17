@@ -199,7 +199,7 @@
 </div>
 </header>
 <!-- Main Content Area -->
-<main class="ml-72 pt-16 min-h-screen p-lg">
+<main class="ml-72 pt-20 min-h-screen p-lg">
 <!-- Header Section -->
 <section class="mb-lg">
 <h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard</h2>
@@ -207,23 +207,29 @@
 </section>
 
 <!-- Empty State (visible por defecto hasta que haya items) -->
-<div id="empty-state" class="flex flex-col items-center justify-center py-24 text-center">
+<div id="empty-state" class="flex flex-col items-center justify-center py-16 text-center">
 <span class="material-symbols-outlined text-[64px] text-outline mb-4">dashboard_customize</span>
 <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Sin elementos aún</h3>
 <p class="text-on-surface-variant font-body-md text-body-md max-w-md">
 Los gráficos y KPIs que generes desde el Chat aparecerán acá.
-Podés agregarlos manualmente desde cada resultado.
+También los podés crear manualmente si subís archivos primero.
 </p>
 </div>
 
-<!-- KPI Row -->
-<div id="kpi-row" class="hidden"></div>
-
-<!-- Chart Grid -->
-<div id="chart-grid" class="hidden"></div>
+<!-- No-files state (visible cuando no hay datasets cargados) -->
+<div id="no-files-state" class="hidden flex flex-col items-center justify-center py-16 text-center">
+<span class="material-symbols-outlined text-[64px] text-outline mb-4">upload_file</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Subí datos para empezar</h3>
+<p class="text-on-surface-variant font-body-md text-body-md max-w-md mb-md">
+No hay archivos cargados en esta sesión. Necesitás al menos un dataset para crear gráficos.
+</p>
+<a href="/upload" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:brightness-110 transition-colors">
+  <span class="material-symbols-outlined text-sm">upload</span> Ir a Upload
+</a>
+</div>
 
 <!-- Chart Builder (visible solo cuando hay datasets cargados) -->
-<section id="chart-builder" class="hidden mt-xl border-t border-outline-variant pt-lg">
+<section id="chart-builder" class="hidden mb-lg border border-outline-variant rounded-xl p-lg bg-surface-container-low">
   <div class="flex items-center gap-3 mb-md">
     <span class="material-symbols-outlined text-primary">bar_chart</span>
     <h3 class="font-headline-md text-headline-md text-on-surface">Constructor de Gráficos</h3>
@@ -297,6 +303,12 @@ Podés agregarlos manualmente desde cada resultado.
     <div id="cb-preview-container" class="dashboard-chart-container" style="min-height:280px;"></div>
   </div>
 </section>
+
+<!-- KPI Row -->
+<div id="kpi-row" class="hidden"></div>
+
+<!-- Chart Grid -->
+<div id="chart-grid" class="hidden"></div>
 </main>
 <!-- Notification Panel -->
 <div id="notif-overlay" class="fixed inset-0 bg-black/50 z-[60] hidden opacity-0 transition-opacity duration-300"></div>
@@ -502,7 +514,7 @@ Podés agregarlos manualmente desde cada resultado.
     });
   })();
 </script>
-<script src="/static/api.js?v=3"></script>
+<script src="/static/api.js?v=4"></script>
 
 <!-- Dashboard: lógica dinámica -->
 <script>
@@ -531,6 +543,7 @@ Podés agregarlos manualmente desde cada resultado.
   /* ── Cargar dashboard desde la API ────────── */
   async function loadDashboard() {
     var empty = document.getElementById('empty-state');
+    var noFiles = document.getElementById('no-files-state');
     var kpiRow = document.getElementById('kpi-row');
     var chartGrid = document.getElementById('chart-grid');
 
@@ -539,10 +552,16 @@ Podés agregarlos manualmente desde cada resultado.
       dashboardItems = data.items || [];
 
       if (dashboardItems.length === 0) {
-        return;  /* empty state ya visible por defecto */
+        /* Ocultar KPIs/charts viejos */
+        if (kpiRow) kpiRow.classList.add('hidden');
+        if (chartGrid) chartGrid.classList.add('hidden');
+        /* No tocar empty/no-files — initChartBuilder ya los maneja */
+        return;
       }
 
-      empty.classList.add('hidden');
+      /* Hay items → ocultar estados vacíos */
+      if (empty) empty.classList.add('hidden');
+      if (noFiles) noFiles.classList.add('hidden');
 
       /* Separar KPIs de charts */
       var kpis = dashboardItems.filter(function(it) { return it.chart_type === 'kpi' || it.kpi_value; });
@@ -551,8 +570,10 @@ Podés agregarlos manualmente desde cada resultado.
       renderKPIs(kpis, kpiRow);
       renderCharts(charts, chartGrid);
     } catch(e) {
-      empty.querySelector('h3').textContent = 'Error al cargar';
-      empty.querySelector('p').textContent = e.message || 'Intentalo de nuevo.';
+      if (empty) {
+        empty.querySelector('h3').textContent = 'Error al cargar';
+        empty.querySelector('p').textContent = e.message || 'Intentalo de nuevo.';
+      }
     }
   }
 
@@ -804,6 +825,8 @@ Podés agregarlos manualmente desde cada resultado.
   /* ── Init chart builder ─────────────────── */
   function initChartBuilder() {
     var builder = document.getElementById('chart-builder');
+    var noFiles = document.getElementById('no-files-state');
+    var empty = document.getElementById('empty-state');
     if (!builder) return;
 
     /* Fetch files */
@@ -822,12 +845,22 @@ Podés agregarlos manualmente desde cada resultado.
       });
 
       if (_cbFiles.length > 0) {
+        /* Hay archivos → muestro builder, oculto no-files */
         builder.classList.remove('hidden');
+        if (noFiles) noFiles.classList.add('hidden');
         sel.value = _cbFiles[0].filename || _cbFiles[0].display_name;
         onFileChange();
+      } else {
+        /* No hay archivos → muestro no-files, oculto builder y empty */
+        builder.classList.add('hidden');
+        if (noFiles) noFiles.classList.remove('hidden');
+        if (empty) empty.classList.add('hidden');
       }
     }).catch(function() {
-      /* no files → builder stays hidden */
+      /* error → no-files state */
+      if (noFiles) noFiles.classList.remove('hidden');
+      if (empty) empty.classList.add('hidden');
+      builder.classList.add('hidden');
     });
   }
 
