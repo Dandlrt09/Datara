@@ -1022,6 +1022,24 @@ No hay archivos cargados en esta sesión. Necesitás al menos un dataset para cr
     previewBtn.disabled = false;
   }
 
+  /* ── Generar ID único para charts ────────── */
+  function _uniqueChartId() {
+    return 'chart-dash-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6);
+  }
+
+  /* ── Rewrite figure_html con div_id único ── */
+  function _rewriteChartId(html) {
+    if (!html) return html;
+    /* Extraer el div_id actual del primer <div con id= */
+    var m = html.match(/<div[^>]*\sid=["']([^"']+)["']/);
+    if (!m) return html;
+    var oldId = m[1];
+    var newId = _uniqueChartId();
+    /* Reemplazar TODAS las ocurrencias del viejo ID */
+    var re = new RegExp(oldId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    return html.replace(re, newId);
+  }
+
   /* ── Add to dashboard ───────────────────── */
   async function addToDashboard() {
     if (!_cbPreviewHtml) return;
@@ -1031,15 +1049,26 @@ No hay archivos cargados en esta sesión. Necesitás al menos un dataset para cr
     var title = titleEl ? titleEl.value.trim() : '';
     if (!title) title = chartType === 'kpi' ? 'KPI' : 'Gráfico';
 
+    /* Rewrite figure_html con ID único para evitar conflicto con preview */
+    var figureHtml = _cbPreviewHtml.figure_html || '';
+    figureHtml = _rewriteChartId(figureHtml);
+
     try {
       await DataraAPI.addDashboardItem({
         title: title,
         chart_type: chartType === 'kpi' ? 'kpi' : 'chart',
-        figure_html: _cbPreviewHtml.figure_html || '',
+        figure_html: figureHtml,
         kpi_value: _cbPreviewHtml.kpi_value || '',
       });
       DataraAPI.showToast('✅ Agregado al Dashboard', 'success');
       document.getElementById('cb-add-btn').disabled = true;
+      /* Limpiar preview para evitar conflicto de IDs */
+      var preview = document.getElementById('cb-preview');
+      var container = document.getElementById('cb-preview-container');
+      if (preview) preview.classList.add('hidden');
+      if (container) container.innerHTML = '';
+      document.getElementById('cb-status').textContent = 'Agregado. Podés crear otro.';
+      _cbPreviewHtml = null;
       /* Reload dashboard items */
       loadDashboard();
     } catch(e) {
