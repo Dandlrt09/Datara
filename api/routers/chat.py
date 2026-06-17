@@ -16,11 +16,11 @@ from fastapi import APIRouter, Depends
 
 logger = logging.getLogger(__name__)
 
-from api.dependencies import get_session
-from api.models import MessageRequest, MessageResponse
-from api.session_data import SessionData
-from models import ChatMessage
-from services import ExportService
+from api.dependencies import get_session  # noqa: E402
+from api.models import MessageRequest, MessageResponse  # noqa: E402
+from api.session_data import SessionData  # noqa: E402
+from models import ChatMessage  # noqa: E402
+from services import ExportService  # noqa: E402
 
 router = APIRouter(
     prefix="/api/chat",
@@ -33,7 +33,7 @@ router = APIRouter(
 
 def _is_mock_mode() -> bool:
     """Lazy check so tests can override via environ / monkeypatch."""
-    return os.getenv("CHAT_MOCK_MODE", "true").lower() in ("1", "true", "yes")
+    return os.getenv("CHAT_MOCK_MODE", "false").lower() in ("1", "true", "yes")
 
 
 @router.post("/message", response_model=MessageResponse)

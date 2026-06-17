@@ -5,11 +5,12 @@ Export Service: handles downloading results as CSV, PNG, and TXT.
 from __future__ import annotations
 
 import io
-import csv
 from typing import Optional
 
 import pandas as pd
 import plotly.graph_objects as go
+
+from services.plotly_theme import apply_datara_theme
 
 
 class ExportService:
@@ -18,11 +19,12 @@ class ExportService:
     @staticmethod
     def chart_to_png(figure: go.Figure) -> Optional[bytes]:
         """
-        Convert a Plotly figure to PNG bytes.
+        Convert a Plotly figure to PNG bytes (with Datara theme).
 
         Requires kaleido or orca to be installed.
         Returns None if conversion fails.
         """
+        apply_datara_theme(figure)
         try:
             img_bytes = figure.to_image(format="png", width=1200, height=800, scale=2)
             return img_bytes
@@ -32,7 +34,8 @@ class ExportService:
 
     @staticmethod
     def chart_to_html(figure: go.Figure) -> str:
-        """Convert a Plotly figure to an HTML div string."""
+        """Convert a Plotly figure to an HTML div string (with Datara theme)."""
+        apply_datara_theme(figure)
         return figure.to_html(include_plotlyjs="cdn", full_html=False)
 
     @staticmethod

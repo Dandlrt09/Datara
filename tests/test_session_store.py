@@ -248,7 +248,7 @@ class TestSessionStoreArchive:
         archive_svc = ArchiveService(tmp_path / "archives")
 
         # Create and save an archive
-        from models.session_archive import ArchiveDataset, SessionArchive
+        from models.session_archive import SessionArchive
         archive = SessionArchive(
             archive_id="restore-test-1",
             name="Sesión 1",

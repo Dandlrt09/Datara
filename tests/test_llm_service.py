@@ -12,7 +12,7 @@ Covers:
 All OpenAI client calls are mocked — no real API calls are made.
 """
 
-from unittest.mock import MagicMock, PropertyMock
+from unittest.mock import MagicMock
 
 import pytest
 

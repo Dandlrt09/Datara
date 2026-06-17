@@ -9,7 +9,6 @@ class DataraHandler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory=SCREENS_DIR, **kwargs)
 
     def send_head(self):
-        path = self.translate_path(self.path)
         if self.path == "/":
             self.send_response(301)
             self.send_header("Location", "/upload.html")

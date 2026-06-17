@@ -8,10 +8,9 @@ All LLM calls are mocked — no real Gemini API calls are made.
 """
 
 import pandas as pd
-import plotly.graph_objects as go
 import pytest
 
-from models import AnalysisResult, FileData
+from models import FileData
 from services.code_executor import CodeExecutor
 from services.llm_service import LLMService
 from utils.sandbox import SafeExecutor

@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
@@ -99,8 +100,146 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             vertical-align: middle;
         }
-        .chart-gradient {
-            background: linear-gradient(180deg, rgba(26, 63, 212, 0.15) 0%, rgba(26, 63, 212, 0) 100%);
+
+        /* ── Dashboard grid responsive ─────────────── */
+        #chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(480px, 100%), 1fr));
+            gap: 16px;
+        }
+
+        #kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        /* ── Chart cards ──────────────────────────── */
+        .dashboard-chart-card {
+            background: #151a21;
+            border: 1px solid #44484f;
+            border-radius: 12px;
+            padding: 16px 20px 20px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 340px;
+        }
+        .dashboard-chart-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+        }
+
+        /* ── Chart container — contiene a Plotly ──── */
+        .dashboard-chart-container {
+            width: 100%;
+            flex: 1;
+            min-height: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+        .dashboard-chart-container .js-plotly-plot,
+        .dashboard-chart-container .plotly-graph-div {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        .dashboard-chart-container svg {
+            max-width: 100%;
+        }
+
+        /* ── KPI cards ────────────────────────────── */
+        .dashboard-kpi-card {
+            background: #151a21;
+            border: 1px solid #44484f;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .dashboard-kpi-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+        }
+
+        /* ── Fullscreen modal para charts ────────── */
+        #fs-modal {
+            background: rgba(10, 14, 20, 0.93);
+            backdrop-filter: blur(6px);
+        }
+        #fs-chart-container {
+            background: #0a0e14;
+        }
+        .dashboard-chart-card {
+            cursor: pointer;
+        }
+
+        /* ── Skeleton Loading ───────────────────── */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        #loading-state {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-top: 4px;
+        }
+
+        .skeleton-grid {
+            display: grid;
+            gap: 16px;
+        }
+        #skeleton-kpi-row {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+        #skeleton-chart-grid {
+            grid-template-columns: repeat(auto-fill, minmax(min(480px, 100%), 1fr));
+        }
+
+        .skeleton-card {
+            background: #151a21;
+            border: 1px solid #1e232b;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .skeleton-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255,255,255,0.05) 50%,
+                transparent 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .skeleton-line {
+            height: 12px;
+            border-radius: 6px;
+            background: #1e232b;
+        }
+        .skeleton-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #1e232b;
+        }
+
+        .skeleton-chart-card-layout {
+            display: flex;
+            flex-direction: column;
+            min-height: 340px;
+        }
+        .skeleton-chart-area {
+            flex: 1;
+            min-height: 280px;
+            border-radius: 8px;
+            background: #1e232b;
         }
     </style>
 </head>
@@ -132,264 +271,56 @@
 <!-- Header Section -->
 <section class="mb-lg">
 <h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard</h2>
-<p class="text-on-surface-variant font-body-md text-body-md">Visualiza y analiza tus datos en tiempo real.</p>
+<p class="text-on-surface-variant font-body-md text-body-md">Visualizaciones guardadas de tu análisis.</p>
 </section>
-<!-- KPI Row -->
-<div class="grid grid-cols-4 gap-gutter mb-lg">
-<!-- Card 1 -->
-<div class="bg-surface-container-high p-lg rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-2 bg-primary/10 rounded-lg text-primary">
-<span class="material-symbols-outlined">database</span>
-</div>
-<span class="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded-full">+12%</span>
-</div>
-<p class="text-on-surface-variant text-sm font-medium">Total de Registros</p>
-<h3 class="text-3xl font-bold text-on-surface mt-1">1.2B</h3>
-</div>
-<!-- Card 2 -->
-<div class="bg-surface-container-high p-lg rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-2 bg-secondary/10 rounded-lg text-secondary">
-<span class="material-symbols-outlined">query_stats</span>
-</div>
-<span class="text-xs font-bold text-secondary bg-secondary/10 px-2 py-1 rounded-full">+5%</span>
-</div>
-<p class="text-on-surface-variant text-sm font-medium">Consultas Ejecutadas</p>
-<h3 class="text-3xl font-bold text-on-surface mt-1">842k</h3>
-</div>
-<!-- Card 3 -->
-<div class="bg-surface-container-high p-lg rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-2 bg-tertiary/10 rounded-lg text-tertiary">
-<span class="material-symbols-outlined">settings_input_component</span>
-</div>
-<span class="flex items-center gap-1 text-xs font-bold text-tertiary bg-tertiary/10 px-2 py-1 rounded-full">
-<span class="w-2 h-2 bg-tertiary rounded-full animate-pulse"></span> Live
-                    </span>
-</div>
-<p class="text-on-surface-variant text-sm font-medium">Fuentes Activas</p>
-<h3 class="text-3xl font-bold text-on-surface mt-1">24</h3>
-</div>
-<!-- Card 4 -->
-<div class="bg-surface-container-high p-lg rounded-xl border border-outline-variant hover:border-primary/50 transition-all group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-2 bg-success/10 rounded-lg text-emerald-400">
-<span class="material-symbols-outlined">speed</span>
-</div>
-<span class="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-full">Stable</span>
-</div>
-<p class="text-on-surface-variant text-sm font-medium">Tiempo de Actividad</p>
-<h3 class="text-3xl font-bold text-on-surface mt-1">99.98%</h3>
-</div>
-</div>
-<!-- Filter Bar -->
-<div class="bg-surface-container p-4 rounded-xl border border-outline-variant mb-lg flex items-center justify-between gap-4">
-<div class="flex items-center gap-3 flex-1">
-<div class="relative min-w-[200px]">
-<select class="w-full bg-surface-variant border border-outline-variant rounded-lg px-4 py-2 text-sm text-on-surface focus:ring-1 focus:ring-primary appearance-none cursor-pointer">
-<option>Seleccionar Columna</option>
-<option>Fecha de Registro</option>
-<option>ID de Transacción</option>
-<option>Ubicación</option>
-</select>
-<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
-</div>
-<div class="flex-1 relative">
-<div class="absolute inset-y-0 left-3 flex items-center gap-2 z-10">
-<span class="bg-primary/20 text-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase">Region: EU</span>
-<span class="bg-primary/20 text-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase">Status: OK</span>
-</div>
-<input class="w-full bg-surface-variant border border-outline-variant rounded-lg pl-52 pr-4 py-2 text-sm text-on-surface focus:ring-1 focus:ring-primary" placeholder="Agregar filtro..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-3">
-<button class="p-2 rounded-lg bg-surface-variant border border-outline-variant hover:bg-surface-container-highest transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined">refresh</span>
-</button>
-<button class="flex items-center gap-2 bg-primary hover:bg-primary-dim text-on-primary-fixed px-6 py-2 rounded-lg font-bold transition-all shadow-lg shadow-primary/20">
-<span class="material-symbols-outlined text-[18px]">download</span>
-                    Descargar Reporte
-                </button>
-</div>
-</div>
-<!-- Chart Grid -->
-<div class="grid grid-cols-2 gap-gutter">
-<!-- Card 1: Distribución de Ventas -->
-<div class="bg-surface-container p-lg rounded-xl border border-outline-variant">
-<div class="flex justify-between items-center mb-8">
-<h4 class="font-headline-md text-headline-md text-on-surface">Distribución de Ventas</h4>
-<div class="flex gap-2">
-<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined">settings</span>
-</button>
-<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-</div>
-<!-- Mock Bar Chart -->
-<div class="h-64 flex items-end justify-between gap-4 px-4">
-<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 40%;">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-surface-bright p-1 rounded text-xs text-on-surface transition-opacity">$120k</div>
-</div>
-<div class="flex-1 bg-primary rounded-t-md hover:opacity-80 transition-opacity cursor-pointer relative" style="height: 75%;">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-bright p-1 rounded text-xs text-on-surface">$340k</div>
-</div>
-<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 55%;">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-surface-bright p-1 rounded text-xs text-on-surface transition-opacity">$195k</div>
-</div>
-<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 90%;">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-surface-bright p-1 rounded text-xs text-on-surface transition-opacity">$410k</div>
-</div>
-<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 35%;"></div>
-<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 65%;"></div>
-<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 50%;"></div>
-<div class="flex-1 bg-outline-variant rounded-t-md hover:bg-primary transition-colors cursor-pointer group relative" style="height: 80%;"></div>
-</div>
-<div class="flex justify-between mt-4 px-4 text-[11px] text-on-surface-variant font-medium">
-<span>ENE</span><span>FEB</span><span>MAR</span><span>ABR</span><span>MAY</span><span>JUN</span><span>JUL</span><span>AGO</span>
-</div>
-</div>
-<!-- Card 2: Tendencia Mensual -->
-<div class="bg-surface-container p-lg rounded-xl border border-outline-variant relative overflow-hidden">
-<div class="flex justify-between items-center mb-8">
-<h4 class="font-headline-md text-headline-md text-on-surface">Tendencia Mensual</h4>
-<div class="flex gap-2">
-<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined">settings</span>
-</button>
-<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-</div>
-<!-- Line Chart SVG -->
-<div class="relative h-64 w-full">
-<svg class="w-full h-full preserve-3d" viewbox="0 0 1000 300">
-<defs>
-<lineargradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
-<stop offset="0%" stop-color="var(--tw-primary)" stop-opacity="0.3"></stop>
-<stop offset="100%" stop-color="var(--tw-primary)" stop-opacity="0"></stop>
-</lineargradient>
-</defs>
-<path d="M0,250 Q150,220 300,100 T600,150 T1000,50 V300 H0 Z" fill="url(#areaGradient)"></path>
-<path d="M0,250 Q150,220 300,100 T600,150 T1000,50" fill="none" stroke="#99a8ff" stroke-linecap="round" stroke-width="4"></path>
-<circle class="animate-pulse" cx="300" cy="100" fill="#99a8ff" r="6"></circle>
-<circle cx="600" cy="150" fill="#99a8ff" r="6"></circle>
-<circle cx="1000" cy="50" fill="#99a8ff" r="6"></circle>
-</svg>
-<!-- Floating Data Tooltip -->
-<div class="absolute top-[80px] left-[310px] bg-surface-bright border border-outline-variant p-2 rounded shadow-2xl z-10">
-<p class="text-[10px] text-on-surface-variant font-bold">MARZO 24</p>
-<p class="text-sm font-bold text-primary">$2,450.00</p>
-</div>
-</div>
-</div>
-<!-- Card 3: Rendimiento Global de Ingesta (Span 2) -->
-<div class="col-span-2 bg-surface-container rounded-xl border border-outline-variant overflow-hidden">
-<div class="p-lg border-b border-outline-variant flex justify-between items-center bg-surface-container-low/50">
-<div>
-<h4 class="font-headline-md text-headline-md text-on-surface">Rendimiento Global de Ingesta</h4>
-<p class="text-xs text-on-surface-variant">Monitoreo de flujo de datos por región y latencia.</p>
-</div>
-<div class="flex gap-4 items-center">
-<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-variant rounded-lg text-xs font-bold text-on-surface">
-<span class="w-2 h-2 bg-emerald-400 rounded-full"></span> Healthy
-                        </div>
-<div class="flex gap-2">
-<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined">settings</span>
-</button>
-<button class="p-1.5 hover:bg-surface-variant rounded-md transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-</div>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left">
-<thead class="bg-surface-container-high/30">
-<tr>
-<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">ID de Fuente</th>
-<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Region</th>
-<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Status</th>
-<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Latency</th>
-<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Volume (24h)</th>
-<th class="px-lg py-4 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Progress</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant/30">
-<tr class="hover:bg-surface-variant transition-colors group">
-<td class="px-lg py-4 font-mono text-sm text-primary">DS-AWS-001</td>
-<td class="px-lg py-4 text-sm text-on-surface">América del Norte (Virginia)</td>
-<td class="px-lg py-4">
-<span class="bg-emerald-400/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded">ONLINE</span>
-</td>
-<td class="px-lg py-4 text-sm text-on-surface">24ms</td>
-<td class="px-lg py-4 text-sm text-on-surface">420.5 GB</td>
-<td class="px-lg py-4">
-<div class="w-32 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="w-full h-full bg-primary"></div>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-surface-variant transition-colors group">
-<td class="px-lg py-4 font-mono text-sm text-primary">DS-GCP-082</td>
-<td class="px-lg py-4 text-sm text-on-surface">Europe (Frankfurt)</td>
-<td class="px-lg py-4">
-<span class="bg-emerald-400/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded">ONLINE</span>
-</td>
-<td class="px-lg py-4 text-sm text-on-surface">31ms</td>
-<td class="px-lg py-4 text-sm text-on-surface">89.2 GB</td>
-<td class="px-lg py-4">
-<div class="w-32 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="w-3/4 h-full bg-primary"></div>
-</div>
-</td>
-</tr>
-<tr class="hover:bg-surface-variant transition-colors group">
-<td class="px-lg py-4 font-mono text-sm text-primary">DS-AZ-441</td>
-<td class="px-lg py-4 text-sm text-on-surface">Asia Pacífico (Singapur)</td>
-<td class="px-lg py-4">
-<span class="bg-amber-400/10 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded">DEGRADED</span>
-</td>
-<td class="px-lg py-4 text-sm text-on-surface">158ms</td>
-<td class="px-lg py-4 text-sm text-on-surface">12.1 GB</td>
-<td class="px-lg py-4">
-<div class="w-32 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="w-1/4 h-full bg-amber-400"></div>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</main>
-<!-- Micro-interaction Scripts -->
-<script>
-        // Simple hover effect for KPI cards
-        const kpiCards = document.querySelectorAll('.group');
-        kpiCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-4px)';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0px)';
-            });
-        });
 
-        // Search Bar Focus Effect
-        const searchInput = document.querySelector('input[type="text"]');
-        searchInput.addEventListener('focus', () => {
-            searchInput.parentElement.classList.add('scale-[1.02]');
-        });
-        searchInput.addEventListener('blur', () => {
-            searchInput.parentElement.classList.remove('scale-[1.02]');
-        });
-    </script>
+<!-- Empty State -->
+<div id="empty-state" class="hidden flex flex-col items-center justify-center py-24 text-center">
+<span class="material-symbols-outlined text-[64px] text-outline mb-4">dashboard_customize</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Sin elementos aún</h3>
+<p class="text-on-surface-variant font-body-md text-body-md max-w-md">
+Los gráficos y KPIs que generes desde el Chat aparecerán acá.
+Podés agregarlos manualmente desde cada resultado.
+</p>
+</div>
+
+<!-- Skeleton Loading State -->
+<div id="loading-state">
+  <div id="skeleton-kpi-row" class="skeleton-grid">
+    <div class="skeleton-card">
+      <div class="skeleton-circle"></div>
+      <div class="skeleton-line w-24 mt-3"></div>
+      <div class="skeleton-line w-32 h-8 mt-2"></div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton-circle"></div>
+      <div class="skeleton-line w-20 mt-3"></div>
+      <div class="skeleton-line w-28 h-8 mt-2"></div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton-circle"></div>
+      <div class="skeleton-line w-28 mt-3"></div>
+      <div class="skeleton-line w-36 h-8 mt-2"></div>
+    </div>
+  </div>
+  <div id="skeleton-chart-grid" class="skeleton-grid">
+    <div class="skeleton-card skeleton-chart-card-layout">
+      <div class="skeleton-line w-40 mb-3"></div>
+      <div class="skeleton-chart-area"></div>
+    </div>
+    <div class="skeleton-card skeleton-chart-card-layout">
+      <div class="skeleton-line w-36 mb-3"></div>
+      <div class="skeleton-chart-area"></div>
+    </div>
+  </div>
+</div>
+
+<!-- KPI Row -->
+<div id="kpi-row" class="hidden"></div>
+
+<!-- Chart Grid -->
+<div id="chart-grid" class="hidden"></div>
+</main>
 <!-- Notification Panel -->
 <div id="notif-overlay" class="fixed inset-0 bg-black/50 z-[60] hidden opacity-0 transition-opacity duration-300"></div>
 <div id="notif-panel" class="fixed top-0 right-0 h-full w-96 bg-surface border-l border-outline-variant z-[70] translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col">
@@ -528,6 +459,23 @@
     document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { closeH(); } });
   })();
 </script>
+<!-- Fullscreen Chart Modal -->
+<div id="fs-overlay" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-200"></div>
+<div id="fs-modal" class="fixed inset-0 z-[110] hidden flex-col p-4 md:p-8">
+  <div class="flex items-center justify-between mb-4 shrink-0">
+    <h3 id="fs-title" class="text-base md:text-lg font-bold text-on-surface truncate mr-4"></h3>
+    <div class="flex items-center gap-2 shrink-0">
+      <button id="fs-download-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs bg-surface-container-highest border border-outline-variant text-on-surface hover:brightness-110 transition-colors">
+        <span class="material-symbols-outlined text-sm">download</span> PNG
+      </button>
+      <button id="fs-close-btn" class="w-9 h-9 rounded-lg bg-surface-container-highest border border-outline-variant text-on-surface-variant hover:text-on-surface hover:brightness-110 transition-colors flex items-center justify-center" title="Cerrar (Esc)">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  </div>
+  <div id="fs-chart-container" class="flex-1 min-h-0 rounded-xl border border-outline-variant p-2 md:p-4 overflow-hidden"></div>
+</div>
+
 <!-- Profile Dropdown -->
 <div id="profile-dropdown" class="fixed right-6 top-16 z-[100] hidden w-56 bg-surface border border-outline-variant rounded-xl shadow-2xl overflow-hidden">
   <div class="p-4 border-b border-outline-variant">
@@ -578,6 +526,293 @@
   })();
 </script>
 <script src="/static/api.js?v=3"></script>
+
+<!-- Dashboard: lógica dinámica -->
+<script>
+(function() {
+  'use strict';
+
+  var dashboardItems = [];
+
+  /* ── HTML-escape ──────────────────────────── */
+  function esc(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ── Re-ejecutar scripts de Plotly ────────── */
+  function execPlotlyScripts(container) {
+    var scripts = container.querySelectorAll('script');
+    scripts.forEach(function(oldScript) {
+      var newScript = document.createElement('script');
+      newScript.text = oldScript.textContent;
+      document.body.appendChild(newScript);
+      document.body.removeChild(newScript);
+    });
+  }
+
+  /* ── Cargar dashboard desde la API ────────── */
+  async function loadDashboard() {
+    var loading = document.getElementById('loading-state');
+    var empty = document.getElementById('empty-state');
+    var kpiRow = document.getElementById('kpi-row');
+    var chartGrid = document.getElementById('chart-grid');
+
+    try {
+      var data = await DataraAPI.getDashboard();
+      dashboardItems = data.items || [];
+
+      loading.classList.add('hidden');
+
+      if (dashboardItems.length === 0) {
+        empty.classList.remove('hidden');
+        kpiRow.classList.add('hidden');
+        chartGrid.classList.add('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+
+      /* Separar KPIs de charts */
+      var kpis = dashboardItems.filter(function(it) { return it.chart_type === 'kpi' || it.kpi_value; });
+      var charts = dashboardItems.filter(function(it) { return it.chart_type !== 'kpi' && !it.kpi_value; });
+
+      renderKPIs(kpis, kpiRow);
+      renderCharts(charts, chartGrid);
+    } catch(e) {
+      loading.classList.add('hidden');
+      empty.classList.remove('hidden');
+      empty.querySelector('h3').textContent = 'Error al cargar';
+      empty.querySelector('p').textContent = e.message || 'Intentalo de nuevo.';
+    }
+  }
+
+  /* ── Renderizar KPIs ──────────────────────── */
+  function renderKPIs(kpis, container) {
+    if (kpis.length === 0) {
+      container.classList.add('hidden');
+      return;
+    }
+    container.classList.remove('hidden');
+
+    container.className = 'mb-lg'; /* usa CSS grid del <style> */
+
+    container.innerHTML = kpis.map(function(item) {
+      var icon = item.chart_type === 'kpi' ? 'insights' : 'database';
+      return '<div class="dashboard-kpi-card">' +
+        '<div class="flex justify-between items-start mb-3">' +
+          '<div class="p-2 bg-primary/10 rounded-lg text-primary">' +
+            '<span class="material-symbols-outlined">' + icon + '</span>' +
+          '</div>' +
+          '<button onclick="window.__deleteItem(\'' + item.id + '\')" class="p-1 rounded-md text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors shrink-0" title="Eliminar">' +
+            '<span class="material-symbols-outlined text-sm">close</span>' +
+          '</button>' +
+        '</div>' +
+        '<p class="text-on-surface-variant text-xs font-medium uppercase tracking-wider mb-1">' + esc(item.title) + '</p>' +
+        '<p class="text-3xl font-bold text-on-surface">' + esc(item.kpi_value || '—') + '</p>' +
+      '</div>';
+    }).join('');
+  }
+
+  /* ── Renderizar charts ────────────────────── */
+  function renderCharts(charts, container) {
+    if (charts.length === 0) {
+      container.classList.add('hidden');
+      return;
+    }
+    container.classList.remove('hidden');
+    container.className = ''; /* usa CSS grid del <style> */
+
+    container.innerHTML = charts.map(function(item) {
+      return '<div class="dashboard-chart-card">' +
+        '<div class="flex justify-between items-center mb-3">' +
+          '<h4 class="text-sm font-bold text-on-surface truncate">' + esc(item.title) + '</h4>' +
+          '<div class="flex items-center gap-1 shrink-0 ml-2">' +
+            '<button class="chart-png-btn p-1 rounded-md text-on-surface-variant hover:text-primary hover:bg-primary/10 transition-colors" title="Descargar PNG">' +
+              '<span class="material-symbols-outlined text-sm">download</span>' +
+            '</button>' +
+            '<button onclick="window.__deleteItem(\'' + item.id + '\')" class="p-1 rounded-md text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors" title="Eliminar">' +
+              '<span class="material-symbols-outlined text-sm">close</span>' +
+            '</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="dashboard-chart-container" data-loaded="false">' +
+          (item.figure_html || '<div class="flex items-center justify-center h-full text-on-surface-variant text-sm">Sin datos para mostrar</div>') +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    /* Inicializar Plotly en los chart containers */
+    requestAnimationFrame(function() {
+      var containers = document.querySelectorAll('.dashboard-chart-container[data-loaded="false"]');
+      containers.forEach(function(c) {
+        execPlotlyScripts(c);
+        c.setAttribute('data-loaded', 'true');
+      });
+    });
+  }
+
+  /* ── Eliminar un item ─────────────────────── */
+  window.__deleteItem = async function(itemId) {
+    if (!confirm('¿Eliminar este elemento del dashboard?')) return;
+    try {
+      await DataraAPI.deleteDashboardItem(itemId);
+      DataraAPI.showToast('Elemento eliminado', 'success');
+      await loadDashboard();
+    } catch(e) {
+      DataraAPI.showToast('Error: ' + (e.message || 'desconocido'), 'error');
+    }
+  };
+
+  /* ── Fullscreen chart ──────────────────────── */
+  var fsChartRef = null;
+
+  function openFullscreen(card) {
+    var chartContainer = card.querySelector('.dashboard-chart-container');
+    if (!chartContainer) { DataraAPI.showToast('No se encontró el contenedor del chart', 'error'); return; }
+
+    /* Plotly pone .plotly-graph-div y .js-plotly-plot en el <div> target de newPlot.
+       Buscamos adentro del chart-container (no el container mismo) */
+    var plotDiv = chartContainer.querySelector('.plotly-graph-div, .js-plotly-plot');
+
+    if (!plotDiv) {
+      DataraAPI.showToast('El chart aún no terminó de renderizar, intentá de nuevo', 'warning');
+      return;
+    }
+
+    var title = card.querySelector('h4');
+    document.getElementById('fs-title').textContent = title ? title.textContent : 'Gráfico';
+
+    var target = document.getElementById('fs-chart-container');
+    target.innerHTML = '';
+
+    /* Extraer data, layout, config directamente del div de Plotly */
+    var data, layout, config;
+    try {
+      data = JSON.parse(JSON.stringify(plotDiv.data || []));
+      layout = JSON.parse(JSON.stringify(plotDiv.layout || {}));
+      config = plotDiv._config ? JSON.parse(JSON.stringify(plotDiv._config)) : {};
+    } catch(e) {
+      DataraAPI.showToast('Error al leer el chart: ' + e.message, 'error');
+      return;
+    }
+
+    /* Adaptar a pantalla completa */
+    delete layout.width;
+    delete layout.height;
+    layout.autosize = true;
+    config.responsive = true;
+
+    /* 1. Mostrar modal PRIMERO (para que el contenedor tenga dimensiones finales) */
+    var overlay = document.getElementById('fs-overlay');
+    var modal = document.getElementById('fs-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    overlay.classList.remove('hidden');
+    requestAnimationFrame(function() {
+      overlay.classList.remove('opacity-0');
+      overlay.classList.add('opacity-100');
+    });
+    document.body.style.overflow = 'hidden';
+
+    /* 2. Esperar a que el modal se pinte (doble RAF) y recién crear el chart
+       con las dimensiones finales del contenedor */
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        try {
+          Plotly.newPlot(target, data, layout, config);
+          fsChartRef = target;
+        } catch(e) {
+          DataraAPI.showToast('Error al renderizar chart: ' + e.message, 'error');
+        }
+      });
+    });
+  }
+
+  function closeFullscreen() {
+    var overlay = document.getElementById('fs-overlay');
+    var modal = document.getElementById('fs-modal');
+    overlay.classList.remove('opacity-100');
+    overlay.classList.add('opacity-0');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+    setTimeout(function() {
+      overlay.classList.add('hidden');
+      var target = document.getElementById('fs-chart-container');
+      if (target) target.innerHTML = '';
+      fsChartRef = null;
+    }, 200);
+  }
+
+  /* Delegación de clics en chart-grid → fullscreen */
+  var chartGrid = document.getElementById('chart-grid');
+  if (chartGrid) {
+    chartGrid.addEventListener('click', function(e) {
+      var card = e.target.closest('.dashboard-chart-card');
+      if (!card) { /* click en el grid pero no en una card */ return; }
+      if (e.target.closest('button')) { /* botón delete, no fullscreen */ return; }
+      openFullscreen(card);
+    });
+  }
+
+  /* Descargar PNG directo desde la card (sin fullscreen) */
+  chartGrid.addEventListener('click', function(e) {
+    var btn = e.target.closest('.chart-png-btn');
+    if (!btn) return;
+    e.stopPropagation();
+    var card = btn.closest('.dashboard-chart-card');
+    if (!card) return;
+    var container = card.querySelector('.dashboard-chart-container');
+    if (!container) return;
+    var plotDiv = container.querySelector('.js-plotly-plot, .plotly-graph-div');
+    if (plotDiv && plotDiv._fullLayout) {
+      Plotly.downloadImage(plotDiv, { format: 'png', width: 1200, height: 800, scale: 2 });
+    } else {
+      DataraAPI.showToast('El chart no está listo para descargar', 'warning');
+    }
+  });
+
+  /* Botón de cerrar y overlay */
+  var fsCloseBtn = document.getElementById('fs-close-btn');
+  if (fsCloseBtn) fsCloseBtn.addEventListener('click', closeFullscreen);
+  var fsOverlay = document.getElementById('fs-overlay');
+  if (fsOverlay) fsOverlay.addEventListener('click', closeFullscreen);
+
+  /* Tecla Escape */
+  document.addEventListener('keydown', function fsEscape(e) {
+    if (e.key === 'Escape') {
+      var modal = document.getElementById('fs-modal');
+      if (modal && !modal.classList.contains('hidden')) closeFullscreen();
+    }
+  });
+
+  /* Descargar PNG del chart en fullscreen */
+  var fsDownloadBtn = document.getElementById('fs-download-btn');
+  if (fsDownloadBtn) {
+    fsDownloadBtn.addEventListener('click', function() {
+      if (!fsChartRef) { DataraAPI.showToast('No hay chart para descargar', 'warning'); return; }
+      var plotDiv = fsChartRef.querySelector('.js-plotly-plot, .plotly-graph-div');
+      if (plotDiv) {
+        Plotly.downloadImage(plotDiv, { format: 'png', width: 1920, height: 1080, scale: 2 });
+      } else {
+        DataraAPI.showToast('El chart no está listo para descargar', 'error');
+      }
+    });
+  }
+
+  /* ── Init ──────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function() {
+    DataraAPI.initSession().then(function() {
+      loadDashboard();
+    }).catch(function() {
+      document.getElementById('loading-state').classList.add('hidden');
+      document.getElementById('empty-state').classList.remove('hidden');
+    });
+  });
+})();
+</script>
+
 <script>
 (function(){
   var t = Date.now();

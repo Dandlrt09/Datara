@@ -1,7 +1,6 @@
 """Tests for services/code_executor.py — _sanitize_varname, _build_dataframe_map."""
 
 import pandas as pd
-import pytest
 
 from models.file_data import FileData
 from services.code_executor import _sanitize_varname, CodeExecutor

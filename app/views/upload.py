@@ -148,7 +148,7 @@ def _handle_pending_excel():
                 to_remove.append(filename)
                 st.rerun()
         with col2:
-            if st.button(f"❌ Descartar", key=f"skip_{filename}"):
+            if st.button("❌ Descartar", key=f"skip_{filename}"):
                 to_remove.append(filename)
                 st.rerun()
 
@@ -171,14 +171,14 @@ def _handle_pending_duplicates():
 
         col1, col2 = st.columns([1, 1])
         with col1:
-            if st.button(f"🔄 Reemplazar", key=f"replace_{filename}"):
+            if st.button("🔄 Reemplazar", key=f"replace_{filename}"):
                 # Remove old, add new
                 file_service.remove_file(filename)
                 _parse_and_add_file(file_service, filename, content, ext)
                 to_remove.append(filename)
                 st.rerun()
         with col2:
-            if st.button(f"📄 Mantener ambos", key=f"keep_{filename}"):
+            if st.button("📄 Mantener ambos", key=f"keep_{filename}"):
                 # Save with a different name
                 base = Path(filename)
                 counter = 2

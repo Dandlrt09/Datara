@@ -126,8 +126,11 @@
 <div class="grid grid-cols-1 gap-md mt-sm">
 <div class="flex flex-col gap-xs">
 <label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" for="api_key">API Key / Clave de API</label>
-<input class="w-full px-md py-sm rounded bg-surface border border-outline-variant font-label-md text-label-md text-on-surface" id="api_key" type="password" placeholder="Ingresá tu API key de Gemini"/>
-<p class="font-label-sm text-label-sm text-outline">La clave se almacena en memoria durante la sesión</p>
+<div class="flex gap-sm items-start">
+<input class="flex-1 px-md py-sm rounded bg-surface border border-outline-variant font-label-md text-label-md text-on-surface" id="api_key" type="password" placeholder="Ingresá tu API key de Gemini"/>
+<button id="clear-api-key-btn" class="border border-outline-variant text-on-surface-variant hover:text-error hover:border-error font-label-md text-label-md px-md py-sm rounded transition-colors active:scale-95" title="Limpiar API key guardada">✕</button>
+</div>
+<p class="font-label-sm text-label-sm text-outline">Se guarda en tu navegador. Si no cargás una, usá la variable GEMINI_API_KEY del .env</p>
 <p id="api-status" class="font-label-sm text-label-sm mt-xs hidden"></p>
 </div>
 <div class="flex flex-col gap-xs">
@@ -231,6 +234,30 @@ Plataforma de análisis de datos con inteligencia artificial. Diseñada para ent
     });
   }
 
+  /* ── Limpiar API key ──────────────────────── */
+  function clearApiKey() {
+    if (!confirm('¿Borrar la API key guardada? Volverás a estado no configurado.')) return;
+    var btn = document.getElementById('clear-api-key-btn');
+    if (!btn || btn.disabled) return;
+    btn.disabled = true;
+    btn.textContent = '⋯';
+
+    DataraAPI.updateSettings({ api_key: '' }).then(function(result) {
+      document.getElementById('api_key').value = '';
+      showApiStatus(false);
+      btn.textContent = '✓';
+      setTimeout(function() {
+        btn.textContent = '✕';
+        btn.disabled = false;
+      }, 1500);
+      DataraAPI.showToast('API key eliminada', 'success');
+    }).catch(function(e) {
+      btn.textContent = '✕';
+      btn.disabled = false;
+      DataraAPI.showToast('Error: ' + e.message, 'error');
+    });
+  }
+
   /* ── Guardar settings ─────────────────────── */
   function saveSettings() {
     var btn = document.getElementById('save-settings-btn');
@@ -306,6 +333,9 @@ Plataforma de análisis de datos con inteligencia artificial. Diseñada para ent
 
     /* Botón guardar */
     document.getElementById('save-settings-btn').addEventListener('click', saveSettings);
+
+    /* Botón limpiar API key */
+    document.getElementById('clear-api-key-btn').addEventListener('click', clearApiKey);
 
     /* Botón nueva sesión */
     document.getElementById('new-session-btn').addEventListener('click', newSession);

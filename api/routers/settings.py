@@ -54,9 +54,15 @@ async def update_settings(
     store: SessionStore = request.app.state.store
 
     if body.api_key is not None:
-        llm.api_key = body.api_key
-        llm._client = None  # force lazy-rebuild on next access
-        store.set_global_api_key(body.api_key)
+        if body.api_key == "":
+            # Clear the API key → fall back to env var or unconfigured
+            llm.api_key = ""
+            llm._client = None
+            store.clear_global_api_key()
+        else:
+            llm.api_key = body.api_key
+            llm._client = None  # force lazy-rebuild on next access
+            store.set_global_api_key(body.api_key)
 
     if body.model is not None:
         llm.model = body.model

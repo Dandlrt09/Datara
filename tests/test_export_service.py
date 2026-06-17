@@ -2,7 +2,6 @@
 
 import pandas as pd
 import plotly.graph_objects as go
-import pytest
 
 from services.export_service import ExportService
 from models.chat_message import ChatMessage

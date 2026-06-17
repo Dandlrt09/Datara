@@ -1,13 +1,12 @@
 """Tests for utils/sandbox.py — SafeExecutor."""
 
-import time
 
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import pytest
 
-from utils.sandbox import SafeExecutor, ExecutionTimeout, _safe_import
+from utils.sandbox import SafeExecutor, _safe_import
 
 
 # ── Fixtures ───────────────────────────────────────────────────────

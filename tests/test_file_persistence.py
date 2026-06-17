@@ -13,7 +13,6 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from api.routers import api_router
-from api.session_data import SessionData
 from api.session_store import SessionStore
 from services.archive_service import ArchiveService
 
@@ -112,7 +111,7 @@ class TestFilePersistenceFullCycle:
         restore_data = resp.json()
 
         restored_sid = restore_data["new_session_id"]
-        assert restore_data["datasets"][0]["needed"] == False, \
+        assert not restore_data["datasets"][0]["needed"], \
             f"File should be 'restored' (needed=false), got: {restore_data['datasets']}"
 
         # ── Step 6: Verify file is in the restored session ─────────
@@ -151,6 +150,6 @@ class TestFilePersistenceFullCycle:
         resp = client.post(f"/api/session/archived/{archive_id}/restore")
         assert resp.status_code == 200
         restore_data = resp.json()
-        assert restore_data["datasets"][0]["needed"] == True, \
+        assert restore_data["datasets"][0]["needed"], \
             "File deleted from disk should report needed=True"
 

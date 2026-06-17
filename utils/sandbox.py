@@ -45,12 +45,7 @@ def _safe_import(name: str, *args, **kwargs):
     top_level = name.split(".")[0]
     if top_level in _IMPORT_ALLOWLIST:
         return __import__(name, *args, **kwargs)
-    raise ImportError(f"import not found")
-
-
-class ExecutionTimeout(Exception):
-    """Raised when code execution exceeds the time limit."""
-    pass
+    raise ImportError("import not found")
 
 
 class SafeExecutor:

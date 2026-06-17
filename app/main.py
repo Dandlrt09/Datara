@@ -15,19 +15,19 @@ if _project_root not in sys.path:
     sys.path.insert(0, _project_root)
 
 # Load .env file from project root
-from dotenv import load_dotenv
+from dotenv import load_dotenv  # noqa: E402 — must load .env before Streamlit
 _dotenv_path = Path(_project_root) / ".env"
 if _dotenv_path.exists():
     load_dotenv(_dotenv_path)
 else:
     load_dotenv()  # fallback to default
 
-import streamlit as st
+import streamlit as st  # noqa: E402
 
-from services.file_service import FileService
-from services.llm_service import LLMService
-from services.code_executor import CodeExecutor
-from utils.sandbox import SafeExecutor
+from services.file_service import FileService  # noqa: E402
+from services.llm_service import LLMService  # noqa: E402
+from services.code_executor import CodeExecutor  # noqa: E402
+from utils.sandbox import SafeExecutor  # noqa: E402
 
 # ─── Page config — MUST be first Streamlit command ────────────────
 

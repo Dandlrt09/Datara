@@ -15,6 +15,7 @@ from .session import (
 from .settings import SettingsRequest, SettingsResponse
 
 __all__ = [
+    "ArchiveCurrentRequest",
     "ArchiveDatasetMeta",
     "ArchiveDetail",
     "ArchiveResponse",

@@ -16,7 +16,6 @@ from typing import Optional
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import plotly.io as pio
 import streamlit as st
 
 from services.file_service import FileService
@@ -181,9 +180,7 @@ def _render_kpi_row(kpi_items: list[dict], file_service: FileService) -> None:
         with col:
             title = entry.get("title", "KPI")
             cfg = entry["config"]
-            agg_label = cfg.get("aggregation", "mean")
             col_name = cfg.get("column", "")
-            group_by = cfg.get("group_by")
 
             if isinstance(val, dict):
                 # Grouped KPIs → one metric per group

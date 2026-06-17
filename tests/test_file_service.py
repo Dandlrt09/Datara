@@ -1,6 +1,5 @@
 """Tests for services/file_service.py — FileService."""
 
-import io
 
 import pandas as pd
 import pytest

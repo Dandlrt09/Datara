@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from services.archive_service import ArchiveService
+    from services.config_service import ConfigService
 
 # Default TTL: 1 hour (in seconds)
 DEFAULT_TTL_SECONDS: int = 3600
@@ -44,23 +45,42 @@ class SessionStore:
         new_sid = store.reset(sid)
     """
 
-    def __init__(self, ttl: int = DEFAULT_TTL_SECONDS) -> None:
+    def __init__(self, ttl: int = DEFAULT_TTL_SECONDS, config_service: Optional[ConfigService] = None) -> None:
         self._sessions: dict[str, SessionData] = {}
         self._ttl = ttl
         self._lock = Lock()
+        self._config = config_service
         # Global LLM config — survives session resets, applied to every new session
-        self._global_api_key: str = os.getenv("GEMINI_API_KEY", "")
-        self._global_model: str = os.getenv("GEMINI_MODEL", DEFAULT_MODEL)
+        # Priority: ConfigService (explicit user save via Settings) > env var > empty
+        config_key = self._config.api_key if self._config else ""
+        env_key = os.getenv("GEMINI_API_KEY", "")
+        self._global_api_key: str = config_key or env_key
+        env_model = os.getenv("GEMINI_MODEL", "")
+        self._global_model: str = env_model or (self._config.model if self._config else DEFAULT_MODEL)
 
     # ─── Global LLM config ──────────────────────────────────────────
 
     def set_global_api_key(self, api_key: str) -> None:
         """Persist an API key at store level so new sessions pick it up."""
         self._global_api_key = api_key
+        if self._config:
+            self._config.api_key = api_key
+
+    def clear_global_api_key(self) -> None:
+        """Remove the user-saved API key override.
+
+        New sessions will fall back to the env var ``GEMINI_API_KEY``
+        (or be unconfigured if no env var is set).
+        """
+        self._global_api_key = os.getenv("GEMINI_API_KEY", "")
+        if self._config:
+            self._config.clear_api_key()
 
     def set_global_model(self, model: str) -> None:
         """Persist a model name at store level so new sessions pick it up."""
         self._global_model = model
+        if self._config:
+            self._config.model = model
 
     def _make_llm_service(self) -> LLMService:
         """Create an LLMService with the current global config."""

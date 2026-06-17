@@ -64,10 +64,12 @@ async def add_dashboard_item(
 
     Expected body::
 
-        {"file": "filename", "title": "...", "config": {...}}
+        {"title": "...", "chart_type": "bar", "figure_html": "...", "config": {...}}
 
     The ``config`` dict is stored as-is and can contain chart type,
     column mappings, aggregation, etc.
+    If ``figure_html`` or ``kpi_value`` are provided they are stored
+    and returned immediately — no rebuild needed.
     """
     item_id = f"item_{int(time() * 1000)}"
 
@@ -75,6 +77,8 @@ async def add_dashboard_item(
         "id": item_id,
         "title": body.get("title", "Untitled"),
         "chart_type": body.get("chart_type", ""),
+        "figure_html": body.get("figure_html"),
+        "kpi_value": body.get("kpi_value"),
         "file": body.get("file", ""),
         "config": body.get("config", {}),
     }
@@ -84,6 +88,8 @@ async def add_dashboard_item(
         id=item_id,
         title=entry["title"],
         chart_type=entry["chart_type"],
+        figure_html=entry["figure_html"],
+        kpi_value=entry["kpi_value"],
     )
 
 

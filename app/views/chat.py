@@ -5,7 +5,6 @@ Supports follow-up questions, chart export, and conversation export.
 
 from __future__ import annotations
 
-import json
 from datetime import datetime
 
 import pandas as pd

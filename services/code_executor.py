@@ -11,6 +11,8 @@ import re
 from pathlib import Path
 from typing import Optional
 
+import pandas as pd
+
 from models import AnalysisResult, FileData
 from utils.prompts import build_context
 from utils.sandbox import SafeExecutor
@@ -64,8 +66,6 @@ class CodeExecutor:
         Single file → exposed as both `df` (shortcut) and `df_{name}`.
         Multiple files → each gets `df_{name}_1`, `df_{name}_2`, etc.
         """
-        import pandas as pd  # noqa: F811 — local import to avoid top-level dep
-
         df_map: dict[str, pd.DataFrame] = {}
         names: list[str] = []
 
@@ -162,8 +162,18 @@ class CodeExecutor:
                 if code2:
                     success2, error_msg2 = self.sandbox.execute(code2, dataframes=df_map)
                     if success2:
+                        text_parts2 = []
+                        if self.sandbox.last_text:
+                            text_parts2.append(self.sandbox.last_text)
+                        if self.sandbox.last_figure is not None:
+                            text_parts2.append("Gráfico generado correctamente.")
+                        if self.sandbox.last_dataframe is not None:
+                            rows = len(self.sandbox.last_dataframe)
+                            text_parts2.append(f"Tabla generada con {rows} filas.")
+                        if text2 and not self.sandbox.last_text:
+                            text_parts2.append(text2)
                         result = AnalysisResult(
-                            text="",
+                            text=" ".join(text_parts2) if text_parts2 else "Análisis completado.",
                             figure=self.sandbox.last_figure,
                             dataframe=self.sandbox.last_dataframe,
                             code_executed=code2,

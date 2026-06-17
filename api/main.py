@@ -3,23 +3,25 @@
 from __future__ import annotations
 
 import logging
+import os
 import re
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv  # noqa: E402 — must load .env before any import reads env vars
 load_dotenv()  # ← ANTES de cualquier import que lea env vars
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI  # noqa: E402
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+from fastapi.responses import HTMLResponse, RedirectResponse  # noqa: E402
+from fastapi.staticfiles import StaticFiles  # noqa: E402
 
-from api.routers import api_router
-from api.session_store import SessionStore
-from services.archive_service import ArchiveService
+from api.routers import api_router  # noqa: E402
+from api.session_store import SessionStore  # noqa: E402
+from services.archive_service import ArchiveService  # noqa: E402
+from services.config_service import ConfigService  # noqa: E402
 
 
 _HERE = Path(__file__).resolve().parent
@@ -29,10 +31,15 @@ _SCREENS = _FRONTEND / "screens"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    app.state.store = SessionStore()
+    # ── User config directory ─────────────────────────────────────
+    config_dir = Path(os.getenv("CONFIG_DIR", str(_HERE.parent / "data")))
+    config_dir.mkdir(parents=True, exist_ok=True)
+    logger.info("Config directory: %s", config_dir)
+    config_service = ConfigService(config_dir)
+
+    app.state.store = SessionStore(config_service=config_service)
 
     # ── Archive service ────────────────────────────────────────────
-    import os
     archive_dir = Path(os.getenv("ARCHIVE_DIR", str(_HERE.parent / "archives")))
     app.state.archive_service = ArchiveService(archive_dir)
     logger.info("Archive directory: %s", archive_dir)
@@ -44,6 +51,7 @@ async def lifespan(app: FastAPI):
     logger.info("Uploads directory: %s", uploads_dir)
 
     yield
+    app.state.config_service = None
     app.state.store = None
     app.state.archive_service = None
 

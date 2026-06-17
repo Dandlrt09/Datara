@@ -386,6 +386,8 @@
       if (msg.figure_html) {
         html += '<button class="chart-png-btn flex items-center gap-xs px-sm py-1 rounded-full border border-outline-variant hover:bg-surface-variant transition-colors text-xs text-on-surface-variant" data-mid="' + msg.message_id + '">' +
                   '<span class="material-symbols-outlined text-sm">download</span> PNG</button>';
+        html += '<button class="dashboard-add-btn flex items-center gap-xs px-sm py-1 rounded-full border border-outline-variant hover:bg-primary hover:text-on-primary transition-colors text-xs text-on-surface-variant" data-mid="' + msg.message_id + '">' +
+                  '<span class="material-symbols-outlined text-sm">dashboard</span> Dashboard</button>';
       }
       if (msg.dataframe_json) {
         html += '<button class="data-csv-btn flex items-center gap-xs px-sm py-1 rounded-full border border-outline-variant hover:bg-surface-variant transition-colors text-xs text-on-surface-variant" data-mid="' + msg.message_id + '">' +
@@ -437,6 +439,30 @@
             Plotly.downloadImage(plotDiv, { format: 'png', width: 1200, height: 800, scale: 2 });
           }
         }
+      });
+    });
+
+    /* Add chart to dashboard */
+    messageList.querySelectorAll('.dashboard-add-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var mid = btn.getAttribute('data-mid');
+        var flexContainer = btn.closest('.flex-1');
+        if (!flexContainer) { DataraAPI.showToast('Error: no se encontró el mensaje', 'error'); return; }
+        var chartContainer = flexContainer.querySelector('.chart-container');
+        if (!chartContainer) { DataraAPI.showToast('No se encontró el gráfico', 'error'); return; }
+
+        var contentEl = flexContainer.querySelector('.font-body-md');
+        var textPreview = contentEl ? contentEl.textContent.trim().substring(0, 60) : 'Gráfico del análisis';
+
+        DataraAPI.addDashboardItem({
+          title: textPreview,
+          chart_type: 'chart',
+          figure_html: chartContainer.innerHTML
+        }).then(function() {
+          DataraAPI.showToast('✅ Agregado al Dashboard', 'success');
+        }).catch(function(e) {
+          DataraAPI.showToast('Error: ' + (e.message || 'desconocido'), 'error');
+        });
       });
     });
 

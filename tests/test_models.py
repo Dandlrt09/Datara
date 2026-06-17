@@ -1,10 +1,8 @@
 """Tests for models/ — FileData, ChatMessage, AnalysisResult."""
 
-import json
 from datetime import datetime
 
 import pandas as pd
-import pytest
 import plotly.graph_objects as go
 
 from models.file_data import FileData

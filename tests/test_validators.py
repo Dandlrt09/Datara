@@ -1,6 +1,5 @@
 """Tests for utils/validators.py"""
 
-import pytest
 from utils.validators import validate_file, MAX_FILE_SIZE_BYTES
 
 

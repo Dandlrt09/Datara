@@ -11,12 +11,10 @@ conftest fixture) unless the endpoint under test intentionally omits it.
 
 from __future__ import annotations
 
-from datetime import datetime
-from unittest.mock import MagicMock, PropertyMock
+from unittest.mock import MagicMock
 
 import pandas as pd
 import plotly.graph_objects as go
-import pytest
 from fastapi.testclient import TestClient
 
 from api.models import ErrorCode
@@ -545,7 +543,6 @@ class TestArchiveRouter:
 
         Returns the archive data that would be returned from the endpoint.
         """
-        from datetime import datetime
         from api.session_store import SessionStore
         store: SessionStore = client.app.state.store
         sid = store.create()

@@ -38,7 +38,6 @@ class FileService:
         # Try common delimiters
         delimiters = [",", ";", "\t", "|"]
         df = None
-        used_delimiter = ","
 
         for delim in delimiters:
             try:
@@ -51,7 +50,6 @@ class FileService:
                 )
                 # If we got more than 1 column, this delimiter is likely correct
                 if len(df.columns) > 1:
-                    used_delimiter = delim
                     # Now read the full file
                     df = pd.read_csv(
                         io.BytesIO(content),

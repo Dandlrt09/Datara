@@ -120,7 +120,7 @@ class LLMService:
             if code:
                 return code
 
-        pattern2 = r"```\s*\n?(.*?)```"
+        pattern2 = r"```\s*\n(.*?)```"
         match2 = re.search(pattern2, response, re.DOTALL)
         if match2:
             code = match2.group(1).strip()
