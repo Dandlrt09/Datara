@@ -172,75 +172,7 @@
             cursor: pointer;
         }
 
-        /* ── Skeleton Loading ───────────────────── */
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        #loading-state {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            padding-top: 4px;
-        }
-
-        .skeleton-grid {
-            display: grid;
-            gap: 16px;
-        }
-        #skeleton-kpi-row {
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        }
-        #skeleton-chart-grid {
-            grid-template-columns: repeat(auto-fill, minmax(min(480px, 100%), 1fr));
-        }
-
-        .skeleton-card {
-            background: #151a21;
-            border: 1px solid #1e232b;
-            border-radius: 12px;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        .skeleton-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(255,255,255,0.05) 50%,
-                transparent 100%
-            );
-            background-size: 200% 100%;
-            animation: shimmer 1.5s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        .skeleton-line {
-            height: 12px;
-            border-radius: 6px;
-            background: #1e232b;
-        }
-        .skeleton-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: #1e232b;
-        }
-
-        .skeleton-chart-card-layout {
-            display: flex;
-            flex-direction: column;
-            min-height: 340px;
-        }
-        .skeleton-chart-area {
-            flex: 1;
-            min-height: 280px;
-            border-radius: 8px;
-            background: #1e232b;
-        }
+        /* (skeleton loading removido — el empty state es el default visual) */
     </style>
 </head>
 <body class="bg-background text-on-background antialiased overflow-x-hidden">
@@ -274,45 +206,14 @@
 <p class="text-on-surface-variant font-body-md text-body-md">Visualizaciones guardadas de tu análisis.</p>
 </section>
 
-<!-- Empty State -->
-<div id="empty-state" class="hidden flex flex-col items-center justify-center py-24 text-center">
+<!-- Empty State (visible por defecto hasta que haya items) -->
+<div id="empty-state" class="flex flex-col items-center justify-center py-24 text-center">
 <span class="material-symbols-outlined text-[64px] text-outline mb-4">dashboard_customize</span>
 <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Sin elementos aún</h3>
 <p class="text-on-surface-variant font-body-md text-body-md max-w-md">
 Los gráficos y KPIs que generes desde el Chat aparecerán acá.
 Podés agregarlos manualmente desde cada resultado.
 </p>
-</div>
-
-<!-- Skeleton Loading State -->
-<div id="loading-state">
-  <div id="skeleton-kpi-row" class="skeleton-grid">
-    <div class="skeleton-card">
-      <div class="skeleton-circle"></div>
-      <div class="skeleton-line w-24 mt-3"></div>
-      <div class="skeleton-line w-32 h-8 mt-2"></div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-circle"></div>
-      <div class="skeleton-line w-20 mt-3"></div>
-      <div class="skeleton-line w-28 h-8 mt-2"></div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-circle"></div>
-      <div class="skeleton-line w-28 mt-3"></div>
-      <div class="skeleton-line w-36 h-8 mt-2"></div>
-    </div>
-  </div>
-  <div id="skeleton-chart-grid" class="skeleton-grid">
-    <div class="skeleton-card skeleton-chart-card-layout">
-      <div class="skeleton-line w-40 mb-3"></div>
-      <div class="skeleton-chart-area"></div>
-    </div>
-    <div class="skeleton-card skeleton-chart-card-layout">
-      <div class="skeleton-line w-36 mb-3"></div>
-      <div class="skeleton-chart-area"></div>
-    </div>
-  </div>
 </div>
 
 <!-- KPI Row -->
@@ -553,7 +454,6 @@ Podés agregarlos manualmente desde cada resultado.
 
   /* ── Cargar dashboard desde la API ────────── */
   async function loadDashboard() {
-    var loading = document.getElementById('loading-state');
     var empty = document.getElementById('empty-state');
     var kpiRow = document.getElementById('kpi-row');
     var chartGrid = document.getElementById('chart-grid');
@@ -562,13 +462,8 @@ Podés agregarlos manualmente desde cada resultado.
       var data = await DataraAPI.getDashboard();
       dashboardItems = data.items || [];
 
-      loading.classList.add('hidden');
-
       if (dashboardItems.length === 0) {
-        empty.classList.remove('hidden');
-        kpiRow.classList.add('hidden');
-        chartGrid.classList.add('hidden');
-        return;
+        return;  /* empty state ya visible por defecto */
       }
 
       empty.classList.add('hidden');
@@ -580,8 +475,6 @@ Podés agregarlos manualmente desde cada resultado.
       renderKPIs(kpis, kpiRow);
       renderCharts(charts, chartGrid);
     } catch(e) {
-      loading.classList.add('hidden');
-      empty.classList.remove('hidden');
       empty.querySelector('h3').textContent = 'Error al cargar';
       empty.querySelector('p').textContent = e.message || 'Intentalo de nuevo.';
     }
@@ -806,8 +699,7 @@ Podés agregarlos manualmente desde cada resultado.
     DataraAPI.initSession().then(function() {
       loadDashboard();
     }).catch(function() {
-      document.getElementById('loading-state').classList.add('hidden');
-      document.getElementById('empty-state').classList.remove('hidden');
+      /* empty state ya visible por defecto */
     });
   });
 })();
