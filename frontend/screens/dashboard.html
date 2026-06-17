@@ -555,7 +555,9 @@ No hay archivos cargados en esta sesión. Necesitás al menos un dataset para cr
         /* Ocultar KPIs/charts viejos */
         if (kpiRow) kpiRow.classList.add('hidden');
         if (chartGrid) chartGrid.classList.add('hidden');
-        /* No tocar empty/no-files — initChartBuilder ya los maneja */
+        /* Mostrar empty state de nuevo (estaba oculto por items previos) */
+        if (empty) empty.classList.remove('hidden');
+        if (noFiles) noFiles.classList.add('hidden');
         return;
       }
 
