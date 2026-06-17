@@ -480,5 +480,6 @@ var DataraAPI = (() => {
     loadActiveFiles,
     loadMessageCount,
     getSessionId: () => getSessionId(),
+    request,
   };
 })();

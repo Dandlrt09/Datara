@@ -221,6 +221,82 @@ Podés agregarlos manualmente desde cada resultado.
 
 <!-- Chart Grid -->
 <div id="chart-grid" class="hidden"></div>
+
+<!-- Chart Builder (visible solo cuando hay datasets cargados) -->
+<section id="chart-builder" class="hidden mt-xl border-t border-outline-variant pt-lg">
+  <div class="flex items-center gap-3 mb-md">
+    <span class="material-symbols-outlined text-primary">bar_chart</span>
+    <h3 class="font-headline-md text-headline-md text-on-surface">Constructor de Gráficos</h3>
+  </div>
+  <p class="text-on-surface-variant text-sm mb-md">Seleccioná un archivo y configurá el gráfico sin necesidad del Chat.</p>
+
+  <!-- File selector -->
+  <div class="mb-md">
+    <label class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1 block">Archivo</label>
+    <select id="cb-file" class="w-full bg-surface-container-highest border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-surface">
+      <option value="">— Seleccioná un archivo —</option>
+    </select>
+  </div>
+
+  <!-- Chart type pills -->
+  <div class="mb-md">
+    <label class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-2 block">Tipo</label>
+    <div id="cb-type-pills" class="flex flex-wrap gap-2">
+      <button data-type="Barra" class="pill-btn active px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors bg-primary/10 border-primary text-primary">📊 Barra</button>
+      <button data-type="Linea" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors border-outline-variant text-on-surface-variant hover:bg-surface-container-highest">📈 Línea</button>
+      <button data-type="Dispersion" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors border-outline-variant text-on-surface-variant hover:bg-surface-container-highest">🔵 Dispersión</button>
+      <button data-type="Torta" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors border-outline-variant text-on-surface-variant hover:bg-surface-container-highest">🥧 Torta</button>
+      <button data-type="Histograma" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors border-outline-variant text-on-surface-variant hover:bg-surface-container-highest">📋 Histograma</button>
+      <button data-type="Box Plot" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors border-outline-variant text-on-surface-variant hover:bg-surface-container-highest">📦 Box Plot</button>
+      <button data-type="kpi" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors border-outline-variant text-on-surface-variant hover:bg-surface-container-highest">🏷️ KPI</button>
+    </div>
+  </div>
+
+  <!-- Column mappings (dynamically populated) -->
+  <div id="cb-mappings" class="mb-md grid grid-cols-2 gap-3"></div>
+
+  <!-- KPI aggregation (hidden by default) -->
+  <div id="cb-kpi-opts" class="hidden mb-md grid grid-cols-2 gap-3">
+    <div>
+      <label class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1 block">Agregación</label>
+      <select id="cb-aggregation" class="w-full bg-surface-container-highest border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-surface">
+        <option value="mean">Promedio</option>
+        <option value="sum">Suma</option>
+        <option value="count">Conteo</option>
+        <option value="min">Mínimo</option>
+        <option value="max">Máximo</option>
+      </select>
+    </div>
+    <div>
+      <label class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1 block">Agrupar por (opcional)</label>
+      <select id="cb-group-by" class="w-full bg-surface-container-highest border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-surface">
+        <option value="">— Sin agrupar —</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="mb-md">
+    <label class="text-xs text-on-surface-variant font-medium uppercase tracking-wider mb-1 block">Título (opcional)</label>
+    <input id="cb-title" class="w-full bg-surface-container-highest border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-surface placeholder:text-on-surface-variant" placeholder="Ej: Ventas por región" />
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex items-center gap-3 mb-md">
+    <button id="cb-preview-btn" class="px-4 py-2 rounded-lg text-sm font-medium bg-surface-container-highest border border-outline-variant text-on-surface hover:brightness-110 transition-colors">
+      <span class="material-symbols-outlined text-sm">visibility</span> Previsualizar
+    </button>
+    <button id="cb-add-btn" class="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:brightness-110 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+      <span class="material-symbols-outlined text-sm">add</span> Agregar al Dashboard
+    </button>
+    <span id="cb-status" class="text-xs text-on-surface-variant"></span>
+  </div>
+
+  <!-- Preview area -->
+  <div id="cb-preview" class="hidden dashboard-chart-card" style="min-height:300px;">
+    <div id="cb-preview-container" class="dashboard-chart-container" style="min-height:280px;"></div>
+  </div>
+</section>
 </main>
 <!-- Notification Panel -->
 <div id="notif-overlay" class="fixed inset-0 bg-black/50 z-[60] hidden opacity-0 transition-opacity duration-300"></div>
@@ -694,12 +770,289 @@ Podés agregarlos manualmente desde cada resultado.
     });
   }
 
-  /* ── Init ──────────────────────────────────── */
+  /* ═══════════════════════════════════════════════
+     CHART BUILDER
+     ═══════════════════════════════════════════════ */
+
+  var _cbFiles = [];          /* cached file list */
+  var _cbPreviewHtml = null;  /* last build result */
+
+  /* Chart type definitions */
+  var CB_PARAMS = {
+    'Barra':       ['x', 'y', 'color'],
+    'Linea':       ['x', 'y', 'color'],
+    'Dispersion':  ['x', 'y', 'color', 'size'],
+    'Torta':       ['names', 'values'],
+    'Histograma':  ['x', 'color'],
+    'Box Plot':    ['x', 'y', 'color'],
+  };
+
+  var CB_REQUIRED = {
+    'Barra':      ['x', 'y'],
+    'Linea':      ['x', 'y'],
+    'Dispersion': ['x', 'y'],
+    'Torta':      ['names', 'values'],
+    'Histograma': ['x'],
+    'Box Plot':   ['y'],
+  };
+
+  var CB_PARAM_LABELS = {
+    'x': 'Eje X', 'y': 'Eje Y', 'color': 'Agrupar por',
+    'size': 'Tamaño (opcional)', 'names': 'Categorías', 'values': 'Valores',
+  };
+
+  /* ── Init chart builder ─────────────────── */
+  function initChartBuilder() {
+    var builder = document.getElementById('chart-builder');
+    if (!builder) return;
+
+    /* Fetch files */
+    DataraAPI.listFiles().then(function(files) {
+      _cbFiles = files || [];
+      var sel = document.getElementById('cb-file');
+      if (!sel) return;
+
+      /* Rebuild options */
+      sel.innerHTML = '<option value="">— Seleccioná un archivo —</option>';
+      (_cbFiles || []).forEach(function(f) {
+        var opt = document.createElement('option');
+        opt.value = f.filename || f.display_name;
+        opt.textContent = f.display_name || f.filename;
+        sel.appendChild(opt);
+      });
+
+      if (_cbFiles.length > 0) {
+        builder.classList.remove('hidden');
+        sel.value = _cbFiles[0].filename || _cbFiles[0].display_name;
+        onFileChange();
+      }
+    }).catch(function() {
+      /* no files → builder stays hidden */
+    });
+  }
+
+  /* ── File change → update column selects ── */
+  function onFileChange() {
+    var sel = document.getElementById('cb-file');
+    if (!sel || !sel.value) return;
+    var filename = sel.value;
+
+    DataraAPI.getFilePreview(filename, 1).then(function(data) {
+      if (!data) return;
+      var cols = data.columns || [];
+      var dtypes = data.dtypes || {};
+
+      var numCols = cols.filter(function(c) {
+        return dtypes[c] && (dtypes[c].indexOf('int') >= 0 || dtypes[c].indexOf('float') >= 0);
+      });
+      var catCols = cols.filter(function(c) {
+        return numCols.indexOf(c) < 0;
+      });
+
+      /* Update group-by (KPI) */
+      var groupBy = document.getElementById('cb-group-by');
+      if (groupBy) {
+        groupBy.innerHTML = '<option value="">— Sin agrupar —</option>';
+        catCols.forEach(function(c) {
+          var opt = document.createElement('option');
+          opt.value = c; opt.textContent = c;
+          groupBy.appendChild(opt);
+        });
+      }
+
+      updateMappings(cols, numCols, catCols);
+    }).catch(function() {
+      /* preview not available */
+    });
+  }
+
+  /* ── Update column mapping selects ──────── */
+  function updateMappings(allCols, numCols, catCols) {
+    var activeType = document.querySelector('#cb-type-pills .pill-btn.active');
+    if (!activeType) return;
+    var chartType = activeType.getAttribute('data-type');
+    var isKpi = chartType === 'kpi';
+
+    document.getElementById('cb-mappings').classList.toggle('hidden', isKpi);
+    document.getElementById('cb-kpi-opts').classList.toggle('hidden', !isKpi);
+
+    if (isKpi) return;
+
+    var params = CB_PARAMS[chartType] || [];
+    var required = CB_REQUIRED[chartType] || [];
+    var container = document.getElementById('cb-mappings');
+    container.innerHTML = '';
+
+    params.forEach(function(p) {
+      var isReq = required.indexOf(p) >= 0;
+      var isNumeric = (p === 'y' || p === 'values' || p === 'size');
+      var options = isNumeric ? numCols : allCols;
+
+      var div = document.createElement('div');
+      div.className = 'flex flex-col gap-1';
+      div.innerHTML =
+        '<label class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">' +
+          esc(CB_PARAM_LABELS[p] || p) + (isReq ? ' <span class="text-error">*</span>' : '') +
+        '</label>' +
+        '<select class="cb-param w-full bg-surface-container-highest border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-surface" data-param="' + p + '">' +
+          (!isReq ? '<option value="">—</option>' : '') +
+          options.map(function(c) { return '<option value="' + c + '">' + esc(c) + '</option>'; }).join('') +
+        '</select>';
+      container.appendChild(div);
+    });
+  }
+
+  /* ── Build chart via API ────────────────── */
+  async function buildChart() {
+    var statusEl = document.getElementById('cb-status');
+    var previewBtn = document.getElementById('cb-preview-btn');
+    var addBtn = document.getElementById('cb-add-btn');
+    if (!statusEl) return;
+
+    var fileSel = document.getElementById('cb-file');
+    if (!fileSel || !fileSel.value) {
+      statusEl.textContent = 'Seleccioná un archivo primero.';
+      return;
+    }
+
+    var activeType = document.querySelector('#cb-type-pills .pill-btn.active');
+    if (!activeType) return;
+    var chartType = activeType.getAttribute('data-type');
+
+    var title = document.getElementById('cb-title');
+    var body = {
+      file: fileSel.value,
+      chart_type: chartType,
+      title: title ? title.value : '',
+    };
+
+    if (chartType === 'kpi') {
+      var firstParam = document.querySelector('.cb-param');
+      var valueCol = firstParam ? firstParam.value : '';
+      body.mappings = { value: valueCol };
+      body.aggregation = document.getElementById('cb-aggregation') ? document.getElementById('cb-aggregation').value : 'mean';
+      body.group_by = document.getElementById('cb-group-by') ? document.getElementById('cb-group-by').value : '';
+    } else {
+      var mappings = {};
+      document.querySelectorAll('.cb-param').forEach(function(sel) {
+        if (sel.value) mappings[sel.getAttribute('data-param')] = sel.value;
+      });
+      body.mappings = mappings;
+    }
+
+    statusEl.textContent = 'Generando...';
+    previewBtn.disabled = true;
+
+    try {
+      var res = await DataraAPI.request('POST', '/dashboard/build', body);
+      if (res.error) {
+        statusEl.textContent = 'Error: ' + res.error;
+        previewBtn.disabled = false;
+        return;
+      }
+
+      _cbPreviewHtml = res;
+
+      if (res.figure_html) {
+        /* Show chart preview */
+        var preview = document.getElementById('cb-preview');
+        var container = document.getElementById('cb-preview-container');
+        if (preview && container) {
+          container.innerHTML = res.figure_html;
+          /* Re-run plotly scripts */
+          var scripts = container.querySelectorAll('script');
+          scripts.forEach(function(s) {
+            var ns = document.createElement('script');
+            ns.text = s.textContent;
+            document.body.appendChild(ns);
+            document.body.removeChild(ns);
+          });
+          preview.classList.remove('hidden');
+        }
+        statusEl.textContent = '✅ Gráfico generado correctamente.';
+        addBtn.disabled = false;
+      } else if (res.kpi_value) {
+        statusEl.textContent = '✅ KPI: ' + res.kpi_value;
+        addBtn.disabled = false;
+
+        /* Show KPI value in preview */
+        var preview = document.getElementById('cb-preview');
+        var container = document.getElementById('cb-preview-container');
+        if (preview && container) {
+          container.innerHTML = '<div class="flex items-center justify-center h-full"><div class="text-center"><p class="text-4xl font-bold text-primary">' + esc(res.kpi_value) + '</p><p class="text-sm text-on-surface-variant mt-2">' + esc(title ? title.value || 'KPI' : 'KPI') + '</p></div></div>';
+          preview.classList.remove('hidden');
+        }
+      }
+    } catch(e) {
+      statusEl.textContent = 'Error: ' + (e.message || 'desconocido');
+    }
+    previewBtn.disabled = false;
+  }
+
+  /* ── Add to dashboard ───────────────────── */
+  async function addToDashboard() {
+    if (!_cbPreviewHtml) return;
+    var titleEl = document.getElementById('cb-title');
+    var activeType = document.querySelector('#cb-type-pills .pill-btn.active');
+    var chartType = activeType ? activeType.getAttribute('data-type') : 'chart';
+    var title = titleEl ? titleEl.value.trim() : '';
+    if (!title) title = chartType === 'kpi' ? 'KPI' : 'Gráfico';
+
+    try {
+      await DataraAPI.addDashboardItem({
+        title: title,
+        chart_type: chartType === 'kpi' ? 'kpi' : 'chart',
+        figure_html: _cbPreviewHtml.figure_html || '',
+        kpi_value: _cbPreviewHtml.kpi_value || '',
+      });
+      DataraAPI.showToast('✅ Agregado al Dashboard', 'success');
+      document.getElementById('cb-add-btn').disabled = true;
+      /* Reload dashboard items */
+      loadDashboard();
+    } catch(e) {
+      DataraAPI.showToast('Error: ' + (e.message || 'desconocido'), 'error');
+    }
+  }
+
+  /* ── Wire up events ─────────────────────── */
+  function wireChartBuilder() {
+    /* File change */
+    var fileSel = document.getElementById('cb-file');
+    if (fileSel) fileSel.addEventListener('change', onFileChange);
+
+    /* Type pills */
+    document.querySelectorAll('#cb-type-pills .pill-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#cb-type-pills .pill-btn').forEach(function(b) {
+          b.className = 'pill-btn px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors border-outline-variant text-on-surface-variant hover:bg-surface-container-highest';
+        });
+        this.className = 'pill-btn active px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors bg-primary/10 border-primary text-primary';
+        /* Rebuild mapping selects */
+        var fileSel2 = document.getElementById('cb-file');
+        if (fileSel2 && fileSel2.value) onFileChange();
+        else updateMappings([], [], []);
+      });
+    });
+
+    /* Preview button */
+    var previewBtn = document.getElementById('cb-preview-btn');
+    if (previewBtn) previewBtn.addEventListener('click', buildChart);
+
+    /* Add button */
+    var addBtn = document.getElementById('cb-add-btn');
+    if (addBtn) addBtn.addEventListener('click', addToDashboard);
+  }
+
+  /* ── Extend Init ─────────────────────────── */
+  /* Patch the existing init to also init chart builder */
+  var _origInit = null;
   document.addEventListener('DOMContentLoaded', function() {
     DataraAPI.initSession().then(function() {
       loadDashboard();
+      initChartBuilder();
+      wireChartBuilder();
     }).catch(function() {
-      /* empty state ya visible por defecto */
+      /* empty state ya visible */
     });
   });
 })();

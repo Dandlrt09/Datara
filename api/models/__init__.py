@@ -1,5 +1,5 @@
 from .chat import MessageRequest, MessageResponse
-from .dashboard import DashboardItem, DashboardResponse
+from .dashboard import BuildChartRequest, BuildChartResponse, DashboardItem, DashboardResponse
 from .errors import ErrorCode, ErrorResponse
 from .files import FileMetadata, FilePreview, UploadResponse
 from .session import (
@@ -20,6 +20,8 @@ __all__ = [
     "ArchiveDetail",
     "ArchiveResponse",
     "ArchiveSummary",
+    "BuildChartRequest",
+    "BuildChartResponse",
     "DashboardItem",
     "DashboardResponse",
     "ErrorCode",
